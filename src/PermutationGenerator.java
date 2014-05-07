@@ -1,29 +1,24 @@
-import java.io.FileOutputStream;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
-import java.io.ObjectOutputStream;
 import java.util.*;
 
 
 public class PermutationGenerator {
 	
-	public PermutationGenerator()
+	public PermutationGenerator(String filePath)
 	{
-		try
-		{
-			fos = new FileOutputStream("permutations.txt");
-			oos = new ObjectOutputStream(fos);
-		}
-		catch(IOException e)
-		{}
+		this.filePath = filePath;
 	}
 	
-	public void GeneratePermutations(int size, int index)
+	public void generatePermutations(int size, int index)
 	{
-		permutation = GenerateInitialPermutation(size);
+		permutation = generateInitialPermutation(size);
 		permute(index);
 	}
 	
-	private ArrayList<Integer> GenerateInitialPermutation(int size)
+	private ArrayList<Integer> generateInitialPermutation(int size)
 	{
 		ArrayList<Integer> init = new ArrayList<Integer>(size);
 		int seed = 1;
@@ -39,15 +34,9 @@ public class PermutationGenerator {
 	{
 		if (index == permutation.size()-1)
 		{
-			try
-			{
-				oos.writeObject(permutation);
-			}
-			catch (IOException e)
-			{
-				
-			}
-		}else 
+			print(permutation, filePath);
+		}
+		else 
 			
 			for (int j = index; j<permutation.size(); j++)
 			{
@@ -57,7 +46,32 @@ public class PermutationGenerator {
 			}
 	}
 	
+	private void print(ArrayList<Integer> array, String fileName)
+	{
+		Integer[] arr = new Integer[array.size()];		
+		String list = Arrays.deepToString(array.toArray(arr));
+		try
+		{
+			File file = new File(fileName);
+			
+			if (!file.exists())
+				file.createNewFile();
+			
+			FileWriter fw = new FileWriter(file, true);
+			BufferedWriter bw = new BufferedWriter(fw);
+			
+			bw.write(list);
+			bw.newLine();
+			bw.close();
+			
+		}
+		catch (IOException e)
+		{
+			System.out.println(e.getMessage());
+		}
+		
+	}
+	
 	private ArrayList<Integer> permutation;
-	private FileOutputStream fos;
-	private ObjectOutputStream oos;
+	private String filePath;
 }

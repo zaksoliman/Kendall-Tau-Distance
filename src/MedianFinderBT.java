@@ -5,17 +5,30 @@ public class MedianFinderBT
 	private MedianFinderBT(){}
 	
 	//Constructor
-	public MedianFinderBT(int m /*number of permutations*/
-			,int n /*number of elements in each permutation*/
-			,ArrayList<ArrayList<Integer>> permutationSet)
+	public MedianFinderBT(int numOfElements,ArrayList<ArrayList<Integer>> permutationSet)
 	{
-		this.n = n;
-		this.m = m;
-		counterMatrix = new int[n][n];
+		this.numOfElements = numOfElements;
+		counterMatrix = new int[numOfElements+1][numOfElements+1];
 		this.permutationSet = permutationSet;
+		
+		right = new ArrayList<HashSet<Integer>>(numOfElements+1);
+		left = new ArrayList<HashSet<Integer>>(numOfElements+1);
+		
+		for (int i = 0; i < numOfElements+1; i++) 
+		{
+			right.add(new HashSet<Integer>());
+			left.add(new HashSet<Integer>());
+		}
+		
+		//Any integer can go after zero, for implementation reseasons
+		left.get(0).addAll(permutationSet.get(0));
+		startingInstances = new ArrayList<ArrayList<Integer>>();
+		
+		ConstructConstraints();
+		ConstructInitialSolutions();
 	}
 	
-	public void ConstructConstraints()
+	private void ConstructConstraints()
 	{
 		for (ArrayList<Integer> permutation : permutationSet)
 		{
@@ -28,7 +41,10 @@ public class MedianFinderBT
 			}
 		}
 		
-		int majority = (int) Math.ceil(permutationSet.size()/2);
+		int majority = (int) Math.ceil((permutationSet.size()/2.0));
+		
+		//HashSet<Integer> rightTemp = new HashSet<Integer>();
+		//HashSet<Integer> leftTemp = new HashSet<Integer>();
 		
 		for (int i=0; i<counterMatrix.length; i++)
 		{
@@ -36,21 +52,30 @@ public class MedianFinderBT
 			{
 				if (counterMatrix[i][j] >= majority)
 				{
+					/*if (right.get(i) == null)
+						right.add(i, new HashSet<Integer>());
+					
+					if(left.get(i) == null)
+						left.add(i, new HashSet<Integer>());*/
+					
 					//to the right of i we have j in a majority of permutations
+					//rightTemp.add(j);
 					right.get(i).add(j);
+					
 					//to the left of j we have i in a majority of permutations
+					//leftTemp.add(i);
 					left.get(j).add(i);
 				}
 			}
 		}
 	}
 	
-	//Conctruct the set of initial solutions for the backtrack algorithm
-	public void ConstructInitialSolutions()
+	//Construct the set of initial solutions for the backtrack algorithm
+	private void ConstructInitialSolutions()
 	{
 		int size = left.size();
 		
-		ArrayList<Integer> partialSolution = new ArrayList<Integer>();
+		ArrayList<Integer> partialSolution = new ArrayList<Integer>(numOfElements);
 		
 		//Find (if it exists) the elements that will be the first element of a median
 		for(int i=1; i<size; i++)
@@ -65,6 +90,7 @@ public class MedianFinderBT
 				
 				while(!done)
 				{
+					//TODO: check if size is zero
 					int currentElement = partialSolution.get(partialSolution.size()-1);
 					
 					done = true;
@@ -78,16 +104,16 @@ public class MedianFinderBT
 					}
 				}
 				
-				startingInstances.add(partialSolution);
+				startingInstances.add(new ArrayList<Integer>(partialSolution));
 				partialSolution.clear();
 			}
 		}
 	}
 	
-	public void FindMedBT(ArrayList<Integer> currentSolution)
+	private void FindMedBT(ArrayList<Integer> currentSolution)
 	{
 		//Case 1: We have a potential solution if it is the correct size
-		if (currentSolution.size() == n)
+		if (currentSolution.size() == numOfElements)
 		{
 			int kendallTauDist = KendalTauDist(currentSolution);
 			
@@ -96,13 +122,13 @@ public class MedianFinderBT
 			{
 				minDistance = kendallTauDist;
 				solutions.clear();
-				solutions.add(currentSolution);
+				solutions.add(new ArrayList<Integer>(currentSolution));
 				return;
 			}
 			//Check if it is as good as the solutions we found
 			else if(kendallTauDist == minDistance)
 			{
-				solutions.add(currentSolution);
+				solutions.add(new ArrayList<Integer>(currentSolution));
 				return;
 			}
 			//The permutation is not a solution
@@ -113,8 +139,13 @@ public class MedianFinderBT
 		else if(!IsValid(currentSolution))
 			return;
 		
+		int lastElement;
+		
 		//Find the elements that we can add to the current solution and recurse
-		int lastElement = currentSolution.get(currentSolution.size()-1);
+		if (currentSolution.size() != 0)
+			lastElement = currentSolution.get(currentSolution.size()-1);
+		else
+			lastElement = 0;
 		
 		for (Integer element: right.get(lastElement))
 		{
@@ -149,36 +180,47 @@ public class MedianFinderBT
 		return distance;
 	}
 	
-	private int KendallTauDist(ArrayList<Integer> permutation1, ArrayList<Integer> permutation2)
-	{
-		//TODO		
-		ArrayList<Integer> permInverse1 = new ArrayList<Integer>(permutation1.size());
-		ArrayList<Integer> newPerm2 = new ArrayList<Integer>(permutation2.size());
-		
-		for (int i = 0; i < permutation1.size(); i++)
+	private int KendallTauDist(ArrayList<Integer> permutationA, ArrayList<Integer> permutationB)
+	{	
+		if(permutationA.size() != permutationB.size())
 		{
-			permInverse1.set(permutation1.get(i), i);
+			return -1;
+		}
+		
+		int size = permutationA.size();
+		
+		int counter = 0;
+		int[] inversePermutationA = new int[size];
+		int[] inversePermutationB = new int[size];
+		
+		for (int i = 0; i < size; i++)
+		{
+			inversePermutationA[permutationA.get(i)-1]= i;
+			inversePermutationB[permutationB.get(i)-1] = i;
+		}
+		
+		for (int i = 0; i < size-1; i++) 
+		{
+			for (int j = i+1; j < size; j++) 
+			{
+				if ((inversePermutationA[i]<inversePermutationA[j]) && (inversePermutationB[i]>inversePermutationB[j]))
+					counter++;
+				if ((inversePermutationA[i]>inversePermutationA[i]) && (inversePermutationB[i]<inversePermutationB[j]))
+					counter++;
+			}			
 		}
 				
-		for (int i=0; i<permutation2.size(); i++)
-		{
-			newPerm2.set(i, permInverse1.get(permutation2.get(i)));
-		}
-		
-		return Inversions(newPerm2);
-	}
-	
-	private int Inversions(ArrayList<Integer> permutation)
-	{
-		//TODO
-		return 0;
+		return counter;
 	}
 	
 	private boolean IsValid(ArrayList<Integer> permutation)
 	{
 		boolean valid = true;
 		
-		int lastElement = permutation.get(permutation.size()-1);
+		int lastElement =0;
+		
+		if(permutation.size() != 0)
+			lastElement = permutation.get(permutation.size()-1);
 		
 		//If we can't add anymore elements to the current permutations we can't continue
 		if (right.get(lastElement).isEmpty())
@@ -191,16 +233,19 @@ public class MedianFinderBT
 	
 	
 	
-	public ArrayList<ArrayList<Integer>> solutions; //holds all the solutions (medians)
+	public ArrayList<ArrayList<Integer>> solutions = new ArrayList<ArrayList<Integer>>(); //holds all the solutions (medians)
+	public int getKendallTauDistance()
+	{
+		return minDistance;
+	}
 	
-	private int n,m;
+	private int numOfElements;
 	private int[][] counterMatrix;
 	private ArrayList<HashSet<Integer>> right; /*for every index i, a set holds the elements to the right of the integer i*/
 	private ArrayList<HashSet<Integer>> left; /*for every index i, a set holds the elements to the left of the integer i*/
 	private int minDistance = Integer.MAX_VALUE; //keeps track of the minium kendall-tau distance found
 	private ArrayList<ArrayList<Integer>> permutationSet;
-	private ArrayList<ArrayList<Integer>> startingInstances = new ArrayList<ArrayList<Integer>>();	
-	//private HashSet<Integer> currentlyUsed = new HashSet<Integer>(); //Holds all the integers that have been used by the backtrack algorithm at a certain point in it's execution
+	private ArrayList<ArrayList<Integer>> startingInstances;	
 	
 
 }
