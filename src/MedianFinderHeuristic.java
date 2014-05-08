@@ -10,6 +10,7 @@ public class MedianFinderHeuristic
 		disagrementGraph = new int[numOfElements+1][numOfElements+1]; /*we use numOfElements+1 to make it easier to lookup the weights of the graph edges*/
 		solutions = new ArrayList<ArrayList<Integer>>();
 		this.permutationSet = permutationSet;
+		this.numOfElements = numOfElements;
 		
 	}
 
@@ -98,6 +99,18 @@ public class MedianFinderHeuristic
 		}
 	}
 	
+	private void buildInversePermutations()
+	{
+		inversePermutationSet = new ArrayList<ArrayList<Integer>>();
+		
+		int[] inverse = new int[numOfElements];
+		
+		//TODO: finish this
+		for(ArrayList<ArrayList<Integer>> permutation : )
+		
+		
+	}
+
 	private int KendalTauDist(ArrayList<Integer> permutation, ArrayList<ArrayList<Integer>> permutationSet)
 	{
 		int distance = 0;
@@ -142,8 +155,10 @@ public class MedianFinderHeuristic
 		return counter;
 	}
 	
+	private int numOfElements;
 	private int[][] disagrementGraph;
 	private ArrayList<ArrayList<Integer>> solutions;
 	private ArrayList<ArrayList<Integer>> permutationSet;
+	private ArrayList<ArrayList<Integer>> inversePermutationSet;
 	
 }
