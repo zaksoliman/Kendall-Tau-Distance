@@ -5,21 +5,22 @@ public class MedianFinderHeuristic
 	
 	private MedianFinderHeuristic(){}
 	
-	public MedianFinderHeuristic(int numOfPermutations, int numOfElements)
+	public MedianFinderHeuristic(int numOfPermutations, int numOfElements, ArrayList<ArrayList<Integer>> permutationSet)
 	{
-		disagrementGraph = new int[numOfElements][numOfElements];
+		disagrementGraph = new int[numOfElements+1][numOfElements+1]; /*we use numOfElements+1 to make it easier to lookup the weights of the graph edges*/
 		solutions = new ArrayList<ArrayList<Integer>>();
+		this.permutationSet = permutationSet;
 		
 	}
 
-	public ArrayList<ArrayList<Integer>> FindMedian(ArrayList<ArrayList<Integer>> permutationSet)
+	public ArrayList<ArrayList<Integer>> FindMedian()
 	{
 		int currentMinDist = Integer.MAX_VALUE;
 		int foundDistace;
 		
 		for(ArrayList<Integer> permutation : permutationSet)
 		{
-			foundDistace = FindMed(permutation, permutationSet);
+			foundDistace = FindMed(permutation);
 			
 			if(foundDistace < currentMinDist)
 			{
@@ -40,7 +41,7 @@ public class MedianFinderHeuristic
 	}
 	
 	//returns the Kendall Tau distance and the initial permutation becomes the transformed permutation
-	private int FindMed(ArrayList<Integer> permutation, ArrayList<ArrayList<Integer>> permutationSet)
+	private int FindMed(ArrayList<Integer> permutation)
 	{
 		int length = permutation.size();
 		Integer currentK = 0;
@@ -67,8 +68,8 @@ public class MedianFinderHeuristic
 		
  		 /*
  		   shift sub array [i...j] left
- 		   shift sub array [i...j] rigth
- 		   get diffrence of distance w/ left and original  permuation and rigth w/ permutation
+ 		   shift sub array [i...j] right
+ 		   get difference of distance w/ left and original  permutation and right w/ permutation
  		   take the minimum
  		   if bigger than kValue reject
  		  else accept
@@ -83,8 +84,18 @@ public class MedianFinderHeuristic
 		return null;
 	}
 
-	private void initialiseGraph()
+	private void initializeGraph()
 	{
+		for (ArrayList<Integer> permutation : permutationSet)
+		{
+			for (int i = 0 ; i < disagrementGraph.length; i++)
+			{
+				for (int j = 0; j < disagrementGraph.length; j++) 
+				{
+					
+				}
+			}
+		}
 	}
 	
 	private int KendalTauDist(ArrayList<Integer> permutation, ArrayList<ArrayList<Integer>> permutationSet)
@@ -133,7 +144,6 @@ public class MedianFinderHeuristic
 	
 	private int[][] disagrementGraph;
 	private ArrayList<ArrayList<Integer>> solutions;
-	
-	//TODO: Add a private member to hold the permutation set
+	private ArrayList<ArrayList<Integer>> permutationSet;
 	
 }
