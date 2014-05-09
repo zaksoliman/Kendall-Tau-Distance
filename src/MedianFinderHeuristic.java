@@ -44,10 +44,17 @@ public class MedianFinderHeuristic {
 			}
 
 		}
+		
+		distance = currentOptimalDist;
 
 		return solutions;
 	}
 
+	public int getDistance()
+	{
+		return distance;
+	}
+	
 	/*
 	 * PRIVATE FUNCTIONS
 	 * */
@@ -269,6 +276,7 @@ public class MedianFinderHeuristic {
 	private int numOfElements;
 	private int numOfPermutations;
 	private int[][] disagreementGraph;
+	private int distance;
 	private ArrayList<ArrayList<Integer>> solutions;
 	private ArrayList<ArrayList<Integer>> permutationSet;
 	private ArrayList<ArrayList<Integer>> inversePermutationSet;

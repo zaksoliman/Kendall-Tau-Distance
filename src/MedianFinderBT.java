@@ -190,7 +190,7 @@ public class MedianFinderBT {
 				if ((inversePermutationA[i] < inversePermutationA[j])
 						&& (inversePermutationB[i] > inversePermutationB[j]))
 					counter++;
-				if ((inversePermutationA[i] > inversePermutationA[i])
+				if ((inversePermutationA[i] > inversePermutationA[j])
 						&& (inversePermutationB[i] < inversePermutationB[j]))
 					counter++;
 			}
