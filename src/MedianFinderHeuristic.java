@@ -10,7 +10,7 @@ public class MedianFinderHeuristic {
 	}
 	public MedianFinderHeuristic(int numOfPermutations, int numOfElements,
 			ArrayList<ArrayList<Integer>> permutationSet) {
-		disagrementGraph = new int[numOfElements + 1][numOfElements + 1];
+		disagreementGraph = new int[numOfElements + 1][numOfElements + 1];
 		/*
 		 * we use numOfElements +1 to make it easier to lookup the weights of
 		 * the graph edges
@@ -28,18 +28,18 @@ public class MedianFinderHeuristic {
 	 * */
 	public ArrayList<ArrayList<Integer>> FindMedian() {
 		int currentOptimalDist = Integer.MAX_VALUE;
-		int foundDistace;
+		int foundDistance;
 
 		for (ArrayList<Integer> permutation : permutationSet) {
-			foundDistace = FindMed(permutation);
+			foundDistance = FindMed(permutation);
 
-			if (foundDistace < currentOptimalDist) {
-				currentOptimalDist = foundDistace;
+			if (foundDistance < currentOptimalDist) {
+				currentOptimalDist = foundDistance;
 
 				// All the solutions previously found are no longer optimal
 				solutions.clear();
 				solutions.add(new ArrayList<Integer>(permutation));
-			} else if (foundDistace == currentOptimalDist) {
+			} else if (foundDistance == currentOptimalDist) {
 				solutions.add(permutation);
 			}
 
@@ -92,9 +92,9 @@ public class MedianFinderHeuristic {
 		boolean isGood = false;
 
 		// Initialise the distance
-		for (int i = 0; i < disagrementGraph.length; i++) {
-			for (int j = 0; j < disagrementGraph.length; j++) {
-				distance += disagrementGraph[i][j];
+		for (int i = 0; i < disagreementGraph.length; i++) {
+			for (int j = 0; j < disagreementGraph.length; j++) {
+				distance += disagreementGraph[i][j];
 			}
 		}
 
@@ -125,13 +125,13 @@ public class MedianFinderHeuristic {
 		// Compute the distance difference if we would perform a right cyclic
 		// movement
 		for (int j = start; j <= end - 1; j++) {
-			distanceDiffRightShift -= (numOfPermutations - disagrementGraph[end][j]);
+			distanceDiffRightShift -= (numOfPermutations - disagreementGraph[end][j]);
 		}
 
 		// Compute the distance difference if we would perform a left cyclic
 		// movement
 		for (int i = start + 1; i < end; i++) {
-			distanceDiffLeftShift -= (numOfPermutations - disagrementGraph[i][start]);
+			distanceDiffLeftShift -= (numOfPermutations - disagreementGraph[i][start]);
 		}
 
 		if ((distanceDiffLeftShift < 0) || (distanceDiffRightShift < 0)) {
@@ -141,6 +141,7 @@ public class MedianFinderHeuristic {
 				diff = new Integer(distanceDiffLeftShift);
 				// perform movement
 				leftCyclicMovement(permutation, start, end);
+				//TODO: update the disagreement graph
 				isGood = true;
 			}
 			if (distanceDiffRightShift < diff.intValue()) {
@@ -148,11 +149,13 @@ public class MedianFinderHeuristic {
 				rightCyclicMovement(permutation, start, end);
 				// change the reference of the new optimal value
 				diff = new Integer(distanceDiffRightShift);
+				//TODO: update the disagreement graph
 				isGood = true;
 			} else if (distanceDiffLeftShift == distanceDiffRightShift) {
 				rightCyclicMovement(permutation, start, end);
 				// change the reference of the new optimal value
 				diff = new Integer(distanceDiffRightShift);
+				//TODO: update the disagreement graph
 				isGood = true;
 			}
 		} else
@@ -180,8 +183,8 @@ public class MedianFinderHeuristic {
 	// Initialises the disagreement graph for the given permutation
 	private void initialiseGraph(ArrayList<Integer> permutation) {
 		for (ArrayList<Integer> p : inversePermutationSet) {
-			for (int i = 0; i < disagrementGraph.length; i++) {
-				for (int j = i + 1; j < disagrementGraph.length; j++) {
+			for (int i = 0; i < disagreementGraph.length; i++) {
+				for (int j = i + 1; j < disagreementGraph.length; j++) {
 					Integer first = permutation.get(i);
 					Integer next = permutation.get(j);
 
@@ -193,7 +196,7 @@ public class MedianFinderHeuristic {
 					if (p.get(first) - 1 > p.get(next) - 1) {
 						// there is a disagreement so we increment the weight of
 						// the graph's edge
-						disagrementGraph[first][next]++;
+						disagreementGraph[first][next]++;
 					}
 				}
 			}
@@ -265,7 +268,7 @@ public class MedianFinderHeuristic {
 	 * */
 	private int numOfElements;
 	private int numOfPermutations;
-	private int[][] disagrementGraph;
+	private int[][] disagreementGraph;
 	private ArrayList<ArrayList<Integer>> solutions;
 	private ArrayList<ArrayList<Integer>> permutationSet;
 	private ArrayList<ArrayList<Integer>> inversePermutationSet;
