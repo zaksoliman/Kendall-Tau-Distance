@@ -10,7 +10,6 @@ public class MedianFinderHeuristic {
 	}
 	public MedianFinderHeuristic(int numOfPermutations, int numOfElements,
 			ArrayList<ArrayList<Integer>> permutationSet) {
-		disagreementGraph = new int[numOfElements + 1][numOfElements + 1];
 		/*
 		 * we use numOfElements +1 to make it easier to lookup the weights of
 		 * the graph edges
@@ -31,16 +30,20 @@ public class MedianFinderHeuristic {
 		int foundDistance;
 
 		for (ArrayList<Integer> permutation : permutationSet) {
-			foundDistance = FindMed(permutation);
+			
+			ArrayList<Integer> currentPermutation = new ArrayList<Integer>(permutation);
+			
+			foundDistance = FindMed(currentPermutation);
 
 			if (foundDistance < currentOptimalDist) {
+				//Update current optimal distance
 				currentOptimalDist = foundDistance;
-
-				// All the solutions previously found are no longer optimal
+				// All the solutions previously found are now no longer optimal
 				solutions.clear();
-				solutions.add(new ArrayList<Integer>(permutation));
+				// Add the optimal solution to the solution set
+				solutions.add(new ArrayList<Integer>(currentPermutation));
 			} else if (foundDistance == currentOptimalDist) {
-				solutions.add(permutation);
+				solutions.add(currentPermutation);
 			}
 
 		}
@@ -62,17 +65,15 @@ public class MedianFinderHeuristic {
 	// returns the Kendall Tau distance and the permutation given as parameter
 	// becomes the new permutation
 	private int FindMed(ArrayList<Integer> permutation) {
-		int length = permutation.size();
-		Integer difference = 0; /* this value should always be <= 0 */
 		int kendallTauDist = KendalTauDist(permutation, permutationSet);
-		initialiseGraph(permutation);
-		int numOfChanges = 0;
+		initializeGraph(permutation);		
 		boolean done = false;
 
 		while (!done) {
-			for (int i = 0; i<length - 1; i++) {
-				for (int j = i+1; j<length; j++) {
-					if (isGoodcyclicMovement(difference, i, j, permutation)) {
+			int numOfChanges = 0;
+			for (int i = 0; i<numOfElements - 1; i++) {
+				for (int j = i+1; j<numOfElements; j++) {
+					if (isGoodcyclicMovement(i, j, permutation)) {
 						kendallTauDist += difference;
 						numOfChanges++;
 					}
@@ -92,77 +93,74 @@ public class MedianFinderHeuristic {
 	 * reference will point to a new value(the distance difference after the
 	 * good cyclic movement is performed)
 	 */
-	private boolean isGoodcyclicMovement(Integer diff, int start, int end,
-			ArrayList<Integer> permutation) {
-		int distance = 0; // holds the sum of weight of the edges that will be
-							// affected by the cyclic movement
-		boolean isGood = false;
-
-		// Initialise the distance
-		for (int i = 0; i < disagreementGraph.length; i++) {
-			for (int j = 0; j < disagreementGraph.length; j++) {
-				distance += disagreementGraph[i][j];
-			}
-		}
-
-		int distanceDiffLeftShift, distanceDiffRightShift;
-
+	private boolean isGoodcyclicMovement(int start, int end, ArrayList<Integer> permutation) {
 		/*
 		 * holds the difference of the Kendall tau distance between the
 		 * permutation and the set of permutations for the left and right cyclic
 		 * movements
 		 */
-
+		int distanceDiffLeftShift = 0;
+		int distanceDiffRightShift = 0;
+		
+		boolean isGood = false;
+		
 		/*
 		 * let i=start and j=end:
 		 * 
 		 * For a cyclic movement to the right of the sub array [i ... j], only
-		 * the edges (j,t), i<= t <= j-1, of the disagreement graph are changed.
+		 * the edges (p[t],p[j]), i<= t <= j-1, of the disagreement graph are changed.
 		 * 
 		 * For a left cyclic movement to the left of the sub array [i .. j],
-		 * only the edges (t,i), i+1 <= t <= j, of the disagreement graph are
+		 * only the edges (p[i],p[t]), i+1 <= t <= j, of the disagreement graph are
 		 * changed
 		 */
 
-		// Check if the right or left movements are good and which is better
-
-		distanceDiffRightShift = distance;
-		distanceDiffLeftShift = distance;
-
+		// Initialize the distance
+		for (int t = start; t <= end-1; t++) {
+			distanceDiffRightShift += (numOfPermutations - disagreementGraph[permutation.get(t)][permutation.get(end)]);
+		}
+		
+		for (int t = start+1; t <= end; t++) {
+			distanceDiffLeftShift += (numOfPermutations - disagreementGraph[permutation.get(start)][permutation.get(t)]);
+		}
+		
+		// Check if the right or left movements are good and which is better	
+		
 		// Compute the distance difference if we would perform a right cyclic
 		// movement
-		for (int j = start; j <= end - 1; j++) {
-			distanceDiffRightShift -= (numOfPermutations - disagreementGraph[end][j]);
+		for (int t = start; t <= end-1; t++) {
+			distanceDiffRightShift -=  disagreementGraph[permutation.get(t)][permutation.get(end)];
 		}
 
 		// Compute the distance difference if we would perform a left cyclic
 		// movement
-		for (int i = start + 1; i < end; i++) {
-			distanceDiffLeftShift -= (numOfPermutations - disagreementGraph[i][start]);
+		for (int t = start+1; t <= end; t++) {
+			distanceDiffLeftShift -= disagreementGraph[permutation.get(start)][permutation.get(t)];
 		}
 
 		if ((distanceDiffLeftShift < 0) || (distanceDiffRightShift < 0)) {
 			// Check if a left shift is better
 			if (distanceDiffLeftShift < distanceDiffRightShift) {
 				// change the reference of the new optimal value
-				diff = new Integer(distanceDiffLeftShift);
+				difference = distanceDiffLeftShift;
 				// perform movement
 				leftCyclicMovement(permutation, start, end);
-				//TODO: update the disagreement graph
+				
 				isGood = true;
 			}
-			if (distanceDiffRightShift < diff.intValue()) {
+			// Check if a right shift is better
+			if (distanceDiffRightShift < distanceDiffLeftShift) {
 				// perform cyclic movement
 				rightCyclicMovement(permutation, start, end);
 				// change the reference of the new optimal value
-				diff = new Integer(distanceDiffRightShift);
-				//TODO: update the disagreement graph
+				difference = distanceDiffRightShift;
+				
 				isGood = true;
 			} else if (distanceDiffLeftShift == distanceDiffRightShift) {
 				rightCyclicMovement(permutation, start, end);
 				// change the reference of the new optimal value
-				diff = new Integer(distanceDiffRightShift);
-				//TODO: update the disagreement graph
+				difference = distanceDiffRightShift;
+				
 				isGood = true;
 			}
 		} else
@@ -173,25 +171,43 @@ public class MedianFinderHeuristic {
 
 	private void rightCyclicMovement(ArrayList<Integer> permutation, int start,
 			int end) {
+		
+		//update the disagreement graph
+		for (int t = start; t <= end-1; t++) {
+			disagreementGraph[permutation.get(t)][permutation.get(end)] = (numOfPermutations - disagreementGraph[permutation.get(t)][permutation.get(end)]);
+		}
+				
 		for (int i = end; i > start; i--) {
 			Collections.swap(permutation, i, i - 1);
 		}
-
+		
 	}
 
 	private void leftCyclicMovement(ArrayList<Integer> permutation, int start,
 			int end) {
+		
+		//update the disagreement graph
+		for (int t = start+1; t <= end; t++) {
+			disagreementGraph[permutation.get(start)][permutation.get(t)] = (numOfPermutations - disagreementGraph[permutation.get(start)][permutation.get(t)]);
+		}
+				
 		for (int i = start; i < end; i++) {
 			Collections.swap(permutation, i, i + 1);
 		}
+		
 
 	}
 
-	// Initialises the disagreement graph for the given permutation
-	private void initialiseGraph(ArrayList<Integer> permutation) {
-		for (ArrayList<Integer> p : inversePermutationSet) {
-			for (int i = 0; i < disagreementGraph.length; i++) {
-				for (int j = i + 1; j < disagreementGraph.length; j++) {
+	// Initializes the disagreement graph for the given permutation
+	private void initializeGraph(ArrayList<Integer> permutation) {
+		
+		int size = permutation.size();
+
+		disagreementGraph = new int[numOfElements + 1][numOfElements + 1];
+		
+		for (ArrayList<Integer> invPerm : inversePermutationSet) {
+			for (int i = 0; i < size; i++) {
+				for (int j = i + 1; j < size; j++) {
 					Integer first = permutation.get(i);
 					Integer next = permutation.get(j);
 
@@ -200,7 +216,7 @@ public class MedianFinderHeuristic {
 
 					// Check if position of element first is after element next
 					// in the permutation p
-					if (p.get(first) - 1 > p.get(next) - 1) {
+					if (invPerm.get(first-1) > invPerm.get(next-1)) {
 						// there is a disagreement so we increment the weight of
 						// the graph's edge
 						disagreementGraph[first][next]++;
@@ -222,12 +238,10 @@ public class MedianFinderHeuristic {
 				inverse[permutation.get(i) - 1] = i;
 			}
 
-			inversePermutationSet.add(new ArrayList<Integer>(Arrays
-					.asList(inverse)));
+			inversePermutationSet.add(new ArrayList<Integer>(Arrays.asList(inverse)));
 		}
 
 	}
-
 	
 	private int KendalTauDist(ArrayList<Integer> permutation,
 			ArrayList<ArrayList<Integer>> permutationSet) {
@@ -261,7 +275,7 @@ public class MedianFinderHeuristic {
 				if ((inversePermutationA[i] < inversePermutationA[j])
 						&& (inversePermutationB[i] > inversePermutationB[j]))
 					counter++;
-				if ((inversePermutationA[i] > inversePermutationA[i])
+				if ((inversePermutationA[i] > inversePermutationA[j])
 						&& (inversePermutationB[i] < inversePermutationB[j]))
 					counter++;
 			}
@@ -277,6 +291,7 @@ public class MedianFinderHeuristic {
 	private int numOfPermutations;
 	private int[][] disagreementGraph;
 	private int distance;
+	private int difference;
 	private ArrayList<ArrayList<Integer>> solutions;
 	private ArrayList<ArrayList<Integer>> permutationSet;
 	private ArrayList<ArrayList<Integer>> inversePermutationSet;

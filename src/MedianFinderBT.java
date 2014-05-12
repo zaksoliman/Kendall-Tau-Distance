@@ -7,18 +7,17 @@ public class MedianFinderBT {
 	@SuppressWarnings("unused")
 	private MedianFinderBT() {
 	}
-	public MedianFinderBT(int numOfElements,
-			ArrayList<ArrayList<Integer>> permutationSet) {
+	public MedianFinderBT(int numOfElements, ArrayList<ArrayList<Integer>> permutationSet) {
 		this.numOfElements = numOfElements;		
 		this.permutationSet = permutationSet;
 
-		//initialising the counter matrix
+		//Initializing the counter matrix
 		counterMatrix = new int[numOfElements + 1][numOfElements + 1];
 		
 		right = new ArrayList<HashSet<Integer>>(numOfElements + 1);
 		left = new ArrayList<HashSet<Integer>>(numOfElements + 1);
 
-		//initialise the sets
+		//Initialize the sets
 		for (int i = 0; i < numOfElements + 1; i++) {
 			right.add(new HashSet<Integer>());
 			left.add(new HashSet<Integer>());
@@ -26,7 +25,7 @@ public class MedianFinderBT {
 
 		// Any integer can go after zero, so that if the backtrack algorithm starts with and empty list
 		//then we can add any element as the first elements for every branch
-		left.get(0).addAll(permutationSet.get(0));
+		right.get(0).addAll(permutationSet.get(0));
 		startingInstances = new ArrayList<ArrayList<Integer>>();
 
 		ConstructConstraints();
@@ -91,17 +90,15 @@ public class MedianFinderBT {
 				partialSolution.add(i);
 
 				// continue adding elements to the partial solution until it is
-				// no longer posible
+				// no longer possible
 				boolean done = false;
-
 				while (!done) {
 					// TODO: check if size is zero
-					int currentElement = partialSolution.get(partialSolution
-							.size() - 1);
+					int lastElementAdded = partialSolution.get(partialSolution.size() - 1);
 
 					done = true;
 					for (HashSet<Integer> set : left) {
-						if (set.size() == 1 && set.contains(currentElement)) {
+						if (set.size() == 1 && set.contains(lastElementAdded)) {
 							partialSolution.add(left.indexOf(set));
 							done = false;
 						}
@@ -112,6 +109,10 @@ public class MedianFinderBT {
 				partialSolution.clear();
 			}
 		}
+		
+		//If we can't build any initial solution we start with an empty one
+		if(startingInstances.isEmpty())
+			startingInstances.add(new ArrayList<Integer>());
 	}
 
 	private void FindMedBT(ArrayList<Integer> currentSolution) {
@@ -199,13 +200,13 @@ public class MedianFinderBT {
 		return counter;
 	}
 
-	private boolean IsValid(ArrayList<Integer> permutation) {
+	private boolean IsValid(ArrayList<Integer> candidate) {
 		boolean valid = true;
 
 		int lastElement = 0;
 
-		if (permutation.size() != 0)
-			lastElement = permutation.get(permutation.size() - 1);
+		if (candidate.size() != 0)
+			lastElement = candidate.get(candidate.size() - 1);
 
 		// If we can't add anymore elements to the current permutations we can't
 		// continue
