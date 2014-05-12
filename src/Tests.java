@@ -1,23 +1,91 @@
 import java.io.*;
 import java.util.*;
-
-import com.sun.xml.internal.bind.v2.runtime.unmarshaller.XsiNilLoader.Array;
-
 public class Tests 
 {
 	public static void main(String[] args)
-	{		
-		ArrayList<ArrayList<Integer>> permSet = new ArrayList<ArrayList<Integer>>();
+	{	
+		String filePath = "Results.txt";
+		File file = new File(filePath);
+		
+		ArrayList<ArrayList<Integer>> permSetA = new ArrayList<ArrayList<Integer>>();
+		ArrayList<ArrayList<Integer>> permSetB = new ArrayList<ArrayList<Integer>>();
+		
+		//ArrayList<ArrayList<Integer>> medOfSetA = new ArrayList<ArrayList<Integer>>();
+		//ArrayList<ArrayList<Integer>> medOfSetB = new ArrayList<ArrayList<Integer>>();
+		
+		Random rnd = new Random();
+		int sizeOfSet; // = rnd.nextInt(12)+1;
+		int sizeOfPermutation = 4;
+		
+		PermutationGenerator pgA = new PermutationGenerator("permutations.txt");
+		PermutationGenerator pgB = new PermutationGenerator("permutations.txt");
+		//permSetA = pgA.generatePermutations(sizeOfPermutation, sizeOfSet);
+		//permSetB = pgB.generatePermutations(sizeOfPermutation, sizeOfSet);
+		
+		//ArrayList<ArrayList<Integer>> AinterB = inter(permSetA, permSetB);
+		ArrayList<ArrayList<Integer>> AunionB; //= union(permSetA, permSetB);
+		
+		/*System.out.print(permSetA + "\n");
+		System.out.println(permSetB);
+		
+		System.out.println(AinterB);
+		System.out.println(AunionB);*/
+			
+		
+		try
+		{
+			FileWriter fw = new FileWriter(file);
+			BufferedWriter bw = new BufferedWriter(fw);
+			int numOfIterations = 5;
+			
+			for(int i=0; i< numOfIterations ; i++)
+			{
+				
+				sizeOfSet = rnd.nextInt(12)+1;
+				
+				permSetA = pgA.generatePermutations(sizeOfPermutation, sizeOfSet);
+				permSetB = pgB.generatePermutations(sizeOfPermutation, sizeOfSet);
+				AunionB = union(permSetA, permSetB);
+				bw.write("**m=" + permSetA.size() + " n=" + permSetA.get(0).size() + "\n\n");
+				
+				bw.write("A=" + permSetA + "\n");
+				bw.write("B=" + permSetB + "\n\n");
+			
+				bw.write("AUB=" + AunionB + "\n\n");
+				//bw.write("A inter B=" + AinterB + "\n\n");
+			
+				MedianFinderBT medFinder = new MedianFinderBT(permSetA);			
+				ArrayList<ArrayList<Integer>> results = medFinder.FindMed();			
+				bw.write("M(A)=" + results + ",Distance:" + medFinder.getKendallTauDistance() + "\n\n");
+			
+				medFinder = new MedianFinderBT(permSetB);
+				results = medFinder.FindMed();
+				bw.write("M(B)=" + results + ",Distance:" + medFinder.getKendallTauDistance() + "\n\n");
+			
+				medFinder = new MedianFinderBT(AunionB);
+				results = medFinder.FindMed();
+				bw.write("M(A U B)=" + results + ",Distance:" + medFinder.getKendallTauDistance() + "\n\n");
+			}
+			bw.close();
+		}
+		catch (IOException e)
+		{
+			System.out.println(e.getMessage());
+		}	
+			
+		
+		
+		/*
 		permSet.add(new ArrayList<Integer>(Arrays.asList(new Integer[]{2,4,5,3,6,1})));
 		permSet.add(new ArrayList<Integer>(Arrays.asList(new Integer[]{4,2,1,3,6,5}))); 
 		permSet.add(new ArrayList<Integer>(Arrays.asList(new Integer[]{6,1,5,4,2,3})));
-		
+		*/
 		
 		/*permSet.add(new ArrayList<Integer>(Arrays.asList(new Integer[]{1, 2, 3, 4})));
 		permSet.add(new ArrayList<Integer>(Arrays.asList(new Integer[]{1, 2, 4, 3}))); 
 		permSet.add(new ArrayList<Integer>(Arrays.asList(new Integer[]{1, 4, 2, 3})));*/
 		
-		MedianFinderBT medFinder = new MedianFinderBT(permSet.get(0).size(), permSet);
+		/*MedianFinderBT medFinder = new MedianFinderBT(permSet.get(0).size(), permSet);
 		medFinder.FindMed();
 		
 		System.out.println("Kendall tau distance = " + medFinder.getKendallTauDistance());
@@ -40,7 +108,7 @@ public class Tests
 		for(ArrayList<Integer> sol : solutions)
 		{
 			System.out.println(Arrays.deepToString(sol.toArray()));
-		}
+		}*/
 		
 		/*MedianFinderBT medFinder;
 		
@@ -124,6 +192,35 @@ public class Tests
 		return testCases;
 	}
 	
+	private static void print(String filePath)
+	{
+		//TODO: implement a function to print out results in a file
+	}
+	
+	private static ArrayList<ArrayList<Integer>> union(ArrayList<ArrayList<Integer>> setA, ArrayList<ArrayList<Integer>> setB)
+	{
+		ArrayList<ArrayList<Integer>> union = new ArrayList<ArrayList<Integer>>(setA);
+		
+		for (ArrayList<Integer> perm : setB) {
+			if(!union.contains(perm))
+				union.add(perm);
+		}
+		
+		return union;
+	}
+	
+	private static ArrayList<ArrayList<Integer>> inter(ArrayList<ArrayList<Integer>> setA, ArrayList<ArrayList<Integer>> setB){
+		
+		ArrayList<ArrayList<Integer>> intersection = new ArrayList<ArrayList<Integer>>();
+		
+		for (ArrayList<Integer> perm : setA) {
+			if(setB.contains(perm))
+				intersection.add(perm);
+		}
+		
+		return intersection;	
+	}
+
 	/*void read()
 	{
 		String filePath = "permutation.txt";

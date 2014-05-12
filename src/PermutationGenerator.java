@@ -12,20 +12,29 @@ public class PermutationGenerator {
 		this.filePath = filePath;
 	}
 	
-	public void generatePermutations(int size, int index)
+	public ArrayList<ArrayList<Integer>>  generatePermutations(int size, int numOfPrmutations)
 	{
 		permutation = generateInitialPermutation(size);
-		permute(index);
+		
+		permute(0);
+		
+		Random rnd = new Random();
+		int toRemove = generatedPermutations.size() - numOfPrmutations;
+		
+		for (int i = 0; i < toRemove; i++) {			
+			generatedPermutations.remove(rnd.nextInt(generatedPermutations.size()));			
+		}
+		
+		//permutationSet = new HashSet<ArrayList<Integer>>(generatedPermutations);
+		
+		return generatedPermutations;		
 	}
 	
 	private ArrayList<Integer> generateInitialPermutation(int size)
 	{
 		ArrayList<Integer> init = new ArrayList<Integer>(size);
-		int seed = 1;
 		for (int i=1; i<=size; i++)
 			init.add(i);
-		
-		java.util.Collections.shuffle(init, new Random(seed));
 		
 		return init;
 	}
@@ -34,7 +43,8 @@ public class PermutationGenerator {
 	{
 		if (index == permutation.size()-1)
 		{
-			print(permutation, filePath);
+			//print(permutation, filePath);
+			generatedPermutations.add(new ArrayList<Integer>(permutation));
 		}
 		else 
 			
@@ -74,4 +84,6 @@ public class PermutationGenerator {
 	
 	private ArrayList<Integer> permutation;
 	private String filePath;
+	private ArrayList<ArrayList<Integer>> generatedPermutations = new ArrayList<ArrayList<Integer>>();
+	//private HashSet<ArrayList<Integer>> permutationSet;
 }

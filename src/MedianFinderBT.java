@@ -7,8 +7,8 @@ public class MedianFinderBT {
 	@SuppressWarnings("unused")
 	private MedianFinderBT() {
 	}
-	public MedianFinderBT(int numOfElements, ArrayList<ArrayList<Integer>> permutationSet) {
-		this.numOfElements = numOfElements;		
+	public MedianFinderBT(ArrayList<ArrayList<Integer>> permutationSet) {
+		this.numOfElements = permutationSet.get(0).size();	//size of permutations	
 		this.permutationSet = permutationSet;
 
 		//Initializing the counter matrix
@@ -36,16 +36,22 @@ public class MedianFinderBT {
 	 * PUBLIC FUNCTIONS
 	 */
 	
-	public void FindMed() {
+	public ArrayList<ArrayList<Integer>> FindMed() {
 		for (ArrayList<Integer> initialSolution : startingInstances) {
 			FindMedBT(initialSolution);
 		}
+		
+		return solutions;
 	}
 
 	public int getKendallTauDistance() {
 		return minDistance;
 	}
 	
+	public void setPermutationSet(ArrayList<ArrayList<Integer>> permutationSet){
+		
+		this.permutationSet = permutationSet;
+	}
 	/*
 	 * PRIVATE FUNCTIONS 
 	 * */
