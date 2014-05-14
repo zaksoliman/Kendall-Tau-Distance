@@ -134,6 +134,43 @@ public class PermutationGenerator {
 		
 	}
 	
+	public ArrayList<ArrayList<ArrayList<Integer>>> generateSubsets(int subsetSize, int permutationSize)
+	{
+		int i,j,r;
+		ArrayList<ArrayList<Integer>> allPermutations = getAllPermutations(permutationSize);
+		ArrayList<ArrayList<Integer>> subSet = new ArrayList<ArrayList<Integer>>();
+		ArrayList<ArrayList<ArrayList<Integer>>> sets = new ArrayList<ArrayList<ArrayList<Integer>>>();
+		
+		int[] p = new int[subsetSize];
+		
+		for (i = 0; i < p.length; i++) {
+			p[i]=i;
+		}
+		
+		while(true)
+		{
+			//visit current subset
+			for(i=0; i<subsetSize; i++)
+			{
+				subSet.add(new ArrayList<Integer>(allPermutations.get(p[i])));
+			}
+			
+			sets.add(new ArrayList<ArrayList<Integer>>(subSet));
+			subSet.clear();
+			
+			if(p[0] == allPermutations.size()-subsetSize)
+				break;
+			for(i=subsetSize-1; i>=0 && (p[i]+subsetSize-i)== allPermutations.size(); --i);
+			r=p[i];
+			++p[i];
+			j=2;
+			
+			for(++i ; i < subsetSize ; ++i , ++j ) p [i] = r+j ;
+		}
+		
+		return sets;
+	}
+	
 	private ArrayList<Integer> permutation;
 	private String filePath;
 	private ArrayList<ArrayList<Integer>> generatedPermutations = new ArrayList<ArrayList<Integer>>();

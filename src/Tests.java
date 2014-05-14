@@ -5,17 +5,22 @@ public class Tests
 {
 	public static void main(String[] args)
 	{	
-		//test(read("Resultats/Redo Number of medians 9.txt"));	
+		/*if(test(read("Resultats/Redo Number of medians 9.txt")))
+			System.out.println("All good!");
+		else 
+			System.out.println("There are errors");*/
 		
-		for (int i = 3; i <=5 ; i++) {
+		for (int i = 3; i <=4; i++) {
 			printResultsSubsets(i);
 		}
 		
+		//printResultsRandomPermutations(30);
+		
 	}
 	
-	private static void printResultsRandomPermutations()
+	private static void printResultsRandomPermutations(int numbOfInterations)
 	{
-		String filePath = "Results.txt";
+		String filePath = "Results.csv";
 		File file = new File(filePath);
 		PermutationGenerator pg = new PermutationGenerator("");
 		MedianFinderBT medFinder;
@@ -23,11 +28,12 @@ public class Tests
 		ArrayList<ArrayList<Integer>> permSetA = new ArrayList<ArrayList<Integer>>();
 		ArrayList<ArrayList<Integer>> permSetB = new ArrayList<ArrayList<Integer>>();
 		
-		ArrayList<ArrayList<Integer>> medSetA, medSetB, results, exp;
+		ArrayList<ArrayList<Integer>> medSetA, medSetB, medSetUnion, exp;
 		
 		Random rnd = new Random();
 		int sizeOfSet = rnd.nextInt(12)+1;
 		int sizeOfPermutation = 4;
+		int medDistA,medDistB, medDistUnion;
 		
 		PermutationGenerator pgA = new PermutationGenerator("permutations.txt");
 		PermutationGenerator pgB = new PermutationGenerator("permutations.txt");
@@ -43,10 +49,10 @@ public class Tests
 		{
 			FileWriter fw = new FileWriter(file);
 			BufferedWriter bw = new BufferedWriter(fw);
-			int numOfIterations = 5;
-			bw.write("Median Set, Distance, Median set size, Permutation Size \n");
+			//int numOfIterations = 5;
+			bw.write("Permutation set size,Permutation Size,Permutation Set,Median Set,Median set size,Distance\n");
 			
-			for(int i=0; i< numOfIterations ; i++)
+			for(int i=0; i< numbOfInterations ; i++)
 			{
 				
 				sizeOfSet = rnd.nextInt(12)+1;				
@@ -56,30 +62,42 @@ public class Tests
 				
 				
 				
-				bw.write("**m=" + permSetA.size() + " n=" + permSetA.get(0).size() + "\n\n");
+				/*bw.write("**m=" + permSetA.size() + " n=" + permSetA.get(0).size() + "\n\n");
 				
 				bw.write("A=" + permSetA + "\n");
 				bw.write("B=" + permSetB + "\n");			
-				bw.write("AUB=" + AunionB + "\n\n");
+				bw.write("AUB=" + AunionB + "\n\n");*/
 				
-				bw.write("Median Set, Distance, Median set size, Permutation Size \n");
+				//bw.write("Median Set, Distance, Median set size, Permutation Size \n");
 				
 				medFinder = new MedianFinderBT(permSetA);			
-				medSetA = medFinder.FindMed();			
-				bw.write("M(A)=" + medSetA + ",D_kt=" + medFinder.getKendallTauDistance() + ",#=" + medSetA.size() + "\n");
-			
+				medSetA = medFinder.FindMed();
+				medDistA = medFinder.getKendallTauDistance();
+				
 				medFinder = new MedianFinderBT(permSetB);
 				medSetB = medFinder.FindMed();
-				bw.write("M(B)=" + medSetB + ",D_kt=" + medFinder.getKendallTauDistance() + ",#=" + medSetB.size() + "\n");
-			
-				medFinder = new MedianFinderBT(AunionB);
-				results = medFinder.FindMed();
-				bw.write("M(AUB)=" + results + ",D_kt=" + medFinder.getKendallTauDistance() + ",#=" + results.size() + "\n");
+				medDistB = medFinder.getKendallTauDistance();
 				
-				exp = union(medSetA, medSetB);
+				medFinder = new MedianFinderBT(AunionB);
+				medSetUnion = medFinder.FindMed();
+				medDistUnion = medFinder.getKendallTauDistance();
+				
+				String s = " \"hello\" ";
+				
+				bw.write(permSetA.size()+","+sizeOfPermutation+",\""+permSetA+"\",\""+medSetA+"\","+medSetA.size()+","+medDistA+"\n");
+				bw.write(permSetB.size()+","+sizeOfPermutation+",\""+permSetB+"\",\""+medSetB+"\","+medSetB.size()+","+medDistB+"\n");
+				bw.write(AunionB.size()+","+sizeOfPermutation+",\""+AunionB+"\",\""+medSetUnion+"\","+medSetUnion.size()+","+medDistUnion+"\n");
+				
+				/*bw.write("M(A)=" + medSetA + ",D_kt=" + medDistA + ",#=" + medSetA.size() + "\n");
+			
+				bw.write("M(B)=" + medSetB + ",D_kt=" + medDistB + ",#=" + medSetB.size() + "\n");
+
+				bw.write("M(AUB)=" + medSetUnion + ",D_kt=" + medDistUnion + ",#=" + medSetUnion.size() + "\n");*/
+				
+				/*exp = union(medSetA, medSetB);
 				medFinder = new MedianFinderBT(exp);
 				results = medFinder.FindMed();				
-				bw.write("M(M(A) U M(B))=" + results + ",D_kt=" + medFinder.getKendallTauDistance() + ",#=" + results.size() + "\n\n");
+				bw.write("M(M(A) U M(B))=" + results + ",D_kt=" + medFinder.getKendallTauDistance() + ",#=" + results.size() + "\n\n");*/
 			}
 			
 			bw.close();
@@ -99,7 +117,7 @@ public class Tests
 		
 		if(!file.exists())
 			file.mkdir();		
-		String filePath = "Results/Permutation_" + permutationSize + ".csv";
+		String filePath = "Results/ensemble_de_4_permutations_" + permutationSize + ".csv";
 		file = new File(filePath);
 		
 		
@@ -114,16 +132,20 @@ public class Tests
 		{
 			FileWriter fw = new FileWriter(file);
 			BufferedWriter bw = new BufferedWriter(fw);
-			testCases = pg.getAllPermutationSets(3, permutationSize);
-			bw.write("Median set size \n");
+			testCases = pg.generateSubsets(4, permutationSize);
+			bw.write("Distance,Median set size,Permutation size\n");
 			
 			for (ArrayList<ArrayList<Integer>> permSet : testCases) {
 				medFinder = new MedianFinderBT(permSet);
 				
-				results = medFinder.FindMed();		
-				bw.write(medFinder.getKendallTauDistance() + "," +results.size() + "," + permutationSize + "\n");
+				results = medFinder.FindMed();
 				
-				//bw.write(results + ",D_kt=" + medFinder.getKendallTauDistance() + ",#=" + results.size() + "\n");
+				/*if(results.size()<3)
+					continue;*/
+				
+				bw.write(permSet + ";" + medFinder.getKendallTauDistance() + "," +results.size() + "," + permutationSize + "\n");
+				
+				//bw.write(permSet+ ";" +results + ";D_kt=" + medFinder.getKendallTauDistance() + ";#=" + results.size() + "\n");
 			}
 			
 			
@@ -307,7 +329,7 @@ public class Tests
 	}
 	
 	@SuppressWarnings("unchecked")
-	private static void test(ArrayList<ArrayList<ArrayList<Integer>>> testCases)
+	private static boolean test(ArrayList<ArrayList<ArrayList<Integer>>> testCases)
 	{
 		
 		//ArrayList<ArrayList<Integer>> permSet = new ArrayList<ArrayList<Integer>>();
@@ -337,14 +359,21 @@ public class Tests
 				if(solutions.contains(sol))
 					correct = true;
 				else
+				{
 					correct = false;
+					break;
+				}
 			}
 			
-			if(correct)
-				System.out.println("OK!");
+			if(correct){
+				//System.out.println("OK!");
+				index++;
+				continue;
+			}
 			else if(!correct){
-				System.out.println("INCORRECT");
+				//System.out.println("INCORRECT");
 				allCorrect = false;
+				break;
 			}
 	
 			//System.out.println("For the set: " + permutationSet);		
@@ -356,13 +385,15 @@ public class Tests
 			}*/
 	
 			System.out.println("done with backtrack!\n");			
-			index++;
+			//index++;
 		}
 		
-		if(allCorrect)
+		/*if(allCorrect)
 			System.out.println("All cases are correct");
 		else if(!allCorrect)
-			System.out.println("One or more incorrect cases");
+			System.out.println("One or more incorrect cases");*/
+		
+		return allCorrect;
 		/*permSet.add(new ArrayList<Integer>(Arrays.asList(new Integer[]{2,4,5,3,6,1})));
 		permSet.add(new ArrayList<Integer>(Arrays.asList(new Integer[]{4,2,1,3,6,5}))); 
 		permSet.add(new ArrayList<Integer>(Arrays.asList(new Integer[]{6,1,5,4,2,3})));
