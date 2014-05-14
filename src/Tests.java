@@ -1,14 +1,16 @@
 import java.io.*;
 import java.util.*;
 
-import com.sun.org.apache.xerces.internal.parsers.IntegratedParserConfiguration;
 public class Tests 
 {
 	public static void main(String[] args)
 	{	
 		//test(read("Resultats/Redo Number of medians 9.txt"));	
 		
-		printResultsSubsets();
+		for (int i = 3; i <=5 ; i++) {
+			printResultsSubsets(i);
+		}
+		
 	}
 	
 	private static void printResultsRandomPermutations()
@@ -89,10 +91,18 @@ public class Tests
 		
 	}
 
-	private static void printResultsSubsets()
+	private static void printResultsSubsets(int permSize)
 	{
-		String filePath = "Permutation 3.txt";
-		File file = new File(filePath);
+		int permutationSize = permSize;
+		
+		File file = new File("Results");
+		
+		if(!file.exists())
+			file.mkdir();		
+		String filePath = "Results/Permutation_" + permutationSize + ".csv";
+		file = new File(filePath);
+		
+		
 		PermutationGenerator pg = new PermutationGenerator("");
 		MedianFinderBT medFinder;
 		
@@ -104,15 +114,16 @@ public class Tests
 		{
 			FileWriter fw = new FileWriter(file);
 			BufferedWriter bw = new BufferedWriter(fw);
-			testCases = pg.getAllPermutationSets(3, 6);
-			bw.write("Median Set, Distance, Median set size, Permutation Size \n");
+			testCases = pg.getAllPermutationSets(3, permutationSize);
+			bw.write("Median set size \n");
 			
 			for (ArrayList<ArrayList<Integer>> permSet : testCases) {
 				medFinder = new MedianFinderBT(permSet);
 				
 				results = medFinder.FindMed();		
+				bw.write(medFinder.getKendallTauDistance() + "," +results.size() + "," + permutationSize + "\n");
 				
-				bw.write(results + ",D_kt=" + medFinder.getKendallTauDistance() + ",#=" + results.size() + "\n");
+				//bw.write(results + ",D_kt=" + medFinder.getKendallTauDistance() + ",#=" + results.size() + "\n");
 			}
 			
 			
@@ -123,7 +134,6 @@ public class Tests
 			System.out.println(e.getMessage());
 		}
 	}
-	
 	
  	private static ArrayList<ArrayList<ArrayList<Integer>>> read(String filePath)
 	{
