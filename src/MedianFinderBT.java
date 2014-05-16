@@ -175,8 +175,7 @@ public class MedianFinderBT {
 		return distance;
 	}
 
-	private int KendallTauDist(ArrayList<Integer> permutationA,
-			ArrayList<Integer> permutationB) {
+	private int KendallTauDist(ArrayList<Integer> permutationA, ArrayList<Integer> permutationB) {
 		if (permutationA.size() != permutationB.size()) {
 			return -1;
 		}
