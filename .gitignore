@@ -1,5 +1,7 @@
 *.class
 *.txt
+*.csv
+*.pdf
 Resultats/
 env/
 # Mobile Tools for Java (J2ME)
