@@ -5,6 +5,38 @@ public class Tests
 {
 	public static void main(String[] args)
 	{	
+		/*String inputData = "[[2, 9, 5, 11, 3, 6, 4, 8, 10, 7, 1], [2, 9, 11, 3, 5, 6, 4, 8, 10, 7, 1], [2, 9, 3, 5, 11, 6, 4, 8, 10, 7, 1], [2, 9, 3, 5, 6, 4, 11, 8, 10, 7, 1], [2, 9, 3, 5, 4, 11, 6, 8, 10, 7, 1]]";
+		int startOfMedSet = inputData.indexOf('[');
+		int endOfMedSet = inputData.lastIndexOf(']');
+		String[] medSetString = inputData.substring(startOfMedSet, endOfMedSet-1).split("],\\s"); //We get the median set
+		
+		ArrayList<ArrayList<Integer>> medSet = new ArrayList<ArrayList<Integer>>();
+		ArrayList<Integer> permutation = new ArrayList<Integer>();
+		
+		for(String s : medSetString)
+		{
+			s = s.replace("[", "");
+			s = s.replace("]", "");				
+			
+			String[] parsedMedSet = s.split(",\\s");
+		
+			for (String elem : parsedMedSet)
+			{
+				permutation.add(Integer.parseInt(elem));
+			}
+		
+			medSet.add(new ArrayList<Integer>(permutation));
+			permutation.clear();
+		}
+		
+		System.out.println(medSet);
+		
+		MedianFinderBT mf = new MedianFinderBT(medSet);
+		
+		System.out.println(mf.FindMed());*/
+		
+		
+		
 		/*if(test(read("Resultats/Redo Number of medians 9.txt")))
 			System.out.println("All good!");
 		else 
@@ -15,14 +47,29 @@ public class Tests
 		}
 		*/
 		
-		for (int i=0; i<5 ; i++)
-			printResultsRandomPermutations(10, i);
+		/*for (int i=0; i<5 ; i++)
+			printResultsRandomPermutations(10, i);*/
 		
+		PermutationGenerator pg = new PermutationGenerator("");
+		System.out.println("Starting...");
+		
+		try {
+			int counter = 0;
+			while(counter <= 5){
+				convergenceTest(pg.generateRandomPermutationSet(4, 10));
+				System.out.println("At: " + counter);
+				counter++;
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}		
+		
+		//printResultsRandomPermutationsTXT(20);
 	}
 
 	private static void printResultsRandomPermutationsTXT(int numbOfInterations)
 	{
-		String filePath = "Results/Random Permutaions and Reverse.txt";
+		String filePath = "Results/rnd Permutations.txt";
 				
 		File file = new File(filePath);
 				
@@ -92,10 +139,18 @@ public class Tests
 				bw.write("M(B)=" + medSetB + ",D_kt(M(B),B)=" + medBDist + ",#=" + medSetB.size() + "\n");
 				bw.write("M(AUB)=" + medSetUnion + ",D_kt(U)=" + medUnionDist + ",#=" + medSetUnion.size() + "\n");
 				
+				medFinder = new MedianFinderBT(medSetA);
+				medSetA=medFinder.FindMed();
+				bw.write("M(M(A))=" + medSetA + "\n\n");
+				
+				medFinder = new MedianFinderBT(medSetB);
+				medSetB=medFinder.FindMed();
+				bw.write("M(M(B))=" + medSetB + "\n\n");
+				
 				bw.write("M(A)M(B)=" + medAmedB + "\n");
 				
 				
-				bw.write("Reverse \n\n");
+				/*bw.write("Reverse \n\n");
 				ArrayList<ArrayList<Integer>> reverseA = reversePermutationSet(permSetA);
 				ArrayList<ArrayList<Integer>> reverseB = reversePermutationSet(permSetB);
 				
@@ -106,9 +161,24 @@ public class Tests
 				bw.write("M(R(A))" + medFinder.FindMed() + "\n");
 				
 				medFinder = new MedianFinderBT(reverseB);
-				bw.write("M(R(B))" + medFinder.FindMed() + "\n\n");
+				bw.write("M(R(B))" + medFinder.FindMed() + "\n\n");*/
 				
 				int index = 0;
+				bw.write("Distances between permutations of A\n");
+				for (ArrayList<Integer> perm : permSetA) {
+					bw.write("D_kt(p[" + index + "],A)" + "=" + KendallTauDistSet(perm, permSetA) + "\n");
+					index++;
+				}
+				
+				index=0;
+				bw.write("Distances between permutations of B\n");
+				for (ArrayList<Integer> perm : permSetB) {
+					bw.write("D_kt(p[" + index + "],B)" + "=" + KendallTauDistSet(perm, permSetB) + "\n");
+					index++;
+				}
+				bw.write("\n\n");
+				
+				index = 0;
 				bw.write("Distances between permutations of M(AUB) and A\n");
 				for (ArrayList<Integer> perm : medSetUnion) {
 					bw.write("D_kt(p'[" + index + "],A)" + "=" + KendallTauDistSet(perm, permSetA) + "\n");
@@ -161,8 +231,8 @@ public class Tests
 	
 	private static void printResultsRandomPermutations(int numbOfInterations, int trial)
 	{
-		String filePath = "RandomPermutationMedianSet_Odd("+ trial +").txt";
-		String filePathCSV = "RandomPermutationsOddSets("+ trial + ").csv";
+		String filePath = "Results/RandomPermutationMedianSet_Odd("+ trial +").txt";
+		String filePathCSV = "Results/RandomPermutationsOddSets("+ trial + ").csv";
 		
 		File file = new File(filePath);
 		File csv = new File(filePathCSV);
@@ -172,7 +242,7 @@ public class Tests
 			try {
 				file.createNewFile();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
+			
 				e.printStackTrace();
 			}
 		}
@@ -182,7 +252,7 @@ public class Tests
 			try {
 				csv.createNewFile();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
+			
 				e.printStackTrace();
 			}
 		}
@@ -200,7 +270,7 @@ public class Tests
 		int sizeOfSet;
 		int sizeOfPermutation = 4;
 		int universeSize, medADist,medBDist,medUnionDist,medSetA_size, medSetB_size, medSetUnion_size, unionMedInterA_size,
-		unionMedInterB_size, AunionB_size, medAmedB_size, medAUMedB_size, unionMedInterMedA_size,unionMedInterMedB_size;
+		unionMedInterB_size, AunionB_size, medAmedB_size, medAUMedB_size, unionMedInterMedA_size,unionMedInterMedB_size, unionMedInterUnionSet_size;
 		
 		PermutationGenerator pgA = new PermutationGenerator("permutations.txt");
 		PermutationGenerator pgB = new PermutationGenerator("permutations.txt");
@@ -216,7 +286,7 @@ public class Tests
 			BufferedWriter bw_csv = new BufferedWriter(fw_csv);
 			
 			//bw.write("Permutation set size,Permutation Size,Permutation Set,Median Set,Median set size,Distance\n");
-			bw_csv.write("|U|,|A|,n,|M(A)|,|M(B)|,|AUB|,|M(AUB)|,|M(A)UM(B)|,|M(A)M(B)|,|M(AUB)M(A)|,|M(AUB)M(B)|,|M(AUB)A|,|M(AUB)B|\n");
+			bw_csv.write("|U|,|A|,|M(A)|,|M(B)|,|AUB|,|M(AUB)|,|M(AUB)AUB|,|M(A)UM(B)|,|M(A)M(B)|,|M(AUB)M(A)|,|M(AUB)M(B)|,|M(AUB)A|,|M(AUB)B|\n");
 			
 			for(int i=0; i< numbOfInterations ; i++)
 			{				
@@ -261,6 +331,8 @@ public class Tests
 				medAmedB_size = medAmedB.size();				
 				unionMedInterMedA_size = inter(medSetUnion, medSetA).size();
 				unionMedInterMedB_size = inter(medSetUnion, medSetB).size();
+				
+				unionMedInterUnionSet_size = inter(medSetUnion,AunionB).size();
 				
 				bw.write("M(A)=" + medSetA + ",D_kt(M(A),A)=" + medADist + ",#=" + medSetA.size() + "\n");			
 				bw.write("M(B)=" + medSetB + ",D_kt(M(B),B)=" + medBDist + ",#=" + medSetB.size() + "\n");
@@ -308,8 +380,9 @@ public class Tests
 				bw.write("M(AUB)M(B) =" + inter(medSetUnion, medSetB) + "\n\n");
 				
 				
-				bw_csv.write(universeSize + "," + sizeOfSet + "," + sizeOfPermutation + "," + medSetA_size + "," + medSetB_size 
-						+ "," + AunionB_size + "," + medSetUnion_size + "," + medAUMedB_size + "," 
+				//|U|,|A|,|M(A)|,|M(B)|,|AUB|,|M(AUB)|,|M(AUB)AUB|,|M(A)UM(B)|,|M(A)M(B)|,|M(AUB)M(A)|,|M(AUB)M(B)|,|M(AUB)A|,|M(AUB)B|
+				bw_csv.write(universeSize + "," + sizeOfSet + "," + medSetA_size + "," + medSetB_size 
+						+ "," + AunionB_size + "," + medSetUnion_size + "," + unionMedInterUnionSet_size + "," + medAUMedB_size + "," 
 						+ medAmedB_size +","+ unionMedInterMedA_size + "," + unionMedInterMedB_size +  "," 
 						+ unionMedInterA_size + "," + unionMedInterB_size + "\n");
 				
@@ -613,7 +686,7 @@ public class Tests
 		
 		return testCases;
 	}
-	
+ 	
 	private static void print(String filePath)
 	{
 		//TODO: implement a function to print out results in a file
@@ -654,6 +727,46 @@ public class Tests
 		return union;
 	}
 	
+	private static void convergenceTest(ArrayList<ArrayList<Integer>> permSet) throws IOException
+	{
+		
+		String filePath = "Results/ConvergenceTest.txt";
+		
+		File file = new File(filePath);
+				
+		/*if(file.exists()){
+			file.delete();
+			try {
+				file.createNewFile();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}*/
+		
+		MedianFinderBT medFinder = new MedianFinderBT(permSet);
+		int counter = 0;
+		ArrayList<ArrayList<Integer>> medianSet = new ArrayList<ArrayList<Integer>>();
+		medianSet = medFinder.FindMed();
+		int permuationSize = permSet.get(0).size();
+		
+		int midPoint = fact(permuationSize)/2;
+		
+		FileWriter fw = new FileWriter(file, true);
+		BufferedWriter bw = new BufferedWriter(fw);
+		
+		bw.write("Starting point: " + medianSet + "\n\n");
+		
+		//while((medianSet.size()>1 && medianSet.size()<=midPoint)|| (counter <100 && medianSet.size()<=midPoint))
+		//{
+			medFinder = new MedianFinderBT(medianSet);
+			medianSet = medFinder.FindMed();
+			counter++;
+		//}
+		
+		bw.write("After " + counter + " Iterations we have: " + medianSet + "\n\n");
+		
+		bw.close();
+	}
 	
 	private static ArrayList<ArrayList<Integer>> inter(ArrayList<ArrayList<Integer>> setA, ArrayList<ArrayList<Integer>> setB){
 		

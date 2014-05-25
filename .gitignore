@@ -1,9 +1,12 @@
 *.class
+*.zip
 *.txt
 *.csv
 *.pdf
+
 Resultats/
 env/
+
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
 
