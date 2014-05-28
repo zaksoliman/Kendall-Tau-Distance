@@ -46,26 +46,36 @@ public class PermutationGenerator {
 		return sets;
 	}
 	
-	public ArrayList<ArrayList<Integer>>  generateRandomPermutationSet(int size, int numOfPrmutations)
+	public ArrayList<ArrayList<Integer>>  generateRandomPermutationSet(int sizeOfPermutation, int numOfPermutations)
 	{
-		generatedPermutations.clear();
-		permutation = generateInitialPermutation(size);
-		
-		permute(0);
+		if(generatedPermutations.size() == 0){
+			permutation = generateInitialPermutation(sizeOfPermutation);
+			permute(0);
+			System.out.println("Generating permutation for first time");
+		}
+			
+		if(generatedPermutations.get(0).size() != sizeOfPermutation){
+			generatedPermutations.clear();
+			permutation = generateInitialPermutation(sizeOfPermutation);
+			permute(0);
+			System.out.println("generating set of permutations of size " + sizeOfPermutation);
+		}
+		complementSet.clear();
+		ArrayList<ArrayList<Integer>> randomSet = new ArrayList<ArrayList<Integer>>(generatedPermutations);
 		
 		Random rnd = new Random();
-		int toRemove = generatedPermutations.size() - numOfPrmutations;
+		int toRemove = generatedPermutations.size() - numOfPermutations;
 		int elemIndex; //holds index of element to be randomly removed
 		
 		for (int i = 0; i < toRemove; i++) {			
-			elemIndex = rnd.nextInt(generatedPermutations.size());
-			complementSet.add(generatedPermutations.get(elemIndex));	
-			generatedPermutations.remove(elemIndex);					
+			elemIndex = rnd.nextInt(randomSet.size());
+			complementSet.add(randomSet.get(elemIndex));	
+			randomSet.remove(elemIndex);					
 		}
 		
 		//permutationSet = new HashSet<ArrayList<Integer>>(generatedPermutations);
 		
-		return generatedPermutations;		
+		return randomSet;		
 	}
 
 	public ArrayList<ArrayList<Integer>> getComplement()

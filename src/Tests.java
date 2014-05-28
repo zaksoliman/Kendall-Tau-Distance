@@ -48,23 +48,25 @@ public class Tests
 		}
 		*/
 		
-		/*for (int i=0; i<5 ; i++)
-			printResultsRandomPermutations(10, i);*/
+		for (int i=3; i<=7 ; i++){
+			printResultsRandomPermutations(70, i);
+			System.out.println("Done with permutations of size " + i);
+		}
 		
-		Random rnd = new Random();
+		/*Random rnd = new Random();
 		PermutationGenerator pg = new PermutationGenerator("");
 		System.out.println("Starting...");
 		
 		try {
 			int counter = 0;
 			while(counter <= 50){
-				convergenceTest(pg.generateRandomPermutationSet(4, (rnd.nextInt(10)+2) /*4*/));
+				convergenceTest(pg.generateRandomPermutationSet(4, (rnd.nextInt(10)+2) 4));
 				System.out.println("At: " + counter);
 				counter++;
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
-		}	
+		}	*/
 		
 		/*ArrayList<ArrayList<Integer>> permutationSet = new ArrayList<ArrayList<Integer>>();
 		permutationSet.add(new ArrayList<Integer>(Arrays.asList(new Integer[]{2, 1, 3, 4})));
@@ -73,12 +75,12 @@ public class Tests
 		
 		System.out.println(mf.FindMed());*/
 		
-		//printResultsRandomPermutationsTXT(20);
+		//printResultsRandomPermutationsTXT(50);
 	}
 
 	private static void printResultsRandomPermutationsTXT(int numbOfInterations)
 	{
-		String filePath = "Results/rnd Permutations.txt";
+		String filePath = "Results/RandomPermutations_NoCommon.txt";
 				
 		File file = new File(filePath);
 				
@@ -97,11 +99,13 @@ public class Tests
 		ArrayList<ArrayList<Integer>> permSetB = new ArrayList<ArrayList<Integer>>();		
 		ArrayList<ArrayList<Integer>> medSetA, medSetB, medSetUnion, unionMedInterA, unionMedInterB, AunionB, medAmedB;
 		
-		int min = 1, max =12;
+		/*int min = 1, max =12;
 		if (max % 2 == 0) 
 			--max;
 		if (min % 2 == 0) 
-			++min;
+			++min;*/
+		Random rndSetSize = new Random(1);
+		Random rndPermSize = new Random(0);
 		int sizeOfSet;
 		int sizeOfPermutation = 4;
 		int medADist,medBDist,medUnionDist;
@@ -114,20 +118,18 @@ public class Tests
 			//For txt
 			FileWriter fw = new FileWriter(file);
 			BufferedWriter bw = new BufferedWriter(fw);
-						
+			
+			boolean printA = true;
+			boolean printB = true;
+			
 			for(int i=0; i< numbOfInterations ; i++)
 			{	
-				sizeOfSet = min + 2*(int)(Math.random()*((max-min)/2+1));;				
+				sizeOfSet = rndSetSize.nextInt(11)+1; //min + 2*(int)(Math.random()*((max-min)/2+1));
+				sizeOfPermutation = rndPermSize.nextInt(6)+4;
 				permSetA = pgA.generateRandomPermutationSet(sizeOfPermutation, sizeOfSet);
 				permSetB = pgB.generateRandomPermutationSet(sizeOfPermutation, sizeOfSet);
 				AunionB = union(permSetA, permSetB);				
-				
-				bw.write("**m=" + permSetA.size() + " n=" + permSetA.get(0).size() + "\n\n");
-				
-				bw.write("A=" + permSetA + "\n");
-				bw.write("B=" + permSetB + "\n");			
-				bw.write("AUB=" + AunionB + "\n\n");
-				
+												
 				medFinder = new MedianFinderBT(permSetA);			
 				medSetA = medFinder.FindMed();
 				medADist = medFinder.getKendallTauDistance();
@@ -135,6 +137,18 @@ public class Tests
 				medFinder = new MedianFinderBT(permSetB);
 				medSetB = medFinder.FindMed();
 				medBDist = medFinder.getKendallTauDistance();
+				
+				
+				if(inter(medSetA, permSetA).size()>=1)
+					printA = false;
+				
+				if(inter(medSetB,permSetB).size() >=1)
+					printB = false;
+				
+				bw.write("**m=" + permSetA.size() + " n=" + permSetA.get(0).size() + "\n\n");				
+				bw.write("A=" + permSetA + "\n");
+				bw.write("B=" + permSetB + "\n");			
+				bw.write("AUB=" + AunionB + "\n\n");
 				
 				medFinder = new MedianFinderBT(AunionB);
 				medSetUnion = medFinder.FindMed();
@@ -148,86 +162,123 @@ public class Tests
 				bw.write("M(B)=" + medSetB + ",D_kt(M(B),B)=" + medBDist + ",#=" + medSetB.size() + "\n");
 				bw.write("M(AUB)=" + medSetUnion + ",D_kt(U)=" + medUnionDist + ",#=" + medSetUnion.size() + "\n");
 				
+				int maxDistance = 0;
+				int minDistance = Integer.MAX_VALUE;
+				int distance;
+				
+				ArrayList<ArrayList<Integer>> farthestPermutations = new ArrayList<ArrayList<Integer>>();
+				ArrayList<ArrayList<Integer>> closestPermutations = new ArrayList<ArrayList<Integer>>();
+				if(printA){
+					
+					bw.write("\n\n");
+					//Find and Print the distance between every permutation of A and A
+				for (ArrayList<Integer> perm : permSetA) {
+					distance = KendallTauDistSet(perm, permSetA);
+					
+					if (distance>=maxDistance){
+						maxDistance = distance;
+						farthestPermutations.add(perm);
+					}
+					if(distance<=minDistance){
+						minDistance=distance;
+						closestPermutations.add(perm);
+					}					
+					
+					bw.write("Distance between "+ perm +" and A is " + distance + "\n");
+				}
+				
+				//Print the distance between every permutation of Med(A) and the "farthest" and "closest" permutation in A to A
+				
+				bw.write("\n\n");
+				bw.write("For closest permutations \n");	
+				//closest first
+				for (ArrayList<Integer> median : medSetA) {
+					for (ArrayList<Integer> perm : closestPermutations) {
+						bw.write("Distance between " + median +" and " + perm + " is " + KendallTauDist(median, perm) + "\n");
+					}
+				}
+				bw.write("\n\n");
+				
+				bw.write("For Farthest permutations \n");			
+				//farthest
+				for (ArrayList<Integer> median : medSetA) {
+					for (ArrayList<Integer> perm : farthestPermutations) {
+						bw.write("Distance between " + median +" and " + perm + " is " + KendallTauDist(median, perm) + "\n");
+					}
+				}
+				
+				bw.write("\n\n");
+				}
+				
+				
+				if(printB){				
+				//Find and Print the distance between every permutation of B and B
+				closestPermutations.clear();
+				farthestPermutations.clear();
+				maxDistance = 0;
+				minDistance = Integer.MAX_VALUE;
+				
+				for (ArrayList<Integer> perm : permSetB) {
+					distance = KendallTauDistSet(perm, permSetB);
+					
+					if (distance>=maxDistance){
+						maxDistance = distance;
+						farthestPermutations.add(perm);
+					}
+					if(distance<=minDistance){
+						minDistance=distance;
+						closestPermutations.add(perm);
+					}					
+					
+					bw.write("Distance between "+ perm +" and B is " + distance + "\n");
+				}
+				
+				//Print the distance between every permutation of Med(A) and the "farthest" and "closesest" permutation in A to A
+				
+				bw.write("\n\n");
+				bw.write("For closest permutations\n");	
+				//closest first
+				for (ArrayList<Integer> median : medSetB) {
+					for (ArrayList<Integer> perm : closestPermutations) {
+						bw.write("Distance between " + median +" and " + perm + " is " + KendallTauDist(median, perm) + "\n");
+					}
+				}
+				bw.write("\n\n");
+				
+				bw.write("For Farthest permutations\n");			
+				//farthest
+				for (ArrayList<Integer> median : medSetB) {
+					for (ArrayList<Integer> perm : farthestPermutations) {
+						bw.write("Distance between " + median +" and " + perm + " is " + KendallTauDist(median, perm) + "\n");
+					}
+				}
+				bw.write("\n\n");
+				}
+				
 				medFinder = new MedianFinderBT(medSetA);
 				medSetA=medFinder.FindMed();
 				bw.write("M(M(A))=" + medSetA + "\n\n");
 				
 				medFinder = new MedianFinderBT(medSetB);
 				medSetB=medFinder.FindMed();
-				bw.write("M(M(B))=" + medSetB + "\n\n");
-				
+				bw.write("M(M(B))=" + medSetB + "\n\n");				
 				bw.write("M(A)M(B)=" + medAmedB + "\n");
 				
 				
-				/*bw.write("Reverse \n\n");
-				ArrayList<ArrayList<Integer>> reverseA = reversePermutationSet(permSetA);
-				ArrayList<ArrayList<Integer>> reverseB = reversePermutationSet(permSetB);
-				
-				bw.write("R(A)" + reverseA + "\n");
-				bw.write("R(B)" + reverseB + "\n\n");
-				
-				medFinder = new MedianFinderBT(reverseA);				
-				bw.write("M(R(A))" + medFinder.FindMed() + "\n");
-				
-				medFinder = new MedianFinderBT(reverseB);
-				bw.write("M(R(B))" + medFinder.FindMed() + "\n\n");*/
-				
-				int index = 0;
-				bw.write("Distances between permutations of A\n");
-				for (ArrayList<Integer> perm : permSetA) {
-					bw.write("D_kt(p[" + index + "],A)" + "=" + KendallTauDistSet(perm, permSetA) + "\n");
-					index++;
-				}
-				
-				index=0;
-				bw.write("Distances between permutations of B\n");
-				for (ArrayList<Integer> perm : permSetB) {
-					bw.write("D_kt(p[" + index + "],B)" + "=" + KendallTauDistSet(perm, permSetB) + "\n");
-					index++;
-				}
-				bw.write("\n\n");
-				
-				index = 0;
-				bw.write("Distances between permutations of M(AUB) and A\n");
-				for (ArrayList<Integer> perm : medSetUnion) {
-					bw.write("D_kt(p'[" + index + "],A)" + "=" + KendallTauDistSet(perm, permSetA) + "\n");
-					index++;
-				}
-				
-				index=0;
-				bw.write("Distances between permutations of M(AUB) and B\n");
-				for (ArrayList<Integer> perm : medSetUnion) {
-					bw.write("D_kt(p'[" + index + "],B)" + "=" + KendallTauDistSet(perm, permSetB) + "\n");
-					index++;
-				}
 				bw.write("\n\n");
 				
 				bw.write("M(AUB) has "+ countCommonElements(medSetUnion, permSetA) + " permutation in common with A" + "\n");
 				bw.write("M(AUB)A =" + unionMedInterA + "\n");
 				bw.write("M(AUB) has "+ countCommonElements(medSetUnion, permSetB) + " permutation in common with B" + "\n");
 				bw.write("M(AUB)B =" + unionMedInterB + "\n\n");
+								
 				
-				bw.write("Distances between permutations of M(AUB)A and A\n");
-				index=0;
-				for (ArrayList<Integer> perm : unionMedInterA) {
-					bw.write("D_kt(p[" + index + "],A)" + "=" + KendallTauDistSet(perm, permSetA) + "\n");
-					index++;
-				}
-				bw.write("\n\n");
-				bw.write("Distances between permutations of M(AUB)B and B\n");
-				index=0;
-				for (ArrayList<Integer> perm : unionMedInterB) {
-					bw.write("D_kt(p[" + index + "],B)" + "=" + KendallTauDistSet(perm, permSetB) + "\n");
-					index++;
-				}
 				bw.write("\n\n");
 				bw.write("M(AUB) has "+ countCommonElements(medSetUnion, medSetA) + " permutation in common with M(A)" + "\n");
 				bw.write("M(AUB)M(A) =" + inter(medSetUnion, medSetA) + "\n");
 				bw.write("M(AUB) has "+ countCommonElements(medSetUnion, medSetB) + " permutation in common with M(B)" + "\n");
 				bw.write("M(AUB)M(B) =" + inter(medSetUnion, medSetB) + "\n\n");
-				
-				
-				
+					
 			}
 			
 			bw.close();
@@ -238,10 +289,10 @@ public class Tests
 		}
 	}
 	
-	private static void printResultsRandomPermutations(int numbOfInterations, int trial)
+	private static void printResultsRandomPermutations(int numbOfInterations, int sizeOfPerm)
 	{
-		String filePath = "Results/RandomPermutationMedianSet_Odd("+ trial +").txt";
-		String filePathCSV = "Results/RandomPermutationsOddSets("+ trial + ").csv";
+		String filePath = "Results/RandomPermutationSets(NoCommon)_"+ sizeOfPerm +".txt"; 
+		String filePathCSV = "Results/RandomPermutationSets(NoCommon)_" + sizeOfPerm + ".csv";
 		
 		File file = new File(filePath);
 		File csv = new File(filePathCSV);
@@ -271,13 +322,15 @@ public class Tests
 		ArrayList<ArrayList<Integer>> permSetB = new ArrayList<ArrayList<Integer>>();		
 		ArrayList<ArrayList<Integer>> medSetA, medSetB, medSetUnion, unionMedInterA, unionMedInterB, AunionB, medAmedB;
 		
-		int min = 1, max =12;
+		/*int min = 1, max =12;
 		if (max % 2 == 0) 
 			--max;
 		if (min % 2 == 0) 
-			++min;
+			++min;*/
+		Random rnd = new Random(1);
 		int sizeOfSet;
-		int sizeOfPermutation = 4;
+		int sizeOfPermutation = sizeOfPerm;
+		int maxSize = (fact(sizeOfPermutation)/2);
 		int universeSize, medADist,medBDist,medUnionDist,medSetA_size, medSetB_size, medSetUnion_size, unionMedInterA_size,
 		unionMedInterB_size, AunionB_size, medAmedB_size, medAUMedB_size, unionMedInterMedA_size,unionMedInterMedB_size, 
 		unionMedInterUnionSet_size,MedAinterA_size,MedBinterB_size;
@@ -296,17 +349,18 @@ public class Tests
 			BufferedWriter bw_csv = new BufferedWriter(fw_csv);
 			
 			//bw.write("Permutation set size,Permutation Size,Permutation Set,Median Set,Median set size,Distance\n");
-			bw_csv.write("|U|,|A|,|M(A)|,|M(A)A|,|M(B)|,|M(B)B|,|AUB|,|M(AUB)|,|M(AUB)AUB|,|M(A)UM(B)|,|M(A)M(B)|,|M(AUB)M(A)|,|M(AUB)M(B)|,|M(AUB)A|,|M(AUB)B|\n");
+			//bw_csv.write("|U|,|A|,|M(A)|,|M(A)A|,|M(B)|,|M(B)B|,|AUB|,|M(AUB)|,|M(AUB)AUB|,|M(A)UM(B)|,|M(A)M(B)|,|M(AUB)M(A)|,|M(AUB)M(B)|,|M(AUB)A|,|M(AUB)B|\n");
+			bw_csv.write("|A|,|M(A)|,|M(A)A|,|M(B)|,|M(B)B|\n");
 			
 			for(int i=0; i< numbOfInterations ; i++)
 			{				
-				universeSize = fact(sizeOfPermutation);
-				sizeOfSet = min + 2*(int)(Math.random()*((max-min)/2+1));;				
+				//universeSize = fact(sizeOfPermutation);
+				sizeOfSet = rnd.nextInt(maxSize-1)+1;//min + 2*(int)(Math.random()*((max-min)/2+1));;				
 				permSetA = pgA.generateRandomPermutationSet(sizeOfPermutation, sizeOfSet);
 				permSetB = pgB.generateRandomPermutationSet(sizeOfPermutation, sizeOfSet);
 				AunionB = union(permSetA, permSetB);				
 				
-				bw.write(i + ". **m=" + permSetA.size() + " n=" + permSetA.get(0).size() + "\n\n");
+				bw.write("(" + i + ")" + ". **m=" + permSetA.size() + " n=" + permSetA.get(0).size() + "\n\n");
 				
 				bw.write("A=" + permSetA + "\n");
 				bw.write("B=" + permSetB + "\n");			
@@ -351,7 +405,110 @@ public class Tests
 				bw.write("M(B)=" + medSetB + ",D_kt(M(B),B)=" + medBDist + ",#=" + medSetB.size() + "\n");
 				bw.write("M(AUB)=" + medSetUnion + ",D_kt(U)=" + medUnionDist + ",#=" + medSetUnion.size() + "\n");
 				
-				bw.write("M(A)M(B)=" + medAmedB + "\n");
+				
+				int maxDistance = 0;
+				int minDistance = Integer.MAX_VALUE;
+				int distance;
+				
+				ArrayList<ArrayList<Integer>> farthestPermutations = new ArrayList<ArrayList<Integer>>();
+				ArrayList<ArrayList<Integer>> closestPermutations = new ArrayList<ArrayList<Integer>>();
+									
+				bw.write("\n\n");
+				//Find and Print the distance between every permutation of A and A
+				for (ArrayList<Integer> perm : permSetA) {
+					distance = KendallTauDistSet(perm, permSetA);
+					
+					if (distance>maxDistance){
+						maxDistance = distance;
+						farthestPermutations.clear();
+						farthestPermutations.add(perm);
+					}
+					else if(distance<minDistance){
+						minDistance=distance;
+						closestPermutations.clear();
+						closestPermutations.add(perm);
+					}
+					
+					if(distance == maxDistance)
+						farthestPermutations.add(perm);
+					if(distance == minDistance)
+						closestPermutations.add(perm);
+					
+					bw.write("Distance between "+ perm +" and A is " + distance + "\n");
+				}
+				
+				//Print the distance between every permutation of Med(A) and the "farthest" and "closest" permutation in A to A
+				
+				bw.write("\n\n");
+				bw.write("For closest permutations \n");	
+				//closest first
+				for (ArrayList<Integer> median : medSetA) {
+					for (ArrayList<Integer> perm : closestPermutations) {
+						bw.write("Distance between " + median +" and " + perm + " is " + KendallTauDist(median, perm) + "\n");
+					}
+				}
+				bw.write("\n\n");
+				
+				bw.write("For Farthest permutations \n");			
+				//farthest
+				for (ArrayList<Integer> median : medSetA) {
+					for (ArrayList<Integer> perm : farthestPermutations) {
+						bw.write("Distance between " + median +" and " + perm + " is " + KendallTauDist(median, perm) + "\n");
+					}
+				}
+				
+				bw.write("\n\n");
+												
+				//Find and Print the distance between every permutation of B and B
+				closestPermutations.clear();
+				farthestPermutations.clear();
+				maxDistance = 0;
+				minDistance = Integer.MAX_VALUE;
+				
+				for (ArrayList<Integer> perm : permSetB) {
+					distance = KendallTauDistSet(perm, permSetB);
+					
+					if (distance>maxDistance){
+						maxDistance = distance;
+						farthestPermutations.clear();
+						farthestPermutations.add(perm);
+					}
+					else if(distance<minDistance){
+						minDistance=distance;
+						closestPermutations.clear();
+						closestPermutations.add(perm);
+					}	
+					
+					if(distance == maxDistance)
+						farthestPermutations.add(perm);
+					if(distance == minDistance)
+						closestPermutations.add(perm);
+					
+					bw.write("Distance between "+ perm +" and B is " + distance + "\n");
+				}
+				
+				//Print the distance between every permutation of Med(A) and the "farthest" and "closesest" permutation in A to A
+				
+				bw.write("\n\n");
+				bw.write("For closest permutations\n");	
+				//closest first
+				for (ArrayList<Integer> median : medSetB) {
+					for (ArrayList<Integer> perm : closestPermutations) {
+						bw.write("Distance between " + median +" and " + perm + " is " + KendallTauDist(median, perm) + "\n");
+					}
+				}
+				bw.write("\n\n");
+				
+				bw.write("For Farthest permutations\n");			
+				//farthest
+				for (ArrayList<Integer> median : medSetB) {
+					for (ArrayList<Integer> perm : farthestPermutations) {
+						bw.write("Distance between " + median +" and " + perm + " is " + KendallTauDist(median, perm) + "\n");
+					}
+				}
+				bw.write("\n\n");
+												
+				/*bw.write("M(A)M(B)=" + medAmedB + "\n");
 				
 				int index = 0;
 				bw.write("Distances between permutations of M(AUB) and A\n");
@@ -385,19 +542,22 @@ public class Tests
 				for (ArrayList<Integer> perm : unionMedInterB) {
 					bw.write("D_kt(p[" + index + "],B)" + "=" + KendallTauDistSet(perm, permSetB) + "\n");
 					index++;
-				}
+				}*/
 				bw.write("\n\n");
-				bw.write("M(AUB) has "+ countCommonElements(medSetUnion, medSetA) + " permutation in common with M(A)" + "\n");
+				/*bw.write("M(AUB) has "+ countCommonElements(medSetUnion, medSetA) + " permutation in common with M(A)" + "\n");
 				bw.write("M(AUB)M(A) =" + inter(medSetUnion, medSetA) + "\n");
 				bw.write("M(AUB) has "+ countCommonElements(medSetUnion, medSetB) + " permutation in common with M(B)" + "\n");
-				bw.write("M(AUB)M(B) =" + inter(medSetUnion, medSetB) + "\n\n");
+				bw.write("M(AUB)M(B) =" + inter(medSetUnion, medSetB) + "\n\n");*/
 				
 				
 				//|U|,|A|,|M(A)|,|M(A)A|,|M(B)|,|M(B)B|,|AUB|,|M(AUB)|,|M(AUB)AUB|,|M(A)UM(B)|,|M(A)M(B)|,|M(AUB)M(A)|,|M(AUB)M(B)|,|M(AUB)A|,|M(AUB)B|
-				bw_csv.write(universeSize + "," + sizeOfSet + "," + medSetA_size + "," + MedAinterA_size + "," + medSetB_size + "," + MedBinterB_size
+				/*bw_csv.write(universeSize + "," + sizeOfSet + "," + medSetA_size + "," + MedAinterA_size + "," + medSetB_size + "," + MedBinterB_size
 						+ "," + AunionB_size + "," + medSetUnion_size + "," + unionMedInterUnionSet_size + "," + medAUMedB_size + "," 
 						+ medAmedB_size +","+ unionMedInterMedA_size + "," + unionMedInterMedB_size +  "," 
-						+ unionMedInterA_size + "," + unionMedInterB_size + "\n");
+						+ unionMedInterA_size + "," + unionMedInterB_size + "\n");*/
+				
+				//|A|,|M(A)|,|M(A)A|,|M(B)|,|M(B)B|
+				bw_csv.write(sizeOfSet + "," + medSetA_size + "," + MedAinterA_size + "," + medSetB_size + "," + MedBinterB_size + "\n");
 				
 			}
 			
