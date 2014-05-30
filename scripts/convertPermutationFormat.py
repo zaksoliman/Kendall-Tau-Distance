@@ -31,7 +31,7 @@ def convertFile(filePath):
 ########
 
 #Get all the subdirecotries to start converting
-directory = "../Resultats/Res/"
+directory = "../Results/"
 dirList = listdir(directory)
 
 for folder in dirList:
