@@ -3,7 +3,7 @@
 *.txt
 *.csv
 *.pdf
-
+*.rtf
 Resultats/
 env/
 

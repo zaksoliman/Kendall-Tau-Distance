@@ -14,7 +14,6 @@ def convertFile(filePath):
     f.close()
     f = open(filePath, 'w')
 
-
     for index, line in enumerate(lines):
         if line.startswith('{'):
             line = sub('(\d*)\[(\d*)\](\d*)', r'\2',line)
