@@ -12,12 +12,13 @@ from  os import listdir
 from glob import glob
 from re import sub
 from ast import literal_eval
+import pdb
 
 ############
 # Funtions #
 ############
 
-log = open('log.txt','w')
+log = open('log(3).txt','w')
 
 def loadFile(filePath):
     f = open(filePath)
@@ -58,31 +59,36 @@ def buildMedian(value, permSet):
             closestPermutations.append(permutation)
         elif distance == minDist:
             closestPermutations.append(permutation)
-    log.write('minDist = ' + str(minDist)+'\n')
-    log.write('Value= ' + str(value)+'\n')
+    log.write('Potential Medians:' + str(closestPermutations) + '\n')
+    log.write('minDist=' + str(minDist)+'\n')
+    log.write('Value=' + str(value)+'\n')
     diff = minDist-value
-    log.write('DIFFERENCE: ' + str(diff) + '\n')
+    log.write('DIFFERENCE=' + str(diff) + '\n\n')
     #First Check if the median is actually the closest permutation
-    if value == minDist:
+    if minDist == value:
         return closestPermutations, diff
 
     medians = []
-    #Try every posible single inversion on the closest permutations
+    #Try every posible single inversion on the closest permutations if the
+    #difference between the median and the permutation is 1
     for permutation in closestPermutations:
+        #Create a copy of the list
+        temp = permutation[:]
         for i in range(0,len(permutation)-1):
-            for j in range(i,len(permutation)):
+            for j in range(i+1,len(permutation)):
                 #swap
-                permutation[i], permutation[j] = permutation[j], permutation[i]
-                if KendallTauDistance(permutation, permSet) == value:
-                    medians.append(list(permutation))
+                temp[i], temp[j] = temp[j], temp[i]
+                ktDist = KendallTauDistance(temp,permSet)
+                if  ktDist == value:
+                    found = True
+                    medians.append(list(temp))
+                    log.write('Distance between '+ str(temp) + ' and the set is '+str(ktDist)+'\n')
                 #swap back to continue
-                permutation[i], permutation[j] = permutation[j], permutation[i]
+                temp[i], temp[j] = temp[j], temp[i]
 
-    return medians, diff
+    return  medians, diff
 
 def inversePermutation(permutation):
-    if not permutation:
-        return None
     inverse = list(range(len(permutation)))
 
     for i in range(0,len(permutation)):
@@ -101,14 +107,18 @@ def KendallTauDistance(permutation, permSet):
         # COMPUTE DISTANCE  #
         #####################
         for i in range(0,len(p)-1):
-            for j in range(i, len(permB)):
-                if((permA[i]<permA[j])and(permB[i]>permB[j])):
+            for j in range(i+1, len(permB)):
+                if(((permA[i]<permA[j])and(permB[i]>permB[j])) or
+                ((permA[i]>permA[j]) and (permB[i]<permB[j]))):
                     distance+=1
-                if((permA[i]>permA[j]) and (permB[i]<permB[j])):
-                    distance+=1
+
         totalDist += distance
         distance = 0
     return totalDist
+
+########
+# MAIN #
+########
 
 #Get all the subdirecotries to start converting
 directory = "../Resultats/Res/"
@@ -116,12 +126,16 @@ dirList = listdir(directory)
 
 #Holds the biggest difference value in all the files
 maxDiff = 0
-for folder in dirList:
+
+numOfFolders = len(dirList)
+for count,folder in enumerate(dirList):
+    print("Folder "+str(count+1) + " out of " + str(numOfFolders))
     filePaths = directory+folder
     #Get all the txt files
     filePaths = glob(filePaths+"/*.txt")
-    for a_file in filePaths:
-        print("Reading the file: " + a_file)
+    size = len(filePaths)
+    for i, a_file in enumerate(filePaths):
+        print(str(i+1)+"/"+str(size) +" Reading the file: " + a_file)
         log.write("Reading the file: " + a_file+'\n')
         lines = loadFile(a_file)
         vals = getObjectiveValues(lines)
@@ -129,16 +143,18 @@ for folder in dirList:
         #Holds the biggest difference value found in a_file
         maxDiff_file = 0
         for index, p in enumerate(permSets):
+            log.write('Set='+str(p)+'\n')
             med,diff = buildMedian(vals[index],p)
             if diff > maxDiff_file:
                 maxDiff_file = diff
             if not med:
-                log.write('Could not find median of distance 1 from closest permutation\n')
-                log.write('MEDIAN: ' + str(med)+'\n')
+                log.write('Could not find median with distance 1 from closest permutation\n\n')
             else:
+                log.write("FOUND\n")
                 log.write(str(med)+'\n')
-                log.write('Distance: ' + str(KendallTauDistance(med[0],p))+'\n')
-        log.write("Maximum distance difference in " + a_file + ": " + str(maxDiff_file)+'\n')
+                log.write('Distance: ' + str(KendallTauDistance(med[0],p))+'\n\n')
+        log.write("Maximum distance difference in " + a_file + ": " + str(maxDiff_file)+'\n\n')
+
     if maxDiff_file > maxDiff:
         maxDiff = maxDiff_file
 

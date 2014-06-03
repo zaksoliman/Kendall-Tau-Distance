@@ -1,0 +1,478 @@
+Starting point: [[1, 3, 2, 4], [2, 1, 3, 4], [2, 4, 1, 3], [3, 4, 2, 1]]
+
+After 1 Iterations we have: [[2, 1, 3, 4]]
+
+Starting point: [[1, 2, 3, 4], [2, 1, 3, 4], [3, 2, 4, 1], [3, 4, 2, 1]]
+
+After 1 Iterations we have: [[2, 1, 3, 4], [2, 3, 1, 4], [2, 3, 4, 1], [3, 2, 1, 4], [3, 2, 4, 1]]
+
+After 2 Iterations we have: [[2, 3, 1, 4]]
+
+Starting point: [[2, 3, 1, 4], [3, 4, 1, 2], [4, 2, 3, 1], [4, 1, 2, 3]]
+
+After 1 Iterations we have: [[4, 2, 3, 1]]
+
+Starting point: [[2, 4, 3, 1], [4, 2, 1, 3], [4, 3, 2, 1], [4, 3, 1, 2]]
+
+After 1 Iterations we have: [[4, 2, 3, 1], [4, 3, 2, 1]]
+
+After 2 Iterations we have: [[4, 2, 3, 1], [4, 3, 2, 1]]
+
+After 3 Iterations we have: [[4, 2, 3, 1], [4, 3, 2, 1]]
+
+After 4 Iterations we have: [[4, 2, 3, 1], [4, 3, 2, 1]]
+
+After 5 Iterations we have: [[4, 2, 3, 1], [4, 3, 2, 1]]
+
+After 6 Iterations we have: [[4, 2, 3, 1], [4, 3, 2, 1]]
+
+Starting point: [[1, 2, 3, 4], [1, 4, 3, 2], [1, 4, 2, 3], [2, 1, 3, 4]]
+
+After 1 Iterations we have: [[1, 2, 3, 4], [1, 2, 4, 3], [1, 4, 2, 3]]
+
+After 2 Iterations we have: [[1, 2, 4, 3]]
+
+Starting point: [[1, 4, 2, 3], [3, 2, 1, 4], [3, 1, 2, 4], [4, 1, 2, 3]]
+
+After 1 Iterations we have: [[1, 2, 3, 4], [1, 2, 4, 3], [1, 3, 2, 4], [1, 3, 4, 2], [1, 4, 2, 3], [1, 4, 3, 2], [3, 1, 2, 4], [3, 1, 4, 2]]
+
+After 2 Iterations we have: [[1, 3, 2, 4], [1, 3, 4, 2]]
+
+After 3 Iterations we have: [[1, 3, 2, 4], [1, 3, 4, 2]]
+
+After 4 Iterations we have: [[1, 3, 2, 4], [1, 3, 4, 2]]
+
+After 5 Iterations we have: [[1, 3, 2, 4], [1, 3, 4, 2]]
+
+After 6 Iterations we have: [[1, 3, 2, 4], [1, 3, 4, 2]]
+
+Starting point: [[2, 1, 3, 4], [3, 1, 4, 2], [3, 4, 1, 2], [4, 1, 3, 2]]
+
+After 1 Iterations we have: [[1, 3, 4, 2], [3, 1, 4, 2], [3, 4, 1, 2]]
+
+After 2 Iterations we have: [[3, 1, 4, 2]]
+
+Starting point: [[1, 4, 3, 2], [2, 1, 4, 3], [3, 4, 2, 1], [4, 2, 3, 1]]
+
+After 1 Iterations we have: [[4, 2, 1, 3], [4, 2, 3, 1], [4, 3, 2, 1]]
+
+After 2 Iterations we have: [[4, 2, 3, 1]]
+
+Starting point: [[1, 4, 2, 3], [3, 2, 4, 1], [4, 2, 1, 3], [4, 3, 2, 1]]
+
+After 1 Iterations we have: [[4, 2, 1, 3], [4, 2, 3, 1], [4, 3, 2, 1]]
+
+After 2 Iterations we have: [[4, 2, 3, 1]]
+
+Starting point: [[1, 2, 4, 3], [1, 3, 2, 4], [1, 4, 2, 3], [2, 4, 1, 3]]
+
+After 1 Iterations we have: [[1, 2, 4, 3]]
+
+Starting point: [[1, 4, 2, 3], [2, 3, 4, 1], [4, 1, 3, 2], [4, 1, 2, 3]]
+
+After 1 Iterations we have: [[4, 1, 2, 3]]
+
+Starting point: [[3, 2, 1, 4], [3, 1, 2, 4], [3, 4, 2, 1], [4, 1, 2, 3]]
+
+After 1 Iterations we have: [[3, 1, 2, 4], [3, 1, 4, 2], [3, 2, 1, 4], [3, 2, 4, 1], [3, 4, 1, 2], [3, 4, 2, 1]]
+
+After 2 Iterations we have: [[3, 1, 2, 4], [3, 1, 4, 2], [3, 2, 1, 4], [3, 2, 4, 1], [3, 4, 1, 2], [3, 4, 2, 1]]
+
+After 3 Iterations we have: [[3, 1, 2, 4], [3, 1, 4, 2], [3, 2, 1, 4], [3, 2, 4, 1], [3, 4, 1, 2], [3, 4, 2, 1]]
+
+After 4 Iterations we have: [[3, 1, 2, 4], [3, 1, 4, 2], [3, 2, 1, 4], [3, 2, 4, 1], [3, 4, 1, 2], [3, 4, 2, 1]]
+
+After 5 Iterations we have: [[3, 1, 2, 4], [3, 1, 4, 2], [3, 2, 1, 4], [3, 2, 4, 1], [3, 4, 1, 2], [3, 4, 2, 1]]
+
+After 6 Iterations we have: [[3, 1, 2, 4], [3, 1, 4, 2], [3, 2, 1, 4], [3, 2, 4, 1], [3, 4, 1, 2], [3, 4, 2, 1]]
+
+Starting point: [[1, 3, 4, 2], [3, 4, 2, 1], [4, 3, 1, 2], [4, 1, 3, 2]]
+
+After 1 Iterations we have: [[3, 4, 1, 2], [4, 1, 3, 2], [4, 3, 1, 2]]
+
+After 2 Iterations we have: [[4, 3, 1, 2]]
+
+Starting point: [[1, 3, 4, 2], [1, 4, 3, 2], [3, 2, 1, 4], [3, 2, 4, 1]]
+
+After 1 Iterations we have: [[1, 3, 2, 4], [1, 3, 4, 2], [3, 1, 2, 4], [3, 1, 4, 2], [3, 2, 1, 4]]
+
+After 2 Iterations we have: [[3, 1, 2, 4]]
+
+Starting point: [[1, 3, 2, 4], [1, 4, 3, 2], [2, 4, 3, 1], [4, 1, 2, 3]]
+
+After 1 Iterations we have: [[1, 2, 4, 3], [1, 4, 2, 3], [1, 4, 3, 2], [4, 1, 2, 3], [4, 1, 3, 2]]
+
+After 2 Iterations we have: [[1, 4, 2, 3]]
+
+Starting point: [[1, 2, 3, 4], [2, 1, 3, 4], [3, 2, 1, 4], [4, 3, 2, 1]]
+
+After 1 Iterations we have: [[2, 1, 3, 4], [2, 3, 1, 4], [3, 2, 1, 4]]
+
+After 2 Iterations we have: [[2, 3, 1, 4]]
+
+Starting point: [[2, 4, 1, 3], [3, 2, 1, 4], [4, 2, 1, 3], [4, 3, 1, 2]]
+
+After 1 Iterations we have: [[2, 4, 1, 3], [2, 4, 3, 1], [4, 2, 1, 3], [4, 2, 3, 1], [4, 3, 2, 1]]
+
+After 2 Iterations we have: [[4, 2, 3, 1]]
+
+Starting point: [[1, 3, 4, 2], [3, 1, 4, 2], [4, 2, 3, 1], [4, 3, 2, 1]]
+
+After 1 Iterations we have: [[3, 1, 4, 2], [3, 4, 1, 2], [3, 4, 2, 1], [4, 3, 1, 2], [4, 3, 2, 1]]
+
+After 2 Iterations we have: [[3, 4, 1, 2]]
+
+Starting point: [[1, 2, 3, 4], [2, 1, 3, 4], [2, 1, 4, 3], [2, 3, 4, 1]]
+
+After 1 Iterations we have: [[2, 1, 3, 4]]
+
+Starting point: [[2, 3, 1, 4], [2, 4, 3, 1], [4, 2, 3, 1], [4, 3, 1, 2]]
+
+After 1 Iterations we have: [[2, 4, 3, 1], [4, 2, 3, 1]]
+
+After 2 Iterations we have: [[2, 4, 3, 1], [4, 2, 3, 1]]
+
+After 3 Iterations we have: [[2, 4, 3, 1], [4, 2, 3, 1]]
+
+After 4 Iterations we have: [[2, 4, 3, 1], [4, 2, 3, 1]]
+
+After 5 Iterations we have: [[2, 4, 3, 1], [4, 2, 3, 1]]
+
+After 6 Iterations we have: [[2, 4, 3, 1], [4, 2, 3, 1]]
+
+Starting point: [[1, 2, 4, 3], [1, 3, 2, 4], [2, 1, 3, 4], [2, 4, 1, 3]]
+
+After 1 Iterations we have: [[1, 2, 3, 4], [1, 2, 4, 3], [2, 1, 3, 4], [2, 1, 4, 3]]
+
+After 2 Iterations we have: [[1, 2, 3, 4], [1, 2, 4, 3], [2, 1, 3, 4], [2, 1, 4, 3]]
+
+After 3 Iterations we have: [[1, 2, 3, 4], [1, 2, 4, 3], [2, 1, 3, 4], [2, 1, 4, 3]]
+
+After 4 Iterations we have: [[1, 2, 3, 4], [1, 2, 4, 3], [2, 1, 3, 4], [2, 1, 4, 3]]
+
+After 5 Iterations we have: [[1, 2, 3, 4], [1, 2, 4, 3], [2, 1, 3, 4], [2, 1, 4, 3]]
+
+After 6 Iterations we have: [[1, 2, 3, 4], [1, 2, 4, 3], [2, 1, 3, 4], [2, 1, 4, 3]]
+
+Starting point: [[2, 1, 3, 4], [2, 3, 4, 1], [3, 1, 2, 4], [3, 4, 2, 1]]
+
+After 1 Iterations we have: [[2, 3, 1, 4], [2, 3, 4, 1], [3, 2, 1, 4], [3, 2, 4, 1]]
+
+After 2 Iterations we have: [[2, 3, 1, 4], [2, 3, 4, 1], [3, 2, 1, 4], [3, 2, 4, 1]]
+
+After 3 Iterations we have: [[2, 3, 1, 4], [2, 3, 4, 1], [3, 2, 1, 4], [3, 2, 4, 1]]
+
+After 4 Iterations we have: [[2, 3, 1, 4], [2, 3, 4, 1], [3, 2, 1, 4], [3, 2, 4, 1]]
+
+After 5 Iterations we have: [[2, 3, 1, 4], [2, 3, 4, 1], [3, 2, 1, 4], [3, 2, 4, 1]]
+
+After 6 Iterations we have: [[2, 3, 1, 4], [2, 3, 4, 1], [3, 2, 1, 4], [3, 2, 4, 1]]
+
+Starting point: [[1, 4, 3, 2], [2, 4, 3, 1], [4, 2, 3, 1], [4, 1, 2, 3]]
+
+After 1 Iterations we have: [[4, 1, 2, 3], [4, 2, 1, 3], [4, 2, 3, 1]]
+
+After 2 Iterations we have: [[4, 2, 1, 3]]
+
+Starting point: [[3, 2, 4, 1], [3, 1, 4, 2], [4, 2, 3, 1], [4, 3, 2, 1]]
+
+After 1 Iterations we have: [[3, 4, 2, 1], [4, 3, 2, 1]]
+
+After 2 Iterations we have: [[3, 4, 2, 1], [4, 3, 2, 1]]
+
+After 3 Iterations we have: [[3, 4, 2, 1], [4, 3, 2, 1]]
+
+After 4 Iterations we have: [[3, 4, 2, 1], [4, 3, 2, 1]]
+
+After 5 Iterations we have: [[3, 4, 2, 1], [4, 3, 2, 1]]
+
+After 6 Iterations we have: [[3, 4, 2, 1], [4, 3, 2, 1]]
+
+Starting point: [[1, 4, 2, 3], [3, 2, 1, 4], [3, 4, 1, 2], [4, 1, 2, 3]]
+
+After 1 Iterations we have: [[1, 3, 4, 2], [1, 4, 2, 3], [1, 4, 3, 2], [3, 1, 4, 2], [3, 4, 1, 2], [4, 1, 2, 3], [4, 1, 3, 2], [4, 3, 1, 2]]
+
+After 2 Iterations we have: [[1, 4, 3, 2], [4, 1, 3, 2]]
+
+After 3 Iterations we have: [[1, 4, 3, 2], [4, 1, 3, 2]]
+
+After 4 Iterations we have: [[1, 4, 3, 2], [4, 1, 3, 2]]
+
+After 5 Iterations we have: [[1, 4, 3, 2], [4, 1, 3, 2]]
+
+After 6 Iterations we have: [[1, 4, 3, 2], [4, 1, 3, 2]]
+
+Starting point: [[1, 2, 4, 3], [1, 4, 2, 3], [2, 1, 4, 3], [4, 3, 1, 2]]
+
+After 1 Iterations we have: [[1, 2, 4, 3], [1, 4, 2, 3]]
+
+After 2 Iterations we have: [[1, 2, 4, 3], [1, 4, 2, 3]]
+
+After 3 Iterations we have: [[1, 2, 4, 3], [1, 4, 2, 3]]
+
+After 4 Iterations we have: [[1, 2, 4, 3], [1, 4, 2, 3]]
+
+After 5 Iterations we have: [[1, 2, 4, 3], [1, 4, 2, 3]]
+
+After 6 Iterations we have: [[1, 2, 4, 3], [1, 4, 2, 3]]
+
+Starting point: [[1, 2, 4, 3], [2, 1, 4, 3], [3, 4, 2, 1], [4, 2, 3, 1]]
+
+After 1 Iterations we have: [[2, 1, 4, 3], [2, 4, 1, 3], [2, 4, 3, 1], [4, 2, 1, 3], [4, 2, 3, 1]]
+
+After 2 Iterations we have: [[2, 4, 1, 3]]
+
+Starting point: [[2, 3, 4, 1], [2, 4, 1, 3], [4, 3, 2, 1], [4, 1, 2, 3]]
+
+After 1 Iterations we have: [[2, 4, 1, 3], [2, 4, 3, 1], [4, 2, 1, 3], [4, 2, 3, 1]]
+
+After 2 Iterations we have: [[2, 4, 1, 3], [2, 4, 3, 1], [4, 2, 1, 3], [4, 2, 3, 1]]
+
+After 3 Iterations we have: [[2, 4, 1, 3], [2, 4, 3, 1], [4, 2, 1, 3], [4, 2, 3, 1]]
+
+After 4 Iterations we have: [[2, 4, 1, 3], [2, 4, 3, 1], [4, 2, 1, 3], [4, 2, 3, 1]]
+
+After 5 Iterations we have: [[2, 4, 1, 3], [2, 4, 3, 1], [4, 2, 1, 3], [4, 2, 3, 1]]
+
+After 6 Iterations we have: [[2, 4, 1, 3], [2, 4, 3, 1], [4, 2, 1, 3], [4, 2, 3, 1]]
+
+Starting point: [[2, 1, 3, 4], [3, 2, 4, 1], [4, 2, 3, 1], [4, 3, 2, 1]]
+
+After 1 Iterations we have: [[2, 3, 4, 1], [2, 4, 3, 1], [3, 2, 4, 1], [3, 4, 2, 1], [4, 2, 3, 1], [4, 3, 2, 1]]
+
+After 2 Iterations we have: [[2, 3, 4, 1], [2, 4, 3, 1], [3, 2, 4, 1], [3, 4, 2, 1], [4, 2, 3, 1], [4, 3, 2, 1]]
+
+After 3 Iterations we have: [[2, 3, 4, 1], [2, 4, 3, 1], [3, 2, 4, 1], [3, 4, 2, 1], [4, 2, 3, 1], [4, 3, 2, 1]]
+
+After 4 Iterations we have: [[2, 3, 4, 1], [2, 4, 3, 1], [3, 2, 4, 1], [3, 4, 2, 1], [4, 2, 3, 1], [4, 3, 2, 1]]
+
+After 5 Iterations we have: [[2, 3, 4, 1], [2, 4, 3, 1], [3, 2, 4, 1], [3, 4, 2, 1], [4, 2, 3, 1], [4, 3, 2, 1]]
+
+After 6 Iterations we have: [[2, 3, 4, 1], [2, 4, 3, 1], [3, 2, 4, 1], [3, 4, 2, 1], [4, 2, 3, 1], [4, 3, 2, 1]]
+
+Starting point: [[1, 4, 3, 2], [2, 1, 4, 3], [3, 4, 2, 1], [4, 2, 3, 1]]
+
+After 1 Iterations we have: [[4, 2, 1, 3], [4, 2, 3, 1], [4, 3, 2, 1]]
+
+After 2 Iterations we have: [[4, 2, 3, 1]]
+
+Starting point: [[1, 4, 2, 3], [2, 4, 1, 3], [3, 4, 2, 1], [4, 1, 3, 2]]
+
+After 1 Iterations we have: [[4, 1, 2, 3], [4, 1, 3, 2], [4, 2, 1, 3]]
+
+After 2 Iterations we have: [[4, 1, 2, 3]]
+
+Starting point: [[1, 4, 3, 2], [1, 4, 2, 3], [3, 1, 4, 2], [4, 3, 2, 1]]
+
+After 1 Iterations we have: [[1, 4, 3, 2]]
+
+Starting point: [[3, 1, 2, 4], [4, 2, 1, 3], [4, 1, 3, 2], [4, 1, 2, 3]]
+
+After 1 Iterations we have: [[4, 1, 2, 3], [4, 1, 3, 2]]
+
+After 2 Iterations we have: [[4, 1, 2, 3], [4, 1, 3, 2]]
+
+After 3 Iterations we have: [[4, 1, 2, 3], [4, 1, 3, 2]]
+
+After 4 Iterations we have: [[4, 1, 2, 3], [4, 1, 3, 2]]
+
+After 5 Iterations we have: [[4, 1, 2, 3], [4, 1, 3, 2]]
+
+After 6 Iterations we have: [[4, 1, 2, 3], [4, 1, 3, 2]]
+
+Starting point: [[2, 1, 4, 3], [3, 2, 1, 4], [3, 4, 1, 2], [4, 2, 1, 3]]
+
+After 1 Iterations we have: [[2, 1, 3, 4], [2, 1, 4, 3], [2, 3, 1, 4], [2, 3, 4, 1], [2, 4, 1, 3], [2, 4, 3, 1], [3, 2, 1, 4], [3, 2, 4, 1], [3, 4, 2, 1], [4, 2, 1, 3], [4, 2, 3, 1], [4, 3, 2, 1]]
+
+After 2 Iterations we have: [[2, 3, 4, 1], [2, 4, 3, 1]]
+
+After 3 Iterations we have: [[2, 3, 4, 1], [2, 4, 3, 1]]
+
+After 4 Iterations we have: [[2, 3, 4, 1], [2, 4, 3, 1]]
+
+After 5 Iterations we have: [[2, 3, 4, 1], [2, 4, 3, 1]]
+
+After 6 Iterations we have: [[2, 3, 4, 1], [2, 4, 3, 1]]
+
+Starting point: [[1, 2, 4, 3], [3, 2, 1, 4], [3, 1, 4, 2], [4, 3, 1, 2]]
+
+After 1 Iterations we have: [[3, 1, 2, 4], [3, 1, 4, 2]]
+
+After 2 Iterations we have: [[3, 1, 2, 4], [3, 1, 4, 2]]
+
+After 3 Iterations we have: [[3, 1, 2, 4], [3, 1, 4, 2]]
+
+After 4 Iterations we have: [[3, 1, 2, 4], [3, 1, 4, 2]]
+
+After 5 Iterations we have: [[3, 1, 2, 4], [3, 1, 4, 2]]
+
+After 6 Iterations we have: [[3, 1, 2, 4], [3, 1, 4, 2]]
+
+Starting point: [[2, 1, 4, 3], [2, 4, 3, 1], [2, 4, 1, 3], [3, 1, 2, 4]]
+
+After 1 Iterations we have: [[2, 1, 4, 3], [2, 4, 1, 3], [2, 4, 3, 1]]
+
+After 2 Iterations we have: [[2, 4, 1, 3]]
+
+Starting point: [[2, 3, 4, 1], [3, 4, 2, 1], [4, 2, 1, 3], [4, 1, 2, 3]]
+
+After 1 Iterations we have: [[4, 2, 1, 3], [4, 2, 3, 1]]
+
+After 2 Iterations we have: [[4, 2, 1, 3], [4, 2, 3, 1]]
+
+After 3 Iterations we have: [[4, 2, 1, 3], [4, 2, 3, 1]]
+
+After 4 Iterations we have: [[4, 2, 1, 3], [4, 2, 3, 1]]
+
+After 5 Iterations we have: [[4, 2, 1, 3], [4, 2, 3, 1]]
+
+After 6 Iterations we have: [[4, 2, 1, 3], [4, 2, 3, 1]]
+
+Starting point: [[1, 2, 3, 4], [2, 3, 1, 4], [3, 2, 4, 1], [3, 4, 1, 2]]
+
+After 1 Iterations we have: [[2, 3, 1, 4], [2, 3, 4, 1], [3, 1, 2, 4], [3, 2, 1, 4], [3, 2, 4, 1]]
+
+After 2 Iterations we have: [[3, 2, 1, 4]]
+
+Starting point: [[1, 2, 4, 3], [1, 4, 3, 2], [4, 2, 1, 3], [4, 3, 1, 2]]
+
+After 1 Iterations we have: [[1, 4, 2, 3], [1, 4, 3, 2], [4, 1, 2, 3], [4, 1, 3, 2]]
+
+After 2 Iterations we have: [[1, 4, 2, 3], [1, 4, 3, 2], [4, 1, 2, 3], [4, 1, 3, 2]]
+
+After 3 Iterations we have: [[1, 4, 2, 3], [1, 4, 3, 2], [4, 1, 2, 3], [4, 1, 3, 2]]
+
+After 4 Iterations we have: [[1, 4, 2, 3], [1, 4, 3, 2], [4, 1, 2, 3], [4, 1, 3, 2]]
+
+After 5 Iterations we have: [[1, 4, 2, 3], [1, 4, 3, 2], [4, 1, 2, 3], [4, 1, 3, 2]]
+
+After 6 Iterations we have: [[1, 4, 2, 3], [1, 4, 3, 2], [4, 1, 2, 3], [4, 1, 3, 2]]
+
+Starting point: [[1, 3, 2, 4], [2, 3, 4, 1], [4, 2, 1, 3], [4, 1, 2, 3]]
+
+After 1 Iterations we have: [[2, 4, 1, 3], [4, 1, 2, 3], [4, 2, 1, 3]]
+
+After 2 Iterations we have: [[4, 2, 1, 3]]
+
+Starting point: [[1, 2, 3, 4], [1, 3, 4, 2], [2, 4, 3, 1], [3, 2, 1, 4]]
+
+After 1 Iterations we have: [[1, 2, 3, 4], [1, 3, 2, 4], [2, 1, 3, 4], [2, 3, 1, 4], [3, 1, 2, 4], [3, 2, 1, 4]]
+
+After 2 Iterations we have: [[1, 2, 3, 4], [1, 3, 2, 4], [2, 1, 3, 4], [2, 3, 1, 4], [3, 1, 2, 4], [3, 2, 1, 4]]
+
+After 3 Iterations we have: [[1, 2, 3, 4], [1, 3, 2, 4], [2, 1, 3, 4], [2, 3, 1, 4], [3, 1, 2, 4], [3, 2, 1, 4]]
+
+After 4 Iterations we have: [[1, 2, 3, 4], [1, 3, 2, 4], [2, 1, 3, 4], [2, 3, 1, 4], [3, 1, 2, 4], [3, 2, 1, 4]]
+
+After 5 Iterations we have: [[1, 2, 3, 4], [1, 3, 2, 4], [2, 1, 3, 4], [2, 3, 1, 4], [3, 1, 2, 4], [3, 2, 1, 4]]
+
+After 6 Iterations we have: [[1, 2, 3, 4], [1, 3, 2, 4], [2, 1, 3, 4], [2, 3, 1, 4], [3, 1, 2, 4], [3, 2, 1, 4]]
+
+Starting point: [[1, 3, 2, 4], [2, 4, 3, 1], [3, 2, 1, 4], [4, 1, 2, 3]]
+
+After 1 Iterations we have: [[1, 2, 3, 4], [1, 2, 4, 3], [1, 3, 2, 4], [2, 1, 3, 4], [2, 1, 4, 3], [2, 3, 1, 4], [2, 3, 4, 1], [2, 4, 1, 3], [2, 4, 3, 1], [3, 1, 2, 4], [3, 2, 1, 4], [3, 2, 4, 1]]
+
+After 2 Iterations we have: [[2, 1, 3, 4], [2, 3, 1, 4]]
+
+After 3 Iterations we have: [[2, 1, 3, 4], [2, 3, 1, 4]]
+
+After 4 Iterations we have: [[2, 1, 3, 4], [2, 3, 1, 4]]
+
+After 5 Iterations we have: [[2, 1, 3, 4], [2, 3, 1, 4]]
+
+After 6 Iterations we have: [[2, 1, 3, 4], [2, 3, 1, 4]]
+
+Starting point: [[1, 4, 3, 2], [2, 1, 3, 4], [3, 4, 1, 2], [4, 2, 1, 3]]
+
+After 1 Iterations we have: [[1, 3, 4, 2], [1, 4, 2, 3], [1, 4, 3, 2], [4, 1, 2, 3], [4, 1, 3, 2], [4, 2, 1, 3]]
+
+After 2 Iterations we have: [[1, 4, 2, 3], [1, 4, 3, 2], [4, 1, 2, 3], [4, 1, 3, 2]]
+
+After 3 Iterations we have: [[1, 4, 2, 3], [1, 4, 3, 2], [4, 1, 2, 3], [4, 1, 3, 2]]
+
+After 4 Iterations we have: [[1, 4, 2, 3], [1, 4, 3, 2], [4, 1, 2, 3], [4, 1, 3, 2]]
+
+After 5 Iterations we have: [[1, 4, 2, 3], [1, 4, 3, 2], [4, 1, 2, 3], [4, 1, 3, 2]]
+
+After 6 Iterations we have: [[1, 4, 2, 3], [1, 4, 3, 2], [4, 1, 2, 3], [4, 1, 3, 2]]
+
+Starting point: [[2, 1, 4, 3], [3, 1, 4, 2], [3, 4, 1, 2], [4, 2, 3, 1]]
+
+After 1 Iterations we have: [[3, 1, 4, 2], [3, 4, 1, 2], [3, 4, 2, 1], [4, 2, 3, 1], [4, 3, 1, 2], [4, 3, 2, 1]]
+
+After 2 Iterations we have: [[3, 4, 1, 2], [3, 4, 2, 1], [4, 3, 1, 2], [4, 3, 2, 1]]
+
+After 3 Iterations we have: [[3, 4, 1, 2], [3, 4, 2, 1], [4, 3, 1, 2], [4, 3, 2, 1]]
+
+After 4 Iterations we have: [[3, 4, 1, 2], [3, 4, 2, 1], [4, 3, 1, 2], [4, 3, 2, 1]]
+
+After 5 Iterations we have: [[3, 4, 1, 2], [3, 4, 2, 1], [4, 3, 1, 2], [4, 3, 2, 1]]
+
+After 6 Iterations we have: [[3, 4, 1, 2], [3, 4, 2, 1], [4, 3, 1, 2], [4, 3, 2, 1]]
+
+Starting point: [[2, 1, 3, 4], [2, 1, 4, 3], [3, 1, 2, 4], [4, 1, 2, 3]]
+
+After 1 Iterations we have: [[1, 2, 3, 4], [1, 2, 4, 3], [2, 1, 3, 4], [2, 1, 4, 3]]
+
+After 2 Iterations we have: [[1, 2, 3, 4], [1, 2, 4, 3], [2, 1, 3, 4], [2, 1, 4, 3]]
+
+After 3 Iterations we have: [[1, 2, 3, 4], [1, 2, 4, 3], [2, 1, 3, 4], [2, 1, 4, 3]]
+
+After 4 Iterations we have: [[1, 2, 3, 4], [1, 2, 4, 3], [2, 1, 3, 4], [2, 1, 4, 3]]
+
+After 5 Iterations we have: [[1, 2, 3, 4], [1, 2, 4, 3], [2, 1, 3, 4], [2, 1, 4, 3]]
+
+After 6 Iterations we have: [[1, 2, 3, 4], [1, 2, 4, 3], [2, 1, 3, 4], [2, 1, 4, 3]]
+
+Starting point: [[1, 3, 4, 2], [1, 4, 3, 2], [4, 2, 3, 1], [4, 1, 3, 2]]
+
+After 1 Iterations we have: [[1, 4, 3, 2], [4, 1, 3, 2]]
+
+After 2 Iterations we have: [[1, 4, 3, 2], [4, 1, 3, 2]]
+
+After 3 Iterations we have: [[1, 4, 3, 2], [4, 1, 3, 2]]
+
+After 4 Iterations we have: [[1, 4, 3, 2], [4, 1, 3, 2]]
+
+After 5 Iterations we have: [[1, 4, 3, 2], [4, 1, 3, 2]]
+
+After 6 Iterations we have: [[1, 4, 3, 2], [4, 1, 3, 2]]
+
+Starting point: [[2, 4, 1, 3], [3, 1, 4, 2], [3, 4, 1, 2], [4, 1, 3, 2]]
+
+After 1 Iterations we have: [[3, 4, 1, 2], [4, 1, 3, 2], [4, 3, 1, 2]]
+
+After 2 Iterations we have: [[4, 3, 1, 2]]
+
+Starting point: [[2, 1, 3, 4], [2, 4, 1, 3], [3, 1, 2, 4], [4, 2, 1, 3]]
+
+After 1 Iterations we have: [[2, 1, 3, 4], [2, 1, 4, 3], [2, 4, 1, 3]]
+
+After 2 Iterations we have: [[2, 1, 4, 3]]
+
+Starting point: [[1, 3, 2, 4], [1, 4, 2, 3], [3, 1, 2, 4], [4, 3, 2, 1]]
+
+After 1 Iterations we have: [[1, 3, 2, 4], [1, 3, 4, 2], [1, 4, 3, 2], [3, 1, 2, 4], [3, 1, 4, 2]]
+
+After 2 Iterations we have: [[1, 3, 4, 2]]
+
+Starting point: [[1, 3, 2, 4], [2, 1, 4, 3], [2, 3, 1, 4], [4, 2, 1, 3]]
+
+After 1 Iterations we have: [[2, 1, 3, 4], [2, 1, 4, 3]]
+
+After 2 Iterations we have: [[2, 1, 3, 4], [2, 1, 4, 3]]
+
+After 3 Iterations we have: [[2, 1, 3, 4], [2, 1, 4, 3]]
+
+After 4 Iterations we have: [[2, 1, 3, 4], [2, 1, 4, 3]]
+
+After 5 Iterations we have: [[2, 1, 3, 4], [2, 1, 4, 3]]
+
+After 6 Iterations we have: [[2, 1, 3, 4], [2, 1, 4, 3]]
+
+Starting point: [[3, 2, 1, 4], [3, 2, 4, 1], [4, 3, 2, 1], [4, 3, 1, 2]]
+
+After 1 Iterations we have: [[3, 2, 4, 1], [3, 4, 2, 1], [4, 3, 2, 1]]
+
+After 2 Iterations we have: [[3, 4, 2, 1]]
+

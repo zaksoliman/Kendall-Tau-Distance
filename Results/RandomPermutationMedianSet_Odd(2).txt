@@ -1,0 +1,369 @@
+0. **m=11 n=4
+
+A=[[1, 3, 2, 4], [1, 3, 4, 2], [1, 4, 3, 2], [1, 4, 2, 3], [2, 1, 4, 3], [2, 3, 4, 1], [2, 4, 3, 1], [3, 1, 4, 2], [3, 4, 1, 2], [4, 2, 1, 3], [4, 1, 3, 2]]
+B=[[1, 2, 4, 3], [1, 3, 4, 2], [1, 4, 3, 2], [2, 1, 3, 4], [2, 1, 4, 3], [2, 3, 1, 4], [3, 2, 1, 4], [3, 2, 4, 1], [4, 2, 3, 1], [4, 2, 1, 3], [4, 1, 2, 3]]
+AUB=[[1, 3, 2, 4], [1, 3, 4, 2], [1, 4, 3, 2], [1, 4, 2, 3], [2, 1, 4, 3], [2, 3, 4, 1], [2, 4, 3, 1], [3, 1, 4, 2], [3, 4, 1, 2], [4, 2, 1, 3], [4, 1, 3, 2], [1, 2, 4, 3], [2, 1, 3, 4], [2, 3, 1, 4], [3, 2, 1, 4], [3, 2, 4, 1], [4, 2, 3, 1], [4, 1, 2, 3]]
+
+M(A)=[[1, 4, 3, 2]],D_kt(M(A),A)=27,#=1
+M(B)=[[2, 1, 4, 3]],D_kt(M(B),B)=26,#=1
+M(AUB)=[[1, 2, 3, 4], [1, 2, 4, 3], [1, 4, 2, 3], [2, 1, 3, 4], [2, 1, 4, 3]],D_kt(U)=51,#=5
+M(A)M(B)=[]
+Distances between permutations of M(AUB) and A
+D_kt(p'[0],A)=32
+D_kt(p'[1],A)=31
+D_kt(p'[2],A)=28
+D_kt(p'[3],A)=35
+D_kt(p'[4],A)=34
+Distances between permutations of M(AUB) and B
+D_kt(p'[0],B)=30
+D_kt(p'[1],B)=29
+D_kt(p'[2],B)=30
+D_kt(p'[3],B)=27
+D_kt(p'[4],B)=26
+
+
+M(AUB) has 2 permutation in common with A
+M(AUB)A =[[1, 4, 2, 3], [2, 1, 4, 3]]
+M(AUB) has 3 permutation in common with B
+M(AUB)B =[[1, 2, 4, 3], [2, 1, 3, 4], [2, 1, 4, 3]]
+
+Distances between permutations of M(AUB)A and A
+D_kt(p[0],A)=28
+D_kt(p[1],A)=34
+
+
+Distances between permutations of M(AUB)B and B
+D_kt(p[0],B)=29
+D_kt(p[1],B)=27
+D_kt(p[2],B)=26
+
+
+M(AUB) has 0 permutation in common with M(A)
+M(AUB)M(A) =[]
+M(AUB) has 1 permutation in common with M(B)
+M(AUB)M(B) =[[2, 1, 4, 3]]
+
+1. **m=11 n=4
+
+A=[[1, 2, 3, 4], [1, 2, 4, 3], [1, 3, 2, 4], [1, 4, 3, 2], [1, 4, 2, 3], [2, 4, 3, 1], [3, 2, 1, 4], [3, 1, 2, 4], [3, 4, 1, 2], [4, 2, 1, 3], [4, 3, 2, 1]]
+B=[[1, 3, 2, 4], [1, 3, 4, 2], [1, 4, 2, 3], [2, 4, 3, 1], [3, 1, 2, 4], [3, 1, 4, 2], [3, 4, 1, 2], [3, 4, 2, 1], [4, 2, 1, 3], [4, 3, 2, 1], [4, 1, 3, 2]]
+AUB=[[1, 2, 3, 4], [1, 2, 4, 3], [1, 3, 2, 4], [1, 4, 3, 2], [1, 4, 2, 3], [2, 4, 3, 1], [3, 2, 1, 4], [3, 1, 2, 4], [3, 4, 1, 2], [4, 2, 1, 3], [4, 3, 2, 1], [1, 3, 4, 2], [3, 1, 4, 2], [3, 4, 2, 1], [4, 1, 3, 2]]
+
+M(A)=[[1, 2, 4, 3], [1, 3, 2, 4], [1, 4, 3, 2]],D_kt(M(A),A)=29,#=3
+M(B)=[[3, 4, 1, 2]],D_kt(M(B),B)=25,#=1
+M(AUB)=[[1, 3, 4, 2]],D_kt(U)=36,#=1
+M(A)M(B)=[]
+Distances between permutations of M(AUB) and A
+D_kt(p'[0],A)=30
+Distances between permutations of M(AUB) and B
+D_kt(p'[0],B)=27
+
+
+M(AUB) has 0 permutation in common with A
+M(AUB)A =[]
+M(AUB) has 1 permutation in common with B
+M(AUB)B =[[1, 3, 4, 2]]
+
+Distances between permutations of M(AUB)A and A
+
+
+Distances between permutations of M(AUB)B and B
+D_kt(p[0],B)=27
+
+
+M(AUB) has 0 permutation in common with M(A)
+M(AUB)M(A) =[]
+M(AUB) has 0 permutation in common with M(B)
+M(AUB)M(B) =[]
+
+2. **m=7 n=4
+
+A=[[1, 3, 2, 4], [1, 4, 2, 3], [2, 3, 1, 4], [2, 4, 3, 1], [2, 4, 1, 3], [3, 4, 1, 2], [4, 1, 2, 3]]
+B=[[1, 2, 4, 3], [1, 4, 2, 3], [2, 1, 4, 3], [2, 4, 1, 3], [3, 2, 4, 1], [3, 1, 2, 4], [3, 4, 1, 2]]
+AUB=[[1, 3, 2, 4], [1, 4, 2, 3], [2, 3, 1, 4], [2, 4, 3, 1], [2, 4, 1, 3], [3, 4, 1, 2], [4, 1, 2, 3], [1, 2, 4, 3], [2, 1, 4, 3], [3, 2, 4, 1], [3, 1, 2, 4]]
+
+M(A)=[[1, 2, 4, 3], [2, 4, 1, 3], [4, 1, 2, 3]],D_kt(M(A),A)=18,#=3
+M(B)=[[1, 2, 4, 3]],D_kt(M(B),B)=17,#=1
+M(AUB)=[[1, 2, 4, 3]],D_kt(U)=27,#=1
+M(A)M(B)=[[1, 2, 4, 3]]
+Distances between permutations of M(AUB) and A
+D_kt(p'[0],A)=18
+Distances between permutations of M(AUB) and B
+D_kt(p'[0],B)=17
+
+
+M(AUB) has 0 permutation in common with A
+M(AUB)A =[]
+M(AUB) has 1 permutation in common with B
+M(AUB)B =[[1, 2, 4, 3]]
+
+Distances between permutations of M(AUB)A and A
+
+
+Distances between permutations of M(AUB)B and B
+D_kt(p[0],B)=17
+
+
+M(AUB) has 1 permutation in common with M(A)
+M(AUB)M(A) =[[1, 2, 4, 3]]
+M(AUB) has 1 permutation in common with M(B)
+M(AUB)M(B) =[[1, 2, 4, 3]]
+
+3. **m=3 n=4
+
+A=[[1, 3, 2, 4], [3, 1, 4, 2], [4, 3, 2, 1]]
+B=[[2, 1, 4, 3], [2, 3, 1, 4], [3, 4, 2, 1]]
+AUB=[[1, 3, 2, 4], [3, 1, 4, 2], [4, 3, 2, 1], [2, 1, 4, 3], [2, 3, 1, 4], [3, 4, 2, 1]]
+
+M(A)=[[3, 1, 4, 2]],D_kt(M(A),A)=5,#=1
+M(B)=[[2, 3, 1, 4]],D_kt(M(B),B)=5,#=1
+M(AUB)=[[3, 2, 1, 4]],D_kt(U)=13,#=1
+M(A)M(B)=[]
+Distances between permutations of M(AUB) and A
+D_kt(p'[0],A)=7
+Distances between permutations of M(AUB) and B
+D_kt(p'[0],B)=6
+
+
+M(AUB) has 0 permutation in common with A
+M(AUB)A =[]
+M(AUB) has 0 permutation in common with B
+M(AUB)B =[]
+
+Distances between permutations of M(AUB)A and A
+
+
+Distances between permutations of M(AUB)B and B
+
+
+M(AUB) has 0 permutation in common with M(A)
+M(AUB)M(A) =[]
+M(AUB) has 0 permutation in common with M(B)
+M(AUB)M(B) =[]
+
+4. **m=11 n=4
+
+A=[[1, 2, 4, 3], [2, 1, 3, 4], [2, 1, 4, 3], [2, 3, 1, 4], [2, 3, 4, 1], [2, 4, 3, 1], [3, 2, 1, 4], [3, 2, 4, 1], [3, 1, 2, 4], [4, 2, 1, 3], [4, 3, 2, 1]]
+B=[[1, 2, 3, 4], [1, 2, 4, 3], [1, 3, 2, 4], [1, 4, 2, 3], [2, 1, 3, 4], [2, 3, 1, 4], [3, 2, 1, 4], [3, 1, 2, 4], [3, 1, 4, 2], [3, 4, 2, 1], [4, 2, 1, 3]]
+AUB=[[1, 2, 4, 3], [2, 1, 3, 4], [2, 1, 4, 3], [2, 3, 1, 4], [2, 3, 4, 1], [2, 4, 3, 1], [3, 2, 1, 4], [3, 2, 4, 1], [3, 1, 2, 4], [4, 2, 1, 3], [4, 3, 2, 1], [1, 2, 3, 4], [1, 3, 2, 4], [1, 4, 2, 3], [3, 1, 4, 2], [3, 4, 2, 1]]
+
+M(A)=[[2, 3, 1, 4]],D_kt(M(A),A)=22,#=1
+M(B)=[[1, 2, 3, 4]],D_kt(M(B),B)=24,#=1
+M(AUB)=[[2, 3, 1, 4]],D_kt(U)=37,#=1
+M(A)M(B)=[]
+Distances between permutations of M(AUB) and A
+D_kt(p'[0],A)=22
+Distances between permutations of M(AUB) and B
+D_kt(p'[0],B)=26
+
+
+M(AUB) has 1 permutation in common with A
+M(AUB)A =[[2, 3, 1, 4]]
+M(AUB) has 1 permutation in common with B
+M(AUB)B =[[2, 3, 1, 4]]
+
+Distances between permutations of M(AUB)A and A
+D_kt(p[0],A)=22
+
+
+Distances between permutations of M(AUB)B and B
+D_kt(p[0],B)=26
+
+
+M(AUB) has 1 permutation in common with M(A)
+M(AUB)M(A) =[[2, 3, 1, 4]]
+M(AUB) has 0 permutation in common with M(B)
+M(AUB)M(B) =[]
+
+5. **m=5 n=4
+
+A=[[1, 4, 2, 3], [2, 4, 1, 3], [3, 1, 4, 2], [4, 3, 2, 1], [4, 3, 1, 2]]
+B=[[1, 4, 3, 2], [2, 1, 4, 3], [3, 1, 4, 2], [3, 4, 1, 2], [4, 1, 3, 2]]
+AUB=[[1, 4, 2, 3], [2, 4, 1, 3], [3, 1, 4, 2], [4, 3, 2, 1], [4, 3, 1, 2], [1, 4, 3, 2], [2, 1, 4, 3], [3, 4, 1, 2], [4, 1, 3, 2]]
+
+M(A)=[[4, 3, 1, 2]],D_kt(M(A),A)=10,#=1
+M(B)=[[1, 4, 3, 2]],D_kt(M(B),B)=9,#=1
+M(AUB)=[[4, 1, 3, 2]],D_kt(U)=18,#=1
+M(A)M(B)=[]
+Distances between permutations of M(AUB) and A
+D_kt(p'[0],A)=11
+Distances between permutations of M(AUB) and B
+D_kt(p'[0],B)=10
+
+
+M(AUB) has 0 permutation in common with A
+M(AUB)A =[]
+M(AUB) has 1 permutation in common with B
+M(AUB)B =[[4, 1, 3, 2]]
+
+Distances between permutations of M(AUB)A and A
+
+
+Distances between permutations of M(AUB)B and B
+D_kt(p[0],B)=10
+
+
+M(AUB) has 0 permutation in common with M(A)
+M(AUB)M(A) =[]
+M(AUB) has 0 permutation in common with M(B)
+M(AUB)M(B) =[]
+
+6. **m=1 n=4
+
+A=[[1, 3, 2, 4]]
+B=[[4, 3, 2, 1]]
+AUB=[[1, 3, 2, 4], [4, 3, 2, 1]]
+
+M(A)=[[1, 3, 2, 4]],D_kt(M(A),A)=0,#=1
+M(B)=[[4, 3, 2, 1]],D_kt(M(B),B)=0,#=1
+M(AUB)=[[1, 3, 2, 4], [1, 3, 4, 2], [1, 4, 3, 2], [3, 1, 2, 4], [3, 1, 4, 2], [3, 2, 1, 4], [3, 2, 4, 1], [3, 4, 1, 2], [3, 4, 2, 1], [4, 1, 3, 2], [4, 3, 1, 2], [4, 3, 2, 1]],D_kt(U)=5,#=12
+M(A)M(B)=[]
+Distances between permutations of M(AUB) and A
+D_kt(p'[0],A)=0
+D_kt(p'[1],A)=1
+D_kt(p'[2],A)=2
+D_kt(p'[3],A)=1
+D_kt(p'[4],A)=2
+D_kt(p'[5],A)=2
+D_kt(p'[6],A)=3
+D_kt(p'[7],A)=3
+D_kt(p'[8],A)=4
+D_kt(p'[9],A)=3
+D_kt(p'[10],A)=4
+D_kt(p'[11],A)=5
+Distances between permutations of M(AUB) and B
+D_kt(p'[0],B)=5
+D_kt(p'[1],B)=4
+D_kt(p'[2],B)=3
+D_kt(p'[3],B)=4
+D_kt(p'[4],B)=3
+D_kt(p'[5],B)=3
+D_kt(p'[6],B)=2
+D_kt(p'[7],B)=2
+D_kt(p'[8],B)=1
+D_kt(p'[9],B)=2
+D_kt(p'[10],B)=1
+D_kt(p'[11],B)=0
+
+
+M(AUB) has 1 permutation in common with A
+M(AUB)A =[[1, 3, 2, 4]]
+M(AUB) has 1 permutation in common with B
+M(AUB)B =[[4, 3, 2, 1]]
+
+Distances between permutations of M(AUB)A and A
+D_kt(p[0],A)=0
+
+
+Distances between permutations of M(AUB)B and B
+D_kt(p[0],B)=0
+
+
+M(AUB) has 1 permutation in common with M(A)
+M(AUB)M(A) =[[1, 3, 2, 4]]
+M(AUB) has 1 permutation in common with M(B)
+M(AUB)M(B) =[[4, 3, 2, 1]]
+
+7. **m=9 n=4
+
+A=[[1, 2, 3, 4], [1, 3, 4, 2], [2, 1, 3, 4], [2, 3, 1, 4], [2, 3, 4, 1], [2, 4, 1, 3], [3, 1, 4, 2], [4, 3, 1, 2], [4, 1, 2, 3]]
+B=[[1, 3, 2, 4], [1, 3, 4, 2], [2, 4, 3, 1], [2, 4, 1, 3], [3, 2, 1, 4], [3, 2, 4, 1], [3, 1, 2, 4], [4, 3, 1, 2], [4, 1, 3, 2]]
+AUB=[[1, 2, 3, 4], [1, 3, 4, 2], [2, 1, 3, 4], [2, 3, 1, 4], [2, 3, 4, 1], [2, 4, 1, 3], [3, 1, 4, 2], [4, 3, 1, 2], [4, 1, 2, 3], [1, 3, 2, 4], [2, 4, 3, 1], [3, 2, 1, 4], [3, 2, 4, 1], [3, 1, 2, 4], [4, 1, 3, 2]]
+
+M(A)=[[1, 2, 3, 4]],D_kt(M(A),A)=22,#=1
+M(B)=[[3, 1, 2, 4], [3, 2, 4, 1]],D_kt(M(B),B)=22,#=2
+M(AUB)=[[3, 1, 2, 4]],D_kt(U)=38,#=1
+M(A)M(B)=[]
+Distances between permutations of M(AUB) and A
+D_kt(p'[0],A)=26
+Distances between permutations of M(AUB) and B
+D_kt(p'[0],B)=22
+
+
+M(AUB) has 0 permutation in common with A
+M(AUB)A =[]
+M(AUB) has 1 permutation in common with B
+M(AUB)B =[[3, 1, 2, 4]]
+
+Distances between permutations of M(AUB)A and A
+
+
+Distances between permutations of M(AUB)B and B
+D_kt(p[0],B)=22
+
+
+M(AUB) has 0 permutation in common with M(A)
+M(AUB)M(A) =[]
+M(AUB) has 1 permutation in common with M(B)
+M(AUB)M(B) =[[3, 1, 2, 4]]
+
+8. **m=11 n=4
+
+A=[[1, 3, 2, 4], [1, 3, 4, 2], [1, 4, 2, 3], [2, 1, 3, 4], [2, 3, 4, 1], [3, 2, 4, 1], [3, 1, 2, 4], [3, 1, 4, 2], [3, 4, 2, 1], [4, 2, 1, 3], [4, 1, 3, 2]]
+B=[[1, 2, 3, 4], [1, 2, 4, 3], [1, 3, 2, 4], [1, 3, 4, 2], [3, 1, 2, 4], [3, 4, 1, 2], [3, 4, 2, 1], [4, 3, 2, 1], [4, 3, 1, 2], [4, 1, 3, 2], [4, 1, 2, 3]]
+AUB=[[1, 3, 2, 4], [1, 3, 4, 2], [1, 4, 2, 3], [2, 1, 3, 4], [2, 3, 4, 1], [3, 2, 4, 1], [3, 1, 2, 4], [3, 1, 4, 2], [3, 4, 2, 1], [4, 2, 1, 3], [4, 1, 3, 2], [1, 2, 3, 4], [1, 2, 4, 3], [3, 4, 1, 2], [4, 3, 2, 1], [4, 3, 1, 2], [4, 1, 2, 3]]
+
+M(A)=[[1, 3, 4, 2]],D_kt(M(A),A)=27,#=1
+M(B)=[[1, 3, 4, 2], [3, 4, 1, 2], [4, 1, 3, 2]],D_kt(M(B),B)=25,#=3
+M(AUB)=[[1, 3, 4, 2], [3, 4, 1, 2]],D_kt(U)=44,#=2
+M(A)M(B)=[[1, 3, 4, 2]]
+Distances between permutations of M(AUB) and A
+D_kt(p'[0],A)=27
+D_kt(p'[1],A)=29
+Distances between permutations of M(AUB) and B
+D_kt(p'[0],B)=25
+D_kt(p'[1],B)=25
+
+
+M(AUB) has 1 permutation in common with A
+M(AUB)A =[[1, 3, 4, 2]]
+M(AUB) has 2 permutation in common with B
+M(AUB)B =[[1, 3, 4, 2], [3, 4, 1, 2]]
+
+Distances between permutations of M(AUB)A and A
+D_kt(p[0],A)=27
+
+
+Distances between permutations of M(AUB)B and B
+D_kt(p[0],B)=25
+D_kt(p[1],B)=25
+
+
+M(AUB) has 1 permutation in common with M(A)
+M(AUB)M(A) =[[1, 3, 4, 2]]
+M(AUB) has 2 permutation in common with M(B)
+M(AUB)M(B) =[[1, 3, 4, 2], [3, 4, 1, 2]]
+
+9. **m=5 n=4
+
+A=[[1, 4, 3, 2], [2, 1, 4, 3], [4, 2, 3, 1], [4, 1, 3, 2], [4, 1, 2, 3]]
+B=[[1, 3, 4, 2], [3, 2, 1, 4], [3, 2, 4, 1], [3, 1, 4, 2], [4, 2, 3, 1]]
+AUB=[[1, 4, 3, 2], [2, 1, 4, 3], [4, 2, 3, 1], [4, 1, 3, 2], [4, 1, 2, 3], [1, 3, 4, 2], [3, 2, 1, 4], [3, 2, 4, 1], [3, 1, 4, 2]]
+
+M(A)=[[4, 1, 2, 3]],D_kt(M(A),A)=8,#=1
+M(B)=[[3, 1, 4, 2], [3, 2, 1, 4], [3, 4, 2, 1]],D_kt(M(B),B)=10,#=3
+M(AUB)=[[1, 4, 3, 2]],D_kt(U)=22,#=1
+M(A)M(B)=[]
+Distances between permutations of M(AUB) and A
+D_kt(p'[0],A)=10
+Distances between permutations of M(AUB) and B
+D_kt(p'[0],B)=16
+
+
+M(AUB) has 1 permutation in common with A
+M(AUB)A =[[1, 4, 3, 2]]
+M(AUB) has 0 permutation in common with B
+M(AUB)B =[]
+
+Distances between permutations of M(AUB)A and A
+D_kt(p[0],A)=10
+
+
+Distances between permutations of M(AUB)B and B
+
+
+M(AUB) has 0 permutation in common with M(A)
+M(AUB)M(A) =[]
+M(AUB) has 0 permutation in common with M(B)
+M(AUB)M(B) =[]
+
