@@ -64,7 +64,6 @@ def buildConstraints(permSet):
                 elem_left[j].add[i]
     return elem_left, elem_right
 
-
 #Builds and returns the initial instances from which we start building our
 #solution
 def buildInitialInstances(left):
@@ -82,7 +81,11 @@ def buildInitialInstances(left):
             #Continue adding elements to the partial solution until its no longer possible
             done = False
             while(!done):
+                lastElementAdded = partialSol[len(partialSol)-1]
+                done = True
 
+                for s in left:
+                    if (len(s) == 1) and (lastElementAdded in s):
 
 #Finds the median by starting from the given initial solution set
 def findMedBT(potentialSolution):
