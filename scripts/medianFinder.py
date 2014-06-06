@@ -10,6 +10,7 @@ dist_KT = float('inf')
 #Holds the size of the permutations
 permSize = 0
 
+
 def inversePermutation(permutation):
     inverse = list(range(len(permutation)))
 
@@ -67,9 +68,10 @@ def buildConstraints(permSet):
 #Builds and returns the initial instances from which we start building our
 #solution
 def buildInitialInstances(left):
-    size = len(left)
 
+    size = len(left)
     partialSol = []
+    initialInstances=[]
 
     #Find (if it exists) the element that will be the first element of a median
     for i in range(1,size):
@@ -77,6 +79,8 @@ def buildInitialInstances(left):
         if len(left[i]) == 0:
             #We found the first element of a median
             partialSol.append(i)
+
+            #We start constructing this initial instance
 
             #Continue adding elements to the partial solution until its no longer possible
             done = False
@@ -86,6 +90,14 @@ def buildInitialInstances(left):
 
                 for s in left:
                     if (len(s) == 1) and (lastElementAdded in s):
+                        partialSol.append(left.index(s))
+                        done=False
+                        break
+
+            initialInstances.append(partialSol[:])
+            del partialSol[:]
+
+    return initialInstances
 
 #Finds the median by starting from the given initial solution set
 def findMedBT(potentialSolution):
@@ -111,8 +123,10 @@ def findMedBT(potentialSolution):
     #CASE 2: Check if the current partial solution is valid
     #TODO
 
-#Loops through all the inital solutions and calls findMedBT
 def findMedian():
+
+    """Loops through all the inital solutions and calls findMedBT"""
+
     startingInstances = getInitialInstances()
     for potentialSolution in startingInstances:
         findMedBT(potentialSolution)
