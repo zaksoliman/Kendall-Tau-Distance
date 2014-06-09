@@ -1,25 +1,25 @@
 For a permutation of length 3
 
-[1, 2, 3], [1, 3, 2], [2, 1, 3]	Brute force: [[1, 2, 3]], distance: 2 Number of medians: 1
-[1, 2, 3], [1, 3, 2], [2, 3, 1]	Brute force: [[1, 2, 3]], distance: 3 Number of medians: 1
-[1, 2, 3], [1, 3, 2], [3, 1, 2]	Brute force: [[1, 3, 2]], distance: 2 Number of medians: 1
-[1, 2, 3], [1, 3, 2], [3, 2, 1]	Brute force: [[1, 3, 2]], distance: 3 Number of medians: 1
-[1, 2, 3], [2, 1, 3], [2, 3, 1]	Brute force: [[2, 1, 3]], distance: 2 Number of medians: 1
-[1, 2, 3], [2, 1, 3], [3, 1, 2]	Brute force: [[1, 2, 3]], distance: 3 Number of medians: 1
-[1, 2, 3], [2, 1, 3], [3, 2, 1]	Brute force: [[2, 1, 3]], distance: 3 Number of medians: 1
-[1, 2, 3], [2, 3, 1], [3, 1, 2]	Brute force: [[2, 3, 1], [3, 1, 2], [1, 2, 3]], distance: 4 Number of medians: 3
-[1, 2, 3], [2, 3, 1], [3, 2, 1]	Brute force: [[2, 3, 1]], distance: 3 Number of medians: 1
-[1, 3, 2], [2, 1, 3], [2, 3, 1]	Brute force: [[2, 1, 3]], distance: 3 Number of medians: 1
-[1, 3, 2], [2, 1, 3], [3, 1, 2]	Brute force: [[1, 3, 2]], distance: 3 Number of medians: 1
-[1, 3, 2], [2, 1, 3], [3, 2, 1]	Brute force: [[3, 2, 1], [2, 1, 3], [1, 3, 2]], distance: 4 Number of medians: 3
-[1, 3, 2], [2, 3, 1], [3, 1, 2]	Brute force: [[3, 1, 2]], distance: 3 Number of medians: 1
-[1, 3, 2], [2, 3, 1], [3, 2, 1]	Brute force: [[3, 2, 1]], distance: 3 Number of medians: 1
-[2, 1, 3], [2, 3, 1], [3, 1, 2]	Brute force: [[2, 3, 1]], distance: 3 Number of medians: 1
-[2, 1, 3], [2, 3, 1], [3, 2, 1]	Brute force: [[2, 3, 1]], distance: 2 Number of medians: 1
-[1, 2, 3], [3, 2, 1], [3, 1, 2]	Brute force: [[3, 1, 2]], distance: 3 Number of medians: 1
-[1, 3, 2], [3, 2, 1], [3, 1, 2]	Brute force: [[3, 1, 2]], distance: 2 Number of medians: 1
-[2, 1, 3], [3, 2, 1], [3, 1, 2]	Brute force: [[3, 2, 1]], distance: 3 Number of medians: 1
-[2, 3, 1], [3, 2, 1], [3, 1, 2]	Brute force: [[3, 2, 1]], distance: 2 Number of medians: 1
+[1, 2, 3], [1, 3, 2], [2, 1, 3];[[1, 2, 3]];2
+[1, 2, 3], [1, 3, 2], [2, 3, 1];[[1, 2, 3]];3
+[1, 2, 3], [1, 3, 2], [3, 1, 2];[[1, 3, 2]];2
+[1, 2, 3], [1, 3, 2], [3, 2, 1];[[1, 3, 2]];3
+[1, 2, 3], [2, 1, 3], [2, 3, 1];[[2, 1, 3]];2
+[1, 2, 3], [2, 1, 3], [3, 1, 2];[[1, 2, 3]];3
+[1, 2, 3], [2, 1, 3], [3, 2, 1];[[2, 1, 3]];3
+[1, 2, 3], [2, 3, 1], [3, 1, 2];[[2, 3, 1], [3, 1, 2], [1, 2, 3]];4
+[1, 2, 3], [2, 3, 1], [3, 2, 1];[[2, 3, 1]];3
+[1, 3, 2], [2, 1, 3], [2, 3, 1];[[2, 1, 3]];3
+[1, 3, 2], [2, 1, 3], [3, 1, 2];[[1, 3, 2]];3
+[1, 3, 2], [2, 1, 3], [3, 2, 1];[[3, 2, 1], [2, 1, 3], [1, 3, 2]];4
+[1, 3, 2], [2, 3, 1], [3, 1, 2];[[3, 1, 2]];3
+[1, 3, 2], [2, 3, 1], [3, 2, 1];[[3, 2, 1]];3
+[2, 1, 3], [2, 3, 1], [3, 1, 2];[[2, 3, 1]];3
+[2, 1, 3], [2, 3, 1], [3, 2, 1];[[2, 3, 1]];2
+[1, 2, 3], [3, 2, 1], [3, 1, 2];[[3, 1, 2]];3
+[1, 3, 2], [3, 2, 1], [3, 1, 2];[[3, 1, 2]];2
+[2, 1, 3], [3, 2, 1], [3, 1, 2];[[3, 2, 1]];3
+[2, 3, 1], [3, 2, 1], [3, 1, 2];[[3, 2, 1]];2
 
 Maximun medians for 1 permutations is: 3
 Average number of medians: 1.0

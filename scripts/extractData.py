@@ -5,18 +5,16 @@ from os.path import join
 from re import sub
 
 
-def convertFile(filePath):
-    filePath = filePath
+def convertFile(directory, file_name):
+    filePath = join(directory, file_name)
     f = open(filePath)
     lines = f.readlines()
     f.close()
     f = open(filePath, 'w')
 
     for index, line in enumerate(lines):
-        if line.startswith('{'):
-            line = sub('(\d*)\[(\d*)\](\d*)', r'\2',line)
-            line = sub('{','[', line)
-            line = sub('}',']',line)
+        if line.startswith('['):
+            line = sub(r'(\[([\d, \[\]]*)\])[a-zA-Z\s:]*(\[\[[\d, \[\]]*\]\]), [\w]+: (\d)+[,\w: \d]+', r'\1;\3;\4',line)
             #replace old line with new line
             lines[index] = line
     #Now we write to the file
@@ -33,8 +31,5 @@ directory = "../Results/Big_Results"
 fileList =  listdir(directory)
 
 for f in fileList:
-    filePaths = join(directory, f)
-    #Get all the txt files
-    for a_file in filePaths:
-        print("Now visiting file: " + a_file)
-        convertFile(a_file)
+    print("Now visiting file: " + f)
+    convertFile(directory, f)
