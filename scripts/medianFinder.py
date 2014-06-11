@@ -30,7 +30,6 @@ class MedianFinder:
         self.buildInitialInstances()
 
     def buildConstraints(self):
-
         """ builds initial constraints from the given permutation set
 
         """
@@ -55,12 +54,12 @@ class MedianFinder:
                     self.elem_right[i].add(j)
                     #and i to the left of j
                     self.elem_left[j].add(i)
+        return
 
-       def buildInitialInstances(self):
+    def buildInitialInstances(self):
+        """ Builds and returns the initial instances from which we start building our solution
 
-           """ Builds and returns the initial instances from which we start building our solution
-
-           """
+        """
 
         size = len(self.elem_left)
         partialSol = []
@@ -93,7 +92,9 @@ class MedianFinder:
         return initialInstances
 
     def isValid(self, candidate):
+        """ Checks validity
 
+        """
         valid = True
 
         lastElement = 0
@@ -105,7 +106,7 @@ class MedianFinder:
                 valid = False
         return valid
 
-       def findMedBT(self, potentialSolution):
+    def findMedBT(self, potentialSolution):
         """"  Finds the median by starting from the given initial solution set
 
         """
@@ -118,7 +119,7 @@ class MedianFinder:
             #Check if it's a better solution
             if currentDist < self.dist_KT:
                 self.dist_KT = currentDist
-                self.solutions.clear()
+                del self.solutions[:]
                 self.solutions.append(list(potentialSolution))
                 return
             #Check if it is as good as the solutions we found
@@ -150,21 +151,22 @@ class MedianFinder:
                     potentialSolution.pop()
 
     def findMedian(self):
+        """ Loops through all the inital solutions and calls findMedBT
 
-        """Loops through all the inital solutions and calls findMedBT"""
+        """
 
         startingInstances = self.buildInitialInstances()
+
+        if not startingInstances:
+            startingInstances = [[]]
+
         for potentialSolution in startingInstances:
             self.findMedBT(potentialSolution)
 
 
-                ########
-                # MAIN #
-                ########
-
 if __name__ == '__main__':
 
-    permSet
+    permSet=[[9, 4, 8, 2, 3, 7, 5, 6, 13, 12, 11, 1, 10], [2, 3, 4, 1, 8, 6, 5, 7, 9, 11, 12, 10, 13], [4, 2, 3, 8, 1, 7, 9, 13, 5, 6, 11, 12, 10]] 
     mf = MedianFinder(permSet)
     mf.findMedian()
     print(mf.solutions)

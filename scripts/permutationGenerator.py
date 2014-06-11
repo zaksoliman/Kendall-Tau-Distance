@@ -1,19 +1,42 @@
 #! /usr/bin/env python3
 from math import factorial
-from random import shuffle, Random
+import random as rnd
 
-def perm_given_index(alist, apermindex):
-    alist = alist[:]
-    for i in range(len(alist)-1):
-        apermindex, j = divmod(apermindex, len(alist)-i)
-        alist[i], alist[i+j] = alist[i+j], alist[i]
-    return alist
+class PermutationGenerator:
 
-perm = list(range(1,13))
+    def __init__(self):
 
-indx = list(range(factorial(len(perm))))
+        rnd.seed(20)
 
-indx = shuffle(indx)
+    def generatePermutationsSet(self, numOfPermutations, size):
+        """ Generates a set of (num) permutations of size (size)
 
-for i in indx[:10]:
-    print(perm_given_index(perm, i))
+        """
+
+        permutation = list(range(1,size+1))
+
+        #rnd.seed(20)
+
+        #Randomly choose a number of inversions
+        inversions = rnd.randrange(0,50)
+
+        permSet = set()
+
+        while(len(permSet) < numOfPermutations):
+
+            for indx in range(inversions):
+                i = rnd.randrange(0,size-1)
+                permutation[i], permutation[i+1] = permutation[i+1], permutation[i]
+
+            permSet.add(tuple(permutation))
+
+        return [list(elem) for elem in permSet]
+
+if __name__ == '__main__':
+
+    ps = generatePermutationsSet(50, 13)
+
+    print('Set size = ', len(ps))
+
+    for s in ps:
+        print(s)

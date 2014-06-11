@@ -73,13 +73,13 @@ public class Tests
 		//ArrayList<Integer> permutation = new ArrayList<Integer>();
 		//permutation.addAll(Arrays.asList(new Integer[]{2, 8, 1, 7, 10, 5, 3, 6, 12, 13, 4, 11, 9}));
 		
-		//[[1, 5, 3, 9, 6, 2, 4, 8, 7], [6, 1, 8, 4, 9, 3, 7, 5, 2], [1, 9, 2, 8, 3, 6, 4, 7, 5]]
+		//[[4, 1, 3, 2], [4, 3, 2, 1], [1, 2, 3, 4], [2, 3, 1, 4]]
 
-		permutationSet.add(new ArrayList<Integer>(Arrays.asList(new Integer[]{1, 5, 3, 9, 6, 2, 4, 8, 7})));
-		permutationSet.add(new ArrayList<Integer>(Arrays.asList(new Integer[]{6, 1, 8, 4, 9, 3, 7, 5, 2})));
-		permutationSet.add(new ArrayList<Integer>(Arrays.asList(new Integer[]{1, 9, 2, 8, 3, 6, 4, 7, 5})));
-	/*	permutationSet.add(new ArrayList<Integer>(Arrays.asList(new Integer[]{6, 5, 1, 9, 11, 10, 13, 12, 2, 8, 3, 7, 4})));
-		permutationSet.add(new ArrayList<Integer>(Arrays.asList(new Integer[]{13, 11, 10, 1, 12, 2, 8, 3, 4, 6, 7, 5, 9})));*/
+		permutationSet.add(new ArrayList<Integer>(Arrays.asList(new Integer[]{4, 1, 3, 2})));
+		permutationSet.add(new ArrayList<Integer>(Arrays.asList(new Integer[]{4, 3, 2, 1})));
+		permutationSet.add(new ArrayList<Integer>(Arrays.asList(new Integer[]{1, 2, 3, 4})));
+		permutationSet.add(new ArrayList<Integer>(Arrays.asList(new Integer[]{2, 3, 1, 4})));
+	/*	permutationSet.add(new ArrayList<Integer>(Arrays.asList(new Integer[]{13, 11, 10, 1, 12, 2, 8, 3, 4, 6, 7, 5, 9})));*/
 /*		permutationSet.add(new ArrayList<Integer>(Arrays.asList(new Integer[]{8,7,10,12,11,9,2,3,4,1,13,6,5})));
 		permutationSet.add(new ArrayList<Integer>(Arrays.asList(new Integer[]{10,9,1,2,8,7,5,13,11,4,6,12,3})));
 		permutationSet.add(new ArrayList<Integer>(Arrays.asList(new Integer[]{12,1,5,9,8,10,13,3,11,2,4,6,7})));
