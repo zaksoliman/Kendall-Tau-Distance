@@ -14,7 +14,7 @@ def convertFile(directory, file_name):
 
     for index, line in enumerate(lines):
         if line.startswith('['):
-            line = sub(r'(\[([\d, \[\]]*)\])[a-zA-Z\s:]*(\[\[[\d, \[\]]*\]\]), [\w]+: (\d)+[,\w: \d]+', r'\1;\3;\4',line)
+            line = sub(r'(\[([\d, \[\]]*)\])[a-zA-Z\s:]*(\[\[[\d, \[\]]*\]\]), [\w]+: (\d)+[,\w: \d]+', r'[\1];\3;\4',line)
             #replace old line with new line
             lines[index] = line
     #Now we write to the file
