@@ -20,17 +20,18 @@ class PermutationGenerator:
         #Randomly choose a number of inversions
         inversions = rnd.randrange(0,50)
 
-        permSet = set()
+        permList = []
 
-        while(len(permSet) < numOfPermutations):
+        while(len(permList) < numOfPermutations):
 
             for indx in range(inversions):
                 i = rnd.randrange(0,size-1)
                 permutation[i], permutation[i+1] = permutation[i+1], permutation[i]
 
-            permSet.add(tuple(permutation))
+            if permutation not in permList:
+                permList.append(permutation)
 
-        return [list(elem) for elem in permSet]
+        return permList
 
 if __name__ == '__main__':
 
