@@ -33,7 +33,7 @@ if __name__ ==  '__main__':
             while(counter <= tries_num):
 
                 filePath = '../Results/scripts/RndPerm_' + str(setSize) + '_' + \
-                str(permSize) + '(' + str(counter)  + ')'
+                str(permSize) + '_' + str(counter)
 
                 print('Writing to ' + filePath)
 
