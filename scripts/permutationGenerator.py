@@ -4,25 +4,26 @@ import random as rnd
 
 class PermutationGenerator:
 
-    def __init__(self):
+    def __init__(self, seed):
 
-        rnd.seed(20)
+        rnd.seed(seed)
 
-    def generatePermutationsSet(self, numOfPermutations, size):
+    def generatePermutationSet(self, numOfPermutations, size):
         """ Generates a set of (num) permutations of size (size)
 
         """
 
-        permutation = list(range(1,size+1))
+        identity = list(range(1,size+1))
 
         #rnd.seed(20)
 
-        #Randomly choose a number of inversions
-        inversions = rnd.randrange(0,50)
 
         permList = []
 
         while(len(permList) < numOfPermutations):
+            permutation = identity[:]
+            #Randomly choose a number of inversions
+            inversions = rnd.randrange(0,50)
 
             for indx in range(inversions):
                 i = rnd.randrange(0,size-1)
@@ -35,7 +36,8 @@ class PermutationGenerator:
 
 if __name__ == '__main__':
 
-    ps = generatePermutationsSet(50, 13)
+    pg = PermutationGenerator()
+    ps = pg.generatePermutationSet(5,11)
 
     print('Set size = ', len(ps))
 

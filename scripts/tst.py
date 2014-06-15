@@ -13,18 +13,19 @@ def getNextBatch(pg, batchSize, setSize, permSize):
 
     for i in range(batchSize):
 
-        permList.append(pg.generatePermutationsSet(setSize, permSize))
+        permList.append(pg.generatePermutationSet(setSize, permSize))
 
     return permList
 
 if __name__ ==  '__main__':
 
-    pg = PermutationGenerator()
+    pgA = PermutationGenerator(20)
+    pgB = PermutationGenerator(10)
 
-    batchSize = 20
+    batchSize = 50
     tries_num = 5
 
-    for permSize in range(10,14):
+    for permSize in range(10,15):
         for setSize in range(3,5):
 
             counter = 1
@@ -39,36 +40,72 @@ if __name__ ==  '__main__':
                 out_csv = open(filePath + '.csv', 'w')
                 out_txt = open(filePath + '.txt', 'w')
 
-                out_csv.write('|A|,|M(A)|,|M(A)A|\n')
+                out_csv.write("n,|M(A)|,|M(A)A|,|M(B)|,|M(B)B|,|M(AUB)|,|M(AUB)A|,|M(AUB)B|,|M(AUB)(M(A)UM(B))|\n")
 
-                batch = getNextBatch(pg,batchSize,setSize,permSize)
+                batchA = getNextBatch(pgA,batchSize,setSize,permSize)
+                batchB = getNextBatch(pgB, batchSize, setSize, permSize)
 
-                print('Batch: ' + str(batch))
+                #print('Batch: ' + str(batch))
 
-                for permList in batch:
+                for index, (permListA, permListB) in enumerate(zip(batchA, batchB)):
 
-                    print('Permutation Set: ' + str(permList))
+                    #print('Permutation Set: ' + str(permList))
 
-                    mf = MedianFinder(permList)
-                    mf.findMedian()
+                    mfA = MedianFinder(permListA)
+                    mfB = MedianFinder(permListB)
+                    mfA.findMedian()
+                    mfB.findMedian()
 
-                    print('Solutions: ' + str(mf.solutions))
-                    permSet = {tuple(elem) for elem in permList}
-                    solSet = {tuple(elem) for elem in mf.solutions}
+                    #print('Solutions: ' + str(mf.solutions))
+                    permSetA = {tuple(elem) for elem in permListA}
+                    solSetA = {tuple(elem) for elem in mfA.solutions}
 
-                    intersection = permSet.intersection(solSet)
+                    permSetB = {tuple(elem) for elem in permListB}
+                    solSetB = {tuple(elem) for elem in mfB.solutions}
 
-                    out_txt.write(str(permSet) + '\n')
-                    out_txt.write(str(mf.solutions) + 'Distance: '+
-                            str(mf.dist_KT) + '\n')
+                    solInterPermA = permSetA.intersection(solSetA)
+                    solInterPermB = permSetB.intersection(solSetB)
 
-                    out_txt.write(str(intersection) + '\n\n')
+                    AuB = permSetA.union(permSetB)
+                    mfUnion = MedianFinder([list(elem) for elem in AuB])
+                    mfUnion.findMedian()
 
-                    out_csv.write(str(len(permList)) + ',' +
-                            str(len(mf.solutions)) + ',' +
-                            str(len(intersection)) + '\n' )
-                    counter += 1
+                    unionSet = {tuple(elem) for elem in AuB}
+                    unionSolSet = {tuple(elem) for elem in mfUnion.solutions}
 
-        out_csv.close()
-        out_txt.close()
+                    unionSolAB = solSetA.union(solSetB)
+
+
+                    out_txt.write('('+str(index)+')\n')
+                    out_txt.write('A = \n' + str(permSetA) + '\n')
+                    out_txt.write('M(A) = \n' + str(mfA.solutions) + '\n'+ 'Distance: '+
+                            str(mfA.dist_KT) + '\n')
+
+                    out_txt.write('B = \n' + str(permSetB) + '\n')
+                    out_txt.write('M(B) = \n' + str(mfB.solutions) + '\n'+ 'Distance: '+
+                            str(mfB.dist_KT) + '\n')
+
+                    out_txt.write('M(A) inter A:\n')
+                    out_txt.write(str(solInterPermA) + '\n')
+                    out_txt.write('M(B) inter B:\n')
+                    out_txt.write(str(solInterPermB) + '\n\n')
+
+                    out_txt.write('AUB = \n' + str(AuB) + '\n')
+                    out_txt.write('M(AUB) = \n' + str(mfUnion.solutions) + '\n')
+                    out_txt.write('Distance:' + str(mfUnion.dist_KT)+ '\n\n')
+
+                    out_csv.write(str(permSize) + ',' + \
+                            str(len(mfA.solutions)) + ',' + \
+                            str(len(solInterPermA)) + ',' + \
+                            str(len(mfB.solutions)) + ',' + \
+                            str(len(solInterPermB)) + ',' + \
+                            str(len(mfUnion.solutions)) + ',' + \
+                            str(len(permSetA.intersection(unionSolSet))) + ',' + \
+                            str(len(permSetB.intersection(unionSolSet))) + ',' + \
+                            str(len(unionSolSet.intersection(unionSolAB))) + ',' + \
+                            '\n')
+                counter += 1
+
+                out_csv.close()
+                out_txt.close()
 
