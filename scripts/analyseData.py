@@ -1,6 +1,11 @@
 import os
+import pandas as pd
+from pandas import DataFrame, Series
 
-csv_location = os.path.join(os.path.expanduser('~'),'Development/Kendall-Tau-Distance/Results/scripts')
+
+pd.options.display.mpl_style = 'default'
+
+csv_location = '../Results/scripts'
 csv_location = os.path.join(csv_location, "csv")
 
 csv_files = os.listdir(csv_location)

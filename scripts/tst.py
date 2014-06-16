@@ -22,35 +22,39 @@ if __name__ ==  '__main__':
     pgA = PermutationGenerator(20)
     pgB = PermutationGenerator(10)
 
-    batchSize = 50
-    tries_num = 5
+    batchSize = 500
+    tries_num = 1
 
-    for permSize in range(10,16):
-        for setSize in range(3,11):
+    max_perm_size = 15
+    max_set_size = 11
+
+    for permSize in range(10,max_perm_size+1):
+        for setSize in range(3,max_set_size+1):
 
             counter = 1
 
             while(counter <= tries_num):
 
-                filePath = '../Results/scripts/RndPerm_' + str(setSize) + '_' + \
+                filePath = '../Results/scripts/' + str(setSize) + '_' + \
                 str(permSize) + '_' + str(counter)
 
-                print('Writing to ' + filePath)
+                print('Creating ' + filePath)
 
                 out_csv = open(filePath + '.csv', 'w')
                 out_txt = open(filePath + '.txt', 'w')
 
                 out_csv.write("n,|M(A)|,|M(A)A|,|M(B)|,|M(B)B|,|M(AUB)|,|M(AUB)A|,|M(AUB)B|,|M(AUB)(M(A)UM(B))|\n")
 
+                print('Getting permutation batch A and  permutation batch B')
                 batchA = getNextBatch(pgA,batchSize,setSize,permSize)
                 batchB = getNextBatch(pgB, batchSize, setSize, permSize)
 
                 #print('Batch: ' + str(batch))
-
+                print('Computing Medians')
                 for index, (permListA, permListB) in enumerate(zip(batchA, batchB)):
 
                     #print('Permutation Set: ' + str(permList))
-
+                    print(str(index+1)+"/"+str(len(batchA)))
                     mfA = MedianFinder(permListA)
                     mfB = MedianFinder(permListB)
                     mfA.findMedian()

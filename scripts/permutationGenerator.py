@@ -23,16 +23,45 @@ class PermutationGenerator:
         while(len(permList) < numOfPermutations):
             permutation = identity[:]
             #Randomly choose a number of inversions
-            inversions = rnd.randrange(0,50)
+            inversions = rnd.randrange(0,600)
 
             for indx in range(inversions):
                 i = rnd.randrange(0,size-1)
                 permutation[i], permutation[i+1] = permutation[i+1], permutation[i]
 
-            if permutation not in permList:
+            inv = list(reversed(permutation))
+
+            if (permutation not in permList) and (inv not in permList):
                 permList.append(permutation)
 
         return permList
+
+    def knuthGenerator(self,setSize, size):
+
+        permSet = []
+
+        while(len(permSet) != setSize):
+
+            permutation = [x for x in range(1,size+1)]
+            for i in range(0,size):
+                j = rnd.randrange(i,size)
+                permutation[j],permutation[i] = permutation[i],permutation[j]
+
+            inv = list(reversed(permutation))
+
+            if (permutation not in permSet) and (inv not in permSet):
+                permSet.append(permutation)
+
+        return permSet
+
+    def getComplement(self, permSet):
+
+        comp = []
+
+        for p in permSet:
+            comp.append(list(reversed(p)))
+
+        return comp
 
 if __name__ == '__main__':
 
@@ -41,5 +70,5 @@ if __name__ == '__main__':
 
     print('Set size = ', len(ps))
 
-    for s in ps:
-        print(s)
+    #for s in ps:
+     #   print(s)
