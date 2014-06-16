@@ -25,8 +25,8 @@ if __name__ ==  '__main__':
     batchSize = 50
     tries_num = 5
 
-    for permSize in range(10,15):
-        for setSize in range(3,5):
+    for permSize in range(10,16):
+        for setSize in range(3,11):
 
             counter = 1
 
@@ -102,7 +102,7 @@ if __name__ ==  '__main__':
                             str(len(mfUnion.solutions)) + ',' + \
                             str(len(permSetA.intersection(unionSolSet))) + ',' + \
                             str(len(permSetB.intersection(unionSolSet))) + ',' + \
-                            str(len(unionSolSet.intersection(unionSolAB))) + ',' + \
+                            str(len(unionSolSet.intersection(unionSolAB))) + \
                             '\n')
                 counter += 1
 
