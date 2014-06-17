@@ -43,6 +43,7 @@ class PermutationGenerator:
         while(len(permSet) != setSize):
 
             permutation = [x for x in range(1,size+1)]
+
             for i in range(0,size):
                 j = rnd.randrange(i,size)
                 permutation[j],permutation[i] = permutation[i],permutation[j]
