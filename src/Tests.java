@@ -74,16 +74,16 @@ public class Tests
 		//permutation.addAll(Arrays.asList(new Integer[]{2, 8, 1, 7, 10, 5, 3, 6, 12, 13, 4, 11, 9}));
 		
 		//[[4, 1, 3, 2], [4, 3, 2, 1], [1, 2, 3, 4], [2, 3, 1, 4]]
-
-		permutationSet.add(new ArrayList<Integer>(Arrays.asList(new Integer[]{4, 1, 3, 2})));
-		permutationSet.add(new ArrayList<Integer>(Arrays.asList(new Integer[]{4, 3, 2, 1})));
-		permutationSet.add(new ArrayList<Integer>(Arrays.asList(new Integer[]{1, 2, 3, 4})));
-		permutationSet.add(new ArrayList<Integer>(Arrays.asList(new Integer[]{2, 3, 1, 4})));
-	/*	permutationSet.add(new ArrayList<Integer>(Arrays.asList(new Integer[]{13, 11, 10, 1, 12, 2, 8, 3, 4, 6, 7, 5, 9})));*/
-/*		permutationSet.add(new ArrayList<Integer>(Arrays.asList(new Integer[]{8,7,10,12,11,9,2,3,4,1,13,6,5})));
-		permutationSet.add(new ArrayList<Integer>(Arrays.asList(new Integer[]{10,9,1,2,8,7,5,13,11,4,6,12,3})));
-		permutationSet.add(new ArrayList<Integer>(Arrays.asList(new Integer[]{12,1,5,9,8,10,13,3,11,2,4,6,7})));
-		permutationSet.add(new ArrayList<Integer>(Arrays.asList(new Integer[]{13,2,7,8,4,5,9,6,3,1,12,11,10})));*/
+		
+		permutationSet.add(new ArrayList<Integer>(Arrays.asList(new Integer[]{5, 3, 8, 9, 6, 7, 1, 10, 4, 2})));
+		permutationSet.add(new ArrayList<Integer>(Arrays.asList(new Integer[]{6, 1, 2, 7, 9, 8, 10, 5, 3, 4})));
+		permutationSet.add(new ArrayList<Integer>(Arrays.asList(new Integer[]{8, 10, 3, 2, 7, 5, 1, 4, 9, 6})));
+		//permutationSet.add(new ArrayList<Integer>(Arrays.asList(new Integer[]{2, 3, 1, 4})));
+	    //permutationSet.add(new ArrayList<Integer>(Arrays.asList(new Integer[]{7, 5, 8, 4, 2, 6, 10, 3, 1, 9})));
+		//permutationSet.add(new ArrayList<Integer>(Arrays.asList(new Integer[]{8, 4, 9, 3, 10, 1, 5, 7, 2, 6})));
+		//permutationSet.add(new ArrayList<Integer>(Arrays.asList(new Integer[]{5, 3, 7, 10, 4, 9, 6, 1, 2, 8})));
+		//permutationSet.add(new ArrayList<Integer>(Arrays.asList(new Integer[]{12,1,5,9,8,10,13,3,11,2,4,6,7})));
+		//permutationSet.add(new ArrayList<Integer>(Arrays.asList(new Integer[]{13,2,7,8,4,5,9,6,3,1,12,11,10})));
 		
 		MedianFinderBT mf = new MedianFinderBT(permutationSet);
 		ArrayList<ArrayList<Integer>> result = mf.FindMed();

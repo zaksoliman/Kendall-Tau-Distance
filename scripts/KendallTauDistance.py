@@ -57,6 +57,9 @@ def slowKendallTauDistance(permutation, permSet):
 
                     distance+=1
 
+        print("Distance between " + str(permutation) + " and "
+                + str(p) + " is " + str(distance))
+
         totalDist += distance
         distance = 0
 
@@ -154,13 +157,13 @@ if __name__ == '__main__':
 
         print('Slow KT distance algo: ')
 
-        totalDistSlow = printAllKendallTauDistance(perm, permutationSet)
+        totalDistSlow = slowKendallTauDistance(perm, permutationSet)
         print("D_KT = " + str(totalDistSlow)+ "\n")
 
         print('Fast algo:')
-        totalDistFast, arr = fastKendallTauDist(perm, permutationSet)
+        totalDistFast = KendallTauDistance(perm, permutationSet)
         print("D_KT = " + str(totalDistFast)+ "\n")
-        print(arr)
+        #print(arr)
 
         def bubbleSort(arr):
 

@@ -7,18 +7,30 @@ import KendallTauDistance as kt
 class MedianFinder:
 
     #holds the solution set (medians)
-    solutions = []
+    #solutions = []
     #holds the permutation set for which we want to find it's median(s)
-    permSet = []
+    #permSet = []
     #hold the min kendall tau distance found thus far
-    dist_KT = float('inf')
+    #dist_KT = float('inf')
     #Holds the size of the permutations
-    permSize = 0
+    #permSize = 0
     #Holds element we can add to the rigth or to the left of the integer i
-    elem_right = []
-    elem_left = []
+    #elem_right = []
+    #elem_left = []
 
     def __init__(self, permSet):
+
+        #holds the solution set (medians)
+        self.solutions = []
+        #holds the permutation set for which we want to find it's median(s)
+        self.permSet = []
+        #hold the min kendall tau distance found thus far
+        self.dist_KT = float('inf')
+        #Holds the size of the permutations
+        self.permSize = 0
+        #Holds element we can add to the rigth or to the left of the integer i
+        self.elem_right = []
+        self.elem_left = []
 
         self.permSet = permSet
         self.permSize = len(permSet[0])

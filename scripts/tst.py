@@ -4,8 +4,9 @@ from medianFinder import MedianFinder
 from permutationGenerator import PermutationGenerator
 from shutil import move
 import KendallTauDistance as kt
-import multiprocessing as mp
+from  multiprocessing import Pool
 import os
+
 
 def getNextBatch(pg, batchSize, setSize, permSize):
     """ returns list of (batchSize) permutationSets of size (setSize)
@@ -20,8 +21,9 @@ def getNextBatch(pg, batchSize, setSize, permSize):
 
     return permList
 
-def generateData(dist_path, batchSize, batch_num, min_set_size, max_set_size,
-        min_perm_size, max_perm_size):
+
+def generateData(dist_pathf, batchSize, batch_num, min_set_size, max_set_size,
+        min_perm_size, max_perm_size, do_union= False):
 
     pgA = PermutationGenerator(20)
     pgB = PermutationGenerator(10)
@@ -45,76 +47,112 @@ def generateData(dist_path, batchSize, batch_num, min_set_size, max_set_size,
 
                 filePath = os.path.join(dist_path, file_suffix)
 
-                #print('Creating ' + filePath)
+                print('Creating ' + filePath)
 
                 out_csv = open(filePath + '.csv', 'w')
                 out_txt = open(filePath + '.txt', 'w')
 
-                out_csv.write("n,|M(A)|,D_ktA,|M(A)A|,|M(B)|,D_ktB,|M(B)B|,|M(AUB)|,|M(AUB)A|,|M(AUB)B|,|M(AUB)(M(A)UM(B))|\n")
+                if do_union:
+                    out_csv.write("n,|M(A)|,D_ktA,|M(A)A|,|M(B)|,D_ktB,|M(B)B|,|M(AUB)|,D_ktaub,|M(AUB)A|,|M(AUB)B|,|M(AUB)(M(A)UM(B))|\n")
+                else:
+                    out_csv.write("n,|M(A)|,D_ktA,|M(A)A|\n")
 
                 batchA = getNextBatch(pgA,batchSize,setSize,permSize)
-                batchB = getNextBatch(pgB, batchSize, setSize, permSize)
 
-                #print('Startin to compute medians in ' + filePath)
-                for index, (permListA, permListB) in enumerate(zip(batchA, batchB)):
+                if do_union:
+                    batchB = getNextBatch(pgB, batchSize, setSize, permSize)
 
-                    #print('Permutation Set: ' + str(permList))
-                    #print(str(index+1)+"/"+str(len(batchA)))
-                    mfA = MedianFinder(permListA)
-                    mfB = MedianFinder(permListB)
-                    mfA.findMedian()
-                    mfB.findMedian()
+                print('Starting to compute medians in ' + filePath)
 
-                    #print('Solutions: ' + str(mf.solutions))
-                    permSetA = {tuple(elem) for elem in permListA}
-                    solSetA = {tuple(elem) for elem in mfA.solutions}
+                if do_union:
+                    for index, (permListA, permListB) in enumerate(zip(batchA, batchB)):
 
-                    permSetB = {tuple(elem) for elem in permListB}
-                    solSetB = {tuple(elem) for elem in mfB.solutions}
+                        print('Progress of ' + filePath + ' '  + str(index+1)  + '/' + str(len(batchA)) )
 
-                    solInterPermA = permSetA.intersection(solSetA)
-                    solInterPermB = permSetB.intersection(solSetB)
+                        #print('Permutation Set: ' + str(permList))
+                        #print(str(index+1)+"/"+str(len(batchA)))
+                        mfA = MedianFinder(permListA)
+                        mfB = MedianFinder(permListB)
+                        mfA.findMedian()
+                        mfB.findMedian()
 
-                    AuB = permSetA.union(permSetB)
-                    mfUnion = MedianFinder([list(elem) for elem in AuB])
-                    mfUnion.findMedian()
+                        #print('Solutions: ' + str(mf.solutions))
+                        permSetA = {tuple(elem) for elem in permListA}
+                        solSetA = {tuple(elem) for elem in mfA.solutions}
 
-                    unionSet = {tuple(elem) for elem in AuB}
-                    unionSolSet = {tuple(elem) for elem in mfUnion.solutions}
+                        permSetB = {tuple(elem) for elem in permListB}
+                        solSetB = {tuple(elem) for elem in mfB.solutions}
 
-                    unionSolAB = solSetA.union(solSetB)
+                        solInterPermA = permSetA.intersection(solSetA)
+                        solInterPermB = permSetB.intersection(solSetB)
 
+                        AuB = permSetA.union(permSetB)
+                        mfUnion = MedianFinder([list(elem) for elem in AuB])
+                        mfUnion.findMedian()
+                        unionSet = {tuple(elem) for elem in AuB}
+                        unionSolSet = {tuple(elem) for elem in mfUnion.solutions}
+                        unionSolAB = solSetA.union(solSetB)
 
-                    out_txt.write('('+str(index)+')\n')
-                    out_txt.write('A = \n' + str(permSetA) + '\n')
-                    out_txt.write('M(A) = \n' + str(mfA.solutions) + '\n'+ 'Distance: '+
-                            str(mfA.dist_KT) + '\n')
+                        out_txt.write('('+str(index)+')\n')
+                        out_txt.write('A = \n' + str(permSetA) + '\n')
+                        out_txt.write('M(A) = \n' + str(mfA.solutions) + '\n'+ 'Distance: '+
+                                str(mfA.dist_KT) + '\n')
 
-                    out_txt.write('B = \n' + str(permSetB) + '\n')
-                    out_txt.write('M(B) = \n' + str(mfB.solutions) + '\n'+ 'Distance: '+
-                            str(mfB.dist_KT) + '\n')
+                        out_txt.write('B = \n' + str(permSetB) + '\n')
+                        out_txt.write('M(B) = \n' + str(mfB.solutions) + '\n'+ 'Distance: '+
+                                str(mfB.dist_KT) + '\n')
 
-                    out_txt.write('M(A) inter A:\n')
-                    out_txt.write(str(solInterPermA) + '\n')
-                    out_txt.write('M(B) inter B:\n')
-                    out_txt.write(str(solInterPermB) + '\n\n')
+                        out_txt.write('M(A) inter A:\n')
+                        out_txt.write(str(solInterPermA) + '\n')
+                        out_txt.write('M(B) inter B:\n')
+                        out_txt.write(str(solInterPermB) + '\n\n')
 
-                    out_txt.write('AUB = \n' + str(AuB) + '\n')
-                    out_txt.write('M(AUB) = \n' + str(mfUnion.solutions) + '\n')
-                    out_txt.write('Distance:' + str(mfUnion.dist_KT)+ '\n\n')
+                        out_txt.write('AUB = \n' + str(AuB) + '\n')
+                        out_txt.write('M(AUB) = \n' + str(mfUnion.solutions) + '\n')
+                        out_txt.write('Distance:' + str(mfUnion.dist_KT)+ '\n\n')
+                        out_csv.write(str(permSize) + ',' + \
+                                str(len(mfA.solutions)) + ',' + \
+                                str(mfA.dist_KT) + ',' + \
+                                str(len(solInterPermA)) + ',' + \
+                                str(len(mfB.solutions)) + ',' + \
+                                str(mfB.dist_KT) + ',' + \
+                                str(len(solInterPermB)) + ',' + \
+                                str(len(mfUnion.solutions)) + ',' + \
+                                str(mfUnion.dist_KT) + ',' + \
+                                str(len(permSetA.intersection(unionSolSet))) + ',' + \
+                                str(len(permSetB.intersection(unionSolSet))) + ',' + \
+                                str(len(unionSolSet.intersection(unionSolAB))) + \
+                                '\n')
+                else:
+                    for index, permListA in enumerate(batchA):
 
-                    out_csv.write(str(permSize) + ',' + \
-                            str(len(mfA.solutions)) + ',' + \
-                            str(mfA.dist_KT) + ',' + \
-                            str(len(solInterPermA)) + ',' + \
-                            str(len(mfB.solutions)) + ',' + \
-                            str(mfB.dist_KT) + ',' + \
-                            str(len(solInterPermB)) + ',' + \
-                            str(len(mfUnion.solutions)) + ',' + \
-                            str(len(permSetA.intersection(unionSolSet))) + ',' + \
-                            str(len(permSetB.intersection(unionSolSet))) + ',' + \
-                            str(len(unionSolSet.intersection(unionSolAB))) + \
-                            '\n')
+                        print('Progress of ' + filePath + ' '  + str(index+1)  + '/' + str(len(batchA)) )
+
+                        #print('Permutation Set: ' + str(permList))
+                        #print(str(index+1)+"/"+str(len(batchA)))
+                        mfA = MedianFinder(permListA)
+                        mfA.findMedian()
+
+                        #print('Solutions: ' + str(mf.solutions))
+                        permSetA = {tuple(elem) for elem in permListA}
+                        solSetA = {tuple(elem) for elem in mfA.solutions}
+
+                        solInterPermA = permSetA.intersection(solSetA)
+
+                        out_txt.write('('+str(index)+')\n')
+                        out_txt.write('A = \n' + str(permSetA) + '\n')
+                        out_txt.write('M(A) = \n' + str(mfA.solutions) + '\n'+ 'Distance: '+
+                                str(mfA.dist_KT) + '\n')
+
+                        out_txt.write('M(A) inter A:\n')
+                        out_txt.write(str(solInterPermA) + '\n')
+
+                        out_csv.write(str(permSize) + ',' + \
+                                str(len(mfA.solutions)) + ',' + \
+                                str(mfA.dist_KT) + ',' + \
+                                str(len(solInterPermA)) + ',' + \
+                                '\n')
+
                 counter += 1
                 print(filePath + ' DONE!')
                 file_name = os.path.basename(filePath)
@@ -129,18 +167,33 @@ def generateData(dist_path, batchSize, batch_num, min_set_size, max_set_size,
 
 if __name__ ==  '__main__':
 
+    batch_size = 100
+    batch_num = 1
+    min_set_size = 5
+    max_set_size = 10
+
     jobs = []
-    dist_path = 'tst/'
+    dist_path = '../Results/script/'
     done_path = os.path.join(dist_path, 'done')
     if not os.path.exists(done_path):
         os.makedirs(done_path)
 
-    for i in range(10,15):
+    #generateData(dist_path, 2,1, 3, 3,10,10)
 
-        p = mp.Process(target=generateData, args=(dist_path,100, 1, 3, 10, i, i))
-        jobs.append(p)
-        p.start()
+    f_args = []
+    tup = (dist_path, batch_size, batch_num, 3, 3, 13 ,14 )
+    f_args.append(tup)
 
-    for p in jobs:
+    tup = (dist_path, batch_size, batch_num, 4, 4, 12 ,14 )
+    f_args.append(tup)
 
-        p.join()
+    for i in range(11,15):
+        tup = (dist_path, batch_size, batch_num, min_set_size, max_set_size, i, i)
+        f_args.append(tup)
+
+    pool = Pool(4)
+
+    pool.starmap(generateData, f_args)
+
+    pool.close()
+    pool.join()
