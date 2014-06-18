@@ -21,7 +21,6 @@ def getNextBatch(pg, batchSize, setSize, permSize):
 
     return permList
 
-
 def generateData(dist_pathf, batchSize, batch_num, min_set_size, max_set_size,
         min_perm_size, max_perm_size, do_union= False):
 
@@ -150,7 +149,7 @@ def generateData(dist_pathf, batchSize, batch_num, min_set_size, max_set_size,
                         out_csv.write(str(permSize) + ',' + \
                                 str(len(mfA.solutions)) + ',' + \
                                 str(mfA.dist_KT) + ',' + \
-                                str(len(solInterPermA)) + ',' + \
+                                str(len(solInterPermA)) + \
                                 '\n')
 
                 counter += 1
@@ -165,15 +164,21 @@ def generateData(dist_pathf, batchSize, batch_num, min_set_size, max_set_size,
                 out_csv.close()
                 out_txt.close()
 
+def generateDataUnpack(args):
+    generateData(*args)
+
 if __name__ ==  '__main__':
 
     batch_size = 100
     batch_num = 1
-    min_set_size = 5
+    min_set_size = 3
     max_set_size = 10
 
+    min_perm_size = 10
+    max_perm_size = 14
+
     jobs = []
-    dist_path = '../Results/script/'
+    dist_path = '../tst/'
     done_path = os.path.join(dist_path, 'done')
     if not os.path.exists(done_path):
         os.makedirs(done_path)
@@ -181,19 +186,18 @@ if __name__ ==  '__main__':
     #generateData(dist_path, 2,1, 3, 3,10,10)
 
     f_args = []
-    tup = (dist_path, batch_size, batch_num, 3, 3, 13 ,14 )
-    f_args.append(tup)
+    #tup = (dist_path, batch_size, batch_num, 3, 3, 13 ,14 )
+    #f_args.append(tup)
+    #tup = (dist_path, batch_size, batch_num, 4, 4, 12 ,14 )
+    #f_args.append(tup)
 
-    tup = (dist_path, batch_size, batch_num, 4, 4, 12 ,14 )
-    f_args.append(tup)
-
-    for i in range(11,15):
-        tup = (dist_path, batch_size, batch_num, min_set_size, max_set_size, i, i)
+    for set_size in range(min_set_size, max_set_size+1):
+        tup = (dist_path, batch_size, batch_num, set_size, set_size, min_perm_size, max_perm_size)
         f_args.append(tup)
 
     pool = Pool(4)
 
-    pool.starmap(generateData, f_args)
+    pool.map(generateDataUnpack, f_args)
 
     pool.close()
     pool.join()
