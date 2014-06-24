@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 from sys import argv
 from ast import literal_eval
+from multiprocessing import Pool
 
 def inversePermutation(permutation):
 
@@ -38,7 +39,7 @@ def printAllKendallTauDistance(permutation, permSet):
 
     return totalDist
 
-def slowKendallTauDistance(permutation, permSet):
+def KendallTauDistance(permutation, permSet):
 
     distance = 0
     totalDist = 0
@@ -57,8 +58,8 @@ def slowKendallTauDistance(permutation, permSet):
 
                     distance+=1
 
-        print("Distance between " + str(permutation) + " and "
-                + str(p) + " is " + str(distance))
+        #print("Distance between " + str(permutation) + " and "
+        #        + str(p) + " is " + str(distance))
 
         totalDist += distance
         distance = 0
@@ -68,8 +69,7 @@ def slowKendallTauDistance(permutation, permSet):
 def fastInversionCount(permutation):
     return _mergeSort(permutation)
 
-
-def KendallTauDistance(permutation, permSet):
+def MergeSortKendallTauDistance(permutation, permSet):
     """ O(nlogn) implementation to compute kendall tau distance
 
     """
@@ -139,6 +139,44 @@ def _mergeSort(arr):
     inv_count += temp_count
 
     return inv_count, result
+
+def parallelKendalTauDist(perm, permSet):
+
+    pool = Pool(processes = 4)
+    f_args = []
+
+    for p in permSet:
+        tup = (perm, p)
+        f_args.append(tup)
+
+    results =  pool.map(_kt_dist_unpack, f_args)
+
+    pool.close()
+    pool.join()
+
+    return sum(results)
+
+def _kt_dist_unpack(f_args):
+
+    return  _kt_dist_single(*f_args)
+
+def _kt_dist_single(permA, permB):
+
+    distance = 0
+
+    inv_permA = inversePermutation(permA)
+    inv_permB = inversePermutation(permB)
+
+    #compute the distance
+    for i in range(0,len(inv_permA)-1):
+        for j in range(i+1, len(inv_permA)):
+
+            if(inv_permA[i] < inv_permA[j] and inv_permB[i] > inv_permB[j]) or \
+                (inv_permA[i] > inv_permA[j] and inv_permB[i] < inv_permB[j]):
+
+                distance+=1
+
+    return distance
 
 
 if __name__ == '__main__':
