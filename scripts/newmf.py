@@ -24,10 +24,46 @@ class MedianFinder:
         self.permSize = len(permSet[0])
         self.elem_right = [set() for x in range(self.permSize+1)]
         self.elem_left = [set() for x in range(self.permSize+1)]
-        self.elem_right[0] = {x for x in range(1,self.permSize+1)}
 
         self.buildConstraints()
         self.buildInitialInstances()
+
+        self.inverse = False
+
+        #Check of the mirror set has better constraints
+        self.checkConstraints()
+
+        self.elem_right[0] = {x for x in range(1,self.permSize+1)}
+
+    def checkConstraints(self):
+
+        #2D array that counts the number of sets of size j in elem_right and elem_left
+        # i = 0 --> counts for elem_left
+        # i = 1 --> counts for elem_right
+        count = [[0 for x in range(self.permSize)] for x in range(2)]
+        #check if the mirror set has better constraints
+        for sl, sr in zip(self.elem_left, self.elem_right):
+            if len(sl) == self.permSize or len(sr) == self.permSize:
+                continue
+
+            count[0][len(sl)] += 1
+            count[1][len(sr)] += 1
+
+        for size in range(self.permSize):
+
+            if count[0][size] < count[1][size]:
+                #then it is better to find the median of the inverse
+                self.inverse = True
+                #swap them
+                self.elem_right, self.elem_left = self.elem_left, self.elem_right
+                break;
+            elif count[0][size] > count[1][size]:
+                #nothing needs to be done
+                break;
+
+        if self.inverse:
+           for p in self.permSet:
+               p.reverse()
 
     def buildConstraints(self):
         """ builds initial constraints from the given permutation set
@@ -151,6 +187,10 @@ class MedianFinder:
 
         for potentialSolution in startingInstances:
             self.findMedBT(potentialSolution)
+
+        if self.inverse:
+            for s in self.solutions:
+                s.reverse()
 
 
 if __name__ == '__main__':
