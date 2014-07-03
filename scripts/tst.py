@@ -6,7 +6,7 @@ from shutil import move
 import KendallTauDistance as kt
 from  multiprocessing import Pool
 import os
-
+import random as rnd
 
 def getNextBatch(pg, batchSize, setSize, permSize):
     """ returns list of (batchSize) permutationSets of size (setSize)
@@ -31,6 +31,7 @@ def generate_data_with_union(dist_pathf, batchSize, batch_num, min_set_size, max
     for permSize in range(min_perm_size, max_perm_size+1):
         for setSize in range(min_set_size, max_set_size+1):
             counter = 1
+            setSizeB = rnd.randrange(1, set_size)
             while(counter <= batch_num):
                 file_suffix =str(setSize) + '_' + str(permSize) + '_' + str(counter)
                 filePath = os.path.join(dist_path, file_suffix)
@@ -39,14 +40,15 @@ def generate_data_with_union(dist_pathf, batchSize, batch_num, min_set_size, max
                 out_txt = open(filePath + '.txt', 'w')
                 out_csv.write("n,|M(A)|,D_ktA,|M(A)A|,|M(B)|,D_ktB,|M(B)B|,|M(AUB)|,D_ktaub,|M(AUB)A|,|M(AUB)B|,|M(AUB)(M(A)UM(B))|\n")
                 batchA = getNextBatch(pgA,batchSize,setSize,permSize)
-                batchB = getNextBatch(pgB, batchSize, setSize, permSize)
+                batchB = getNextBatch(pgB, batchSize, setSizeB, permSize)
                 print('Starting to compute medians in ' + filePath)
                 for index, (permListA, permListB) in enumerate(zip(batchA, batchB)):
-                    print('Progress of ' + filePath + ' '  + str(index+1)  + '/' + str(len(batchA)) )
+                    print('Progress of ' + filePath + ' ' + str(index+1)  + '/' + str(len(batchA)) )
                     mfA = MedianFinder(permListA)
                     mfB = MedianFinder(permListB)
                     mfA.findMedian()
                     mfB.findMedian()
+
                     #BUILD SETS
                     permSetA = {tuple(elem) for elem in permListA}
                     solSetA = {tuple(elem) for elem in mfA.solutions}
@@ -168,7 +170,7 @@ if __name__ ==  '__main__':
 
     batch_size = 100
     batch_num = 1
-    min_set_size = 3
+    min_set_size = 2
     max_set_size = 10
     min_perm_size = 10
     max_perm_size = 14
@@ -189,8 +191,6 @@ if __name__ ==  '__main__':
         f_args.append(tup)
 
     pool = Pool(4)
-
     pool.map(generateDataUnpack, f_args)
-
     pool.close()
     pool.join()

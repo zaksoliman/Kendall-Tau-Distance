@@ -15,6 +15,3 @@ file_list[7] =  csv_files[:30]
 for i in range(7):
     file_list[i] = csv_files[:30]
     del csv_files[:30]
-
-
-
