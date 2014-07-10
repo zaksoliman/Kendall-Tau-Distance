@@ -21,7 +21,7 @@ def getNextBatch(pg, batchSize, setSize, permSize):
 
     return permList
 
-def generate_data_with_union(dist_pathf, batchSize, batch_num, min_set_size, max_set_size,
+def generate_data_with_union(dist_path, batchSize, batch_num, min_set_size, max_set_size,
         min_perm_size, max_perm_size):
 
     pgA = PermutationGenerator(20)
@@ -30,17 +30,37 @@ def generate_data_with_union(dist_pathf, batchSize, batch_num, min_set_size, max
 
     for permSize in range(min_perm_size, max_perm_size+1):
         for setSize in range(min_set_size, max_set_size+1):
+
+            A_isEven = False
+
+            if setSize % 2 == 0:
+                A_isEven = True
+            elif setSize % 2 != 0:
+                A_isEven = False
+
             counter = 1
-            setSizeB = rnd.randrange(1, set_size)
+
             while(counter <= batch_num):
-                file_suffix =str(setSize) + '_' + str(permSize) + '_' + str(counter)
+
+                setSizeB = rnd.randrange(1, setSize)
+
+                if A_isEven and (setSizeB % 2 == 0):
+                    setSizeB += 1
+                elif not A_isEven and (setSizeB % 2 != 0):
+                    setSizeB += 1
+
+
+                file_suffix = str(setSize) + '_' + str(permSize) + '_' + str(counter)
                 filePath = os.path.join(dist_path, file_suffix)
                 print('Creating ' + filePath)
                 out_csv = open(filePath + '.csv', 'w')
                 out_txt = open(filePath + '.txt', 'w')
-                out_csv.write("n,|M(A)|,D_ktA,|M(A)A|,|M(B)|,D_ktB,|M(B)B|,|M(AUB)|,D_ktaub,|M(AUB)A|,|M(AUB)B|,|M(AUB)(M(A)UM(B))|\n")
-                batchA = getNextBatch(pgA,batchSize,setSize,permSize)
+                out_csv.write("n,|A|,|B|,|M(A)|,D_ktA,|M(A)A|,|M(B)|,D_ktB,|M(B)B|,|M(AUB)|,D_ktaub,|M(AUB)A|,|M(AUB)B|,|M(AUB)(M(A)UM(B))|\n")
+
+                #GENERATE BATCHES
+                batchA = getNextBatch(pgA,batchSize, setSize, permSize)
                 batchB = getNextBatch(pgB, batchSize, setSizeB, permSize)
+
                 print('Starting to compute medians in ' + filePath)
                 for index, (permListA, permListB) in enumerate(zip(batchA, batchB)):
                     print('Progress of ' + filePath + ' ' + str(index+1)  + '/' + str(len(batchA)) )
@@ -79,6 +99,8 @@ def generate_data_with_union(dist_pathf, batchSize, batch_num, min_set_size, max
                     out_txt.write('M(AUB) = \n' + str(mfUnion.solutions) + '\n')
                     out_txt.write('Distance:' + str(mfUnion.dist_KT)+ '\n\n')
                     out_csv.write(str(permSize) + ',' + \
+                            str(setSize) + ',' + \
+                            str(setSizeB) + ',' + \
                             str(len(mfA.solutions)) + ',' + \
                             str(mfA.dist_KT) + ',' + \
                             str(len(solInterPermA)) + ',' + \
@@ -164,21 +186,22 @@ def generateData(dist_pathf, batchSize, batch_num, min_set_size, max_set_size,
 def generateDataUnpack(args):
     generateData(*args)
 
-def tstConvergence
 
 if __name__ ==  '__main__':
 
     batch_size = 100
     batch_num = 1
-    min_set_size = 2
+    min_set_size = 3
     max_set_size = 10
     min_perm_size = 10
     max_perm_size = 14
     jobs = []
-    dist_path = '../tst/'
+    dist_path = '../Union/'
     done_path = os.path.join(dist_path, 'done')
     if not os.path.exists(done_path):
         os.makedirs(done_path)
+
+    #generate_data_with_union(dist_path, batch_size, batch_num, min_set_size, max_set_size, min_perm_size, max_perm_size)
 
     f_args = []
     #tup = (dist_path, batch_size, batch_num, 3, 3, 13 ,14 )
@@ -187,7 +210,7 @@ if __name__ ==  '__main__':
     #f_args.append(tup)
 
     for set_size in range(min_set_size, max_set_size+1):
-        tup = (dist_path, batch_size, batch_num, set_size, set_size, min_perm_size, max_perm_size)
+        tup = (dist_path, batch_size, batch_num, set_size, set_size, min_perm_size, max_perm_size, True)
         f_args.append(tup)
 
     pool = Pool(4)
