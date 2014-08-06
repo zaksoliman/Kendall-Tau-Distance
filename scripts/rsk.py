@@ -24,11 +24,12 @@ def RSK(p):
 
 def get_all_tableau(permSet):
 
-    tableaux = []
+    tableaux = dict()
 
     for p in permSet:
+
         tableau = RSK(p)
-        tableaux.append(tableau)
+        tableaux[repr(p)] = tableau
 
     return tableaux
 
@@ -36,8 +37,10 @@ if __name__ == '__main__':
 
     permSet = sys.argv[1]
     permSet = literal_eval(permSet)
-    arr = get_all_tableau(permSet)
+    tableaux = get_all_tableau(permSet)
 
-    arr.sort()
-    for a in arr:
-        print (a)
+    print('\n')
+
+    for key in sorted(tableaux, key=tableaux.get, reverse = True):
+
+        print(key,'-->', tableaux[key])

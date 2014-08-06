@@ -2,6 +2,8 @@
 import ast
 import math
 import KendallTauDistance as kt
+import sys
+from ast import literal_eval
 
 
 class MedianFinder:
@@ -155,7 +157,16 @@ class MedianFinder:
 
 if __name__ == '__main__':
 
-    permSet=[[9, 4, 8, 2, 3, 7, 5, 6, 13, 12, 11, 1, 10], [2, 3, 4, 1, 8, 6, 5, 7, 9, 11, 12, 10, 13], [4, 2, 3, 8, 1, 7, 9, 13, 5, 6, 11, 12, 10]]
+    permSet = sys.argv[1]
+    permSet = literal_eval(permSet)
+
     mf = MedianFinder(permSet)
     mf.findMedian()
+
+    print('Median Set:')
     print(mf.solutions)
+
+    #permSet=[[9, 4, 8, 2, 3, 7, 5, 6, 13, 12, 11, 1, 10], [2, 3, 4, 1, 8, 6, 5, 7, 9, 11, 12, 10, 13], [4, 2, 3, 8, 1, 7, 9, 13, 5, 6, 11, 12, 10]]
+    #mf = MedianFinder(permSet)
+    #mf.findMedian()
+    #print(mf.solutions)
