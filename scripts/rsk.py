@@ -20,18 +20,24 @@ def RSK(p):
 
     for i in range(len(p)):
         insert(int(p[i]), i+1)
-    return (P,Q)
+    return [(P,Q)]
 
-def get_all_tableau(permSet):
+def getEquivalenceClasses(permSet):
 
-    tableaux = dict()
+    classes = dict()
 
     for p in permSet:
 
+        import ipdb; ipdb.set_trace() # BREAKPOINT
         tableau = RSK(p)
-        tableaux[repr(p)] = tableau
 
-    return tableaux
+        if tableau not in classes:
+            classes[tableau] = list()
+            classes[tableau].append(p)
+        else:
+            classes[tableau].append(p)
+
+    return classes
 
 if __name__ == '__main__':
 
