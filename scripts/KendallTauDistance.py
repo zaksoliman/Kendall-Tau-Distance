@@ -178,6 +178,24 @@ def _kt_dist_single(permA, permB):
 
     return distance
 
+def kt_dist_permutations(permA, permB):
+
+    distance = 0
+    inv_permA = inversePermutation(permA)
+    inv_permB = inversePermutation(permB)
+
+    #compute the distance
+    for i in range(0,len(inv_permB)-1):
+        for j in range(i+1, len(inv_permB)):
+
+            if(inv_permA[i] < inv_permA[j] and inv_permB[i] > inv_permB[j]) or \
+                (inv_permA[i] > inv_permA[j] and inv_permB[i] < inv_permB[j]):
+
+                distance+=1
+
+    print("Distance between " + str(permA) + " and "
+            + str(permB) + " is " + str(distance))
+
 
 if __name__ == '__main__':
 
