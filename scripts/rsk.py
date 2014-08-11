@@ -2,7 +2,8 @@
 
 from ast import literal_eval
 from bisect import bisect
-import sys
+import sysi
+from itertools import permutations, combinations
 
 def RSK(p):
     '''Given a permutation p, spit out a pair of Young tableaux'''
@@ -20,7 +21,10 @@ def RSK(p):
 
     for i in range(len(p)):
         insert(int(p[i]), i+1)
-    return [(P,Q)]
+
+    P = tuple(tuple(elem) for elem in P)
+    Q = tuple(tuple(elem) for elem in Q)
+    return (P,Q)
 
 def getEquivalenceClasses(permSet):
 
@@ -28,16 +32,21 @@ def getEquivalenceClasses(permSet):
 
     for p in permSet:
 
-        import ipdb; ipdb.set_trace() # BREAKPOINT
         tableau = RSK(p)
 
-        if tableau not in classes:
-            classes[tableau] = list()
-            classes[tableau].append(p)
+        if tableau[0] not in classes:
+            classes[tableau[0]] = list()
+            classes[tableau[0]].append(p)
         else:
-            classes[tableau].append(p)
+            classes[tableau[0]].append(p)
 
     return classes
+
+#TODO: find a better name
+def getAllMedianSet(eqClasses):
+
+    #chain.from_iterable(combinations(s, r) for r in range(len(s)+1))
+
 
 if __name__ == '__main__':
 
