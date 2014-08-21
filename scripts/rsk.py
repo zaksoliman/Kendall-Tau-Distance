@@ -111,89 +111,66 @@ def testAllSubsets(eqClasses):
 
 def RSK_inverse(p, q, output='array', insertion='RSK'):
 
-    if p.shape() != q.shape():
-        raise ValueError("p(=%s) and q(=%s) must have the same shape"%(p, q))
-    from sage.combinat.tableau import SemistandardTableaux
-    if p not in SemistandardTableaux():
-        raise ValueError("p(=%s) must be a semistandard tableau"%p)
-
     from bisect import bisect_left
     # Make a copy of p since this is destructive to it
     p_copy = [row[:] for row in p]
 
-    if q.is_standard():
-        rev_word = [] # This will be our word in reverse
-        d = dict((qij,i) for i, Li in enumerate(q) for qij in Li)
-        # d is now a dictionary which assigns to each integer k the
-        # number of the row of q containing k.
+    rev_word = [] # This will be our word in reverse
+    d = dict((qij,i) for i, Li in enumerate(q) for qij in Li)
+    # d is now a dictionary which assigns to each integer k the
+    # number of the row of q containing k.
 
-        use_EG = (insertion == 'EG')
+    use_EG = (insertion == 'EG')
 
-        for i in reversed(d.values()): # Delete last entry from i-th row of p_copy
-            x = p_copy[i].pop() # Always the right-most entry
-            for row in reversed(p_copy[:i]):
-                y_pos = bisect_left(row,x) - 1
-                if use_EG and row[y_pos] == x - 1 and y_pos < len(row)-1 and row[y_pos+1] == x:
-                    # Nothing to do except decrement x by 1.
-                    # (Case 1 on p. 74 of Edelman-Greene [EG1987]_.)
-                    x -= 1
-                else:
-                    # switch x and y
-                    x, row[y_pos] = row[y_pos], x
-            rev_word.append(x)
-
-        if use_EG:
-            return list(reversed(rev_word))
-        if output == 'word':
-            from sage.combinat.words.word import Word
-            return Word(reversed(rev_word))
-        if output == 'matrix':
-            return to_matrix(list(range(1, len(rev_word)+1)), list(reversed(rev_word)))
-        if output == 'array':
-            return [list(range(1, len(rev_word)+1)), list(reversed(rev_word))]
-        if output == 'permutation':
-            if not p.is_standard():
-                raise TypeError("p must be standard to have a valid permutation as output")
-            from sage.combinat.permutation import Permutation
-            return Permutation(reversed(rev_word))
-        raise ValueError("Invalid output option")
-
-    # Checks
-    if insertion != 'RSK':
-        raise NotImplementedError("Only RSK is implemented for non-standard Q")
-    if q not in SemistandardTableaux():
-        raise ValueError("q(=%s) must be a semistandard tableau"%q)
-
-    upper_row = []
-    lower_row = []
-    #upper_row and lower_row will be the upper and lower rows of the
-    #generalized permutation we get as a result, but both reversed.
-    d = {}
-    for row, Li in enumerate(q):
-        for col, val in enumerate(Li):
-            if val in d:
-                d[val][col] = row
+    for i in reversed(list(d.values())): # Delete last entry from i-th row of p_copy
+        x = p_copy[i].pop() # Always the right-most entry
+        for row in reversed(p_copy[:i]):
+            y_pos = bisect_left(row,x) - 1
+            if use_EG and row[y_pos] == x - 1 and y_pos < len(row)-1 and row[y_pos+1] == x:
+                # Nothing to do except decrement x by 1.
+                # (Case 1 on p. 74 of Edelman-Greene [EG1987]_.)
+                x -= 1
             else:
-                d[val] = {col: row}
-    #d is now a double family such that for every integers k and j,
-    #the value d[k][j] is the row i such that the (i, j)-th cell of
-    #q is filled with k.
-    for value, row_dict in reversed(d.items()):
-        for i in reversed(row_dict.values()):
-            x = p_copy[i].pop() # Always the right-most entry
-            for row in reversed(p_copy[:i]):
-                y = bisect_left(row,x) - 1
-                x, row[y] = row[y], x
-            upper_row.append(value)
-            lower_row.append(x)
+                # switch x and y
+                x, row[y_pos] = row[y_pos], x
+        rev_word.append(x)
 
-    if output == 'matrix':
-        return to_matrix(list(reversed(upper_row)), list(reversed(lower_row)))
+    if use_EG:
+        return list(reversed(rev_word))
     if output == 'array':
-        return [list(reversed(upper_row)), list(reversed(lower_row))]
-    if output in ['permutation', 'word']:
-        raise TypeError("q must be standard to have a %s as valid output"%output)
+        return [list(range(1, len(rev_word)+1)), list(reversed(rev_word))]
     raise ValueError("Invalid output option")
+
+    #upper_row = []
+    #lower_row = []
+    ##upper_row and lower_row will be the upper and lower rows of the
+    ##generalized permutation we get as a result, but both reversed.
+    #d = {}
+    #for row, Li in enumerate(q):
+    #    for col, val in enumerate(Li):
+    #        if val in d:
+    #            d[val][col] = row
+    #        else:
+    #            d[val] = {col: row}
+    ##d is now a double family such that for every integers k and j,
+    ##the value d[k][j] is the row i such that the (i, j)-th cell of
+    ##q is filled with k.
+    #for value, row_dict in reversed(d.items()):
+    #    for i in reversed(row_dict.values()):
+    #        x = p_copy[i].pop() # Always the right-most entry
+    #        for row in reversed(p_copy[:i]):
+    #            y = bisect_left(row,x) - 1
+    #            x, row[y] = row[y], x
+    #        upper_row.append(value)
+    #        lower_row.append(x)
+
+    #if output == 'matrix':
+    #    return to_matrix(list(reversed(upper_row)), list(reversed(lower_row)))
+    #if output == 'array':
+    #    return [list(reversed(upper_row)), list(reversed(lower_row))]
+    #if output in ['permutation', 'word']:
+    #    raise TypeError("q must be standard to have a %s as valid output"%output)
+    #raise ValueError("Invalid output option")
 
 
 if __name__ == '__main__':
