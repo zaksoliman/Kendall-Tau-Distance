@@ -61,8 +61,8 @@ def testAllSubsets(eqClasses):
                 total_sets_inspected += 1
                 mf = MedianFinder(perms)
                 mf.findMedian()
-                fout.write('\tSet #'+str(i) +': ' + str(perms) + '\n')
-                fout.write('\tSet size:' + str(len(perms)) + '\n\n')
+                #fout.write('\tSet #'+str(i) +': ' + str(perms) + '\n')
+                #fout.write('\tSet size:' + str(len(perms)) + '\n\n')
                 all_med_same_class = True
 
                 if len(perms) % 2 == 0:
@@ -79,12 +79,17 @@ def testAllSubsets(eqClasses):
                     else:
                         #total_sets_med_not_in_class += 1
                         all_med_same_class = False
-                        fout.write('**\n')
-                        fout.write('\tMedian Set: ' + str(mf.solutions)+ '\n')
-                        fout.write('\tSize of Median Set: ' + str(len(mf.solutions))+'\n')
-                        fout.write('\tKendall Tau distance: ' + str(mf.dist_KT)+'\n')
-                        fout.write('\tMedian: ' + str(med)+ '\n')
-                        fout.write('\tTableau of median:' + str(tableau)+'\n\n')
+
+                        if not permSet_size_is_even:
+                            fout.write('\tSet #'+str(i) +': ' + str(perms) + '\n')
+                            fout.write('\tSet size:' + str(len(perms)) + '\n\n')
+
+                            fout.write('**\n')
+                            fout.write('\tMedian Set: ' + str(mf.solutions)+ '\n')
+                            fout.write('\tSize of Median Set: ' + str(len(mf.solutions))+'\n')
+                            fout.write('\tKendall Tau distance: ' + str(mf.dist_KT)+'\n')
+                            fout.write('\tMedian: ' + str(med)+ '\n')
+                            fout.write('\tTableau of median:' + str(tableau)+'\n\n')
 
                 if all_med_same_class and permSet_size_is_even:
                     even_permSets_same_class += 1
