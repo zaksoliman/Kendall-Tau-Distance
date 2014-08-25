@@ -39,7 +39,7 @@ def getKnuthClasses(permSet):
             classes[tableau].append(p)
     return classes
 
-def testAllSubsets(eqClasses):
+def testAllSubsets(eqClasses, permutation_size):
     permSet_size_is_even = False
     counter = 1
     not_in_same_class = 0
@@ -50,19 +50,22 @@ def testAllSubsets(eqClasses):
     odd_permSets_diff_class = 0
 
     #total_sets_med_not_in_class = 0
-    fout = open('KnuthClasses_6.txt', mode='w')
+    even_out = open('KnuthClasses_'+ str(permutation_size) +'_pair.txt', mode='w')
+    odd_out = open('KnuthClasses_' + str(permutation_size) + '_impair.txt', mode='w')
+
     for key, permSet in eqClasses.items():
         print('Class: ' + str(counter) + '/' + str(len(eqClasses)))
-        fout.write(str(counter)+'. Class: ' + key + '\n\n')
+        even_out.write('\n' + str(counter)+'. Class: ' + key + '\n\n')
+        odd_out.write('\n' + str(counter)+'. Class: ' + key + '\n\n')
         powerSet = chain.from_iterable(combinations(permSet, r) for r in range(len(permSet)+1))
 
         for i, perms in enumerate(powerSet):
+
+            #We want to inspect only sets of size >= 2
             if len(perms) >= 2:
                 total_sets_inspected += 1
                 mf = MedianFinder(perms)
                 mf.findMedian()
-                #fout.write('\tSet #'+str(i) +': ' + str(perms) + '\n')
-                #fout.write('\tSet size:' + str(len(perms)) + '\n\n')
                 all_med_same_class = True
 
                 if len(perms) % 2 == 0:
@@ -74,39 +77,80 @@ def testAllSubsets(eqClasses):
 
                 for med in mf.solutions:
                     tableau = RSK(med)
-                    if key == str(tableau[0]):
-                        pass
-                    else:
+
+                    if key != str(tableau[0]):
                         #total_sets_med_not_in_class += 1
                         all_med_same_class = False
 
                         if not permSet_size_is_even:
-                            fout.write('\tSet #'+str(i) +': ' + str(perms) + '\n')
-                            fout.write('\tSet size:' + str(len(perms)) + '\n\n')
+                            odd_out.write('\n\tSet #'+str(i) +': ' + str(perms) + '\n')
+                            odd_out.write('\tSet size:' + str(len(perms)) + '\n\n')
 
-                            fout.write('**\n')
-                            fout.write('\tMedian Set: ' + str(mf.solutions)+ '\n')
-                            fout.write('\tSize of Median Set: ' + str(len(mf.solutions))+'\n')
-                            fout.write('\tKendall Tau distance: ' + str(mf.dist_KT)+'\n')
-                            fout.write('\tMedian: ' + str(med)+ '\n')
-                            fout.write('\tTableau of median:' + str(tableau)+'\n\n')
+                            odd_out.write('**\n')
+                            odd_out.write('\t\tMedian Set: ' + str(mf.solutions)+ '\n')
+                            odd_out.write('\t\tSize of Median Set: ' + str(len(mf.solutions))+'\n')
+                            odd_out.write('\t\tKendall Tau distance: ' + str(mf.dist_KT)+'\n')
+                            odd_out.write('\t\tMedian: ' + str(med)+ '\n')
+                            odd_out.write('\t\tTableau of median:' + str(tableau)+'\n\n')
+                        elif permSet_size_is_even:
+                            even_out.write('\n\tSet #'+str(i) +': ' + str(perms) + '\n')
+                            even_out.write('\tSet size:' + str(len(perms)) + '\n\n')
+
+                            even_out.write('**\n')
+                            even_out.write('\t\tMedian Set: ' + str(mf.solutions)+ '\n')
+                            even_out.write('\t\tSize of Median Set: ' + str(len(mf.solutions))+'\n')
+                            even_out.write('\t\tKendall Tau distance: ' + str(mf.dist_KT)+'\n')
+                            even_out.write('\t\tMedian: ' + str(med)+ '\n')
+                            even_out.write('\t\tTableau of median:' + str(tableau)+'\n\n')
 
                 if all_med_same_class and permSet_size_is_even:
+                    even_out.write('\n\tSet #'+ str(i) +': ' + str(perms) + '\n')
+                    even_out.write('\tSet size:' + str(len(perms)) + '\n\n')
+                    even_out.write('\n')
+                    even_out.write('\t\tMedian Set: ' + str(mf.solutions)+ '\n')
+                    even_out.write('\t\tSize of Median Set: ' + str(len(mf.solutions))+'\n')
+                    even_out.write('\t\tMedian Set in same class: True\n')
+                    even_out.write('\t\tKendall Tau distance: ' + str(mf.dist_KT)+'\n')
                     even_permSets_same_class += 1
-                if not permSet_size_is_even and not all_med_same_class:
+
+                elif all_med_same_class and not permSet_size_is_even:
+                    odd_out.write('\n\tSet #'+ str(i) +': ' + str(perms) + '\n')
+                    odd_out.write('\tSet size:' + str(len(perms)) + '\n\n')
+                    odd_out.write('\n')
+                    odd_out.write('\t\tMedian Set: ' + str(mf.solutions)+ '\n')
+                    odd_out.write('\t\tSize of Median Set: ' + str(len(mf.solutions))+'\n')
+                    odd_out.write('\t\tMedian Set in same class: True\n')
+                    odd_out.write('\t\tKendall Tau distance: ' + str(mf.dist_KT)+'\n')
+
+                elif not all_med_same_class and permSet_size_is_even:
+                    even_out.write('\t\tMedian Set in same class: False\n')
+
+                elif not all_med_same_class and not permSet_size_is_even:
+                    odd_out.write('\t\tMedian Set in same class: False\n')
                     odd_permSets_diff_class += 1
+
                 if not all_med_same_class:
                     not_in_same_class += 1
+
         counter += 1
 
-    fout.write(str(even_permSets_same_class) + ' permutation sets of EVEN size that have a median set that is part of  it\'s Knuth class\n')
-    fout.write(str(odd_permSets_diff_class) + ' permutation sets of ODD size that have a median set that has at least one permutation not in it\'s knuth class \n')
-    fout.write(str(not_in_same_class) + ' permutation sets that have a median set that contains at least one permutation not in it\'s Knuth class \n')
-    fout.write(str(total_sets_inspected) + ' sets have been examined in total\n')
-    fout.write(str(total_even_sets) + ' Even permutaion sets\n')
-    fout.write(str(total_odd_sets) + ' Odd permutaion sets\n')
-    #fout.write(str(total_sets_med_not_in_class) + ' Sets for which the median set is not in the same class\n')
-    fout.close()
+    even_out.write('\n')
+    even_out.write(str(even_permSets_same_class) + ' permutation sets of EVEN size that have a median set that is part of  it\'s Knuth class\n')
+    even_out.write(str(odd_permSets_diff_class) + ' permutation sets of ODD size that have a median set that has at least one permutation not in it\'s knuth class \n')
+    even_out.write(str(not_in_same_class) + ' permutation sets that have a median set that contains at least one permutation not in it\'s Knuth class \n')
+    even_out.write(str(total_sets_inspected) + ' sets have been examined in total\n')
+    even_out.write(str(total_even_sets) + ' Even permutaion sets\n')
+    even_out.write(str(total_odd_sets) + ' Odd permutaion sets\n')
+    even_out.close()
+
+    odd_out.write('\n')
+    odd_out.write(str(even_permSets_same_class) + ' permutation sets of EVEN size that have a median set that is part of  it\'s Knuth class\n')
+    odd_out.write(str(odd_permSets_diff_class) + ' permutation sets of ODD size that have a median set that has at least one permutation not in it\'s knuth class \n')
+    odd_out.write(str(not_in_same_class) + ' permutation sets that have a median set that contains at least one permutation not in it\'s Knuth class \n')
+    odd_out.write(str(total_sets_inspected) + ' sets have been examined in total\n')
+    odd_out.write(str(total_even_sets) + ' Even permutaion sets\n')
+    odd_out.write(str(total_odd_sets) + ' Odd permutaion sets\n')
+    odd_out.close()
     return
 
 def RSK_inverse(p, q, output='array', insertion='RSK'):
@@ -171,6 +215,41 @@ def RSK_inverse(p, q, output='array', insertion='RSK'):
     #if output in ['permutation', 'word']:
     #    raise TypeError("q must be standard to have a %s as valid output"%output)
     #raise ValueError("Invalid output option")
+
+def build_all_Q_Tableaux(shape):
+    """ Input: shape as a tuple
+        Output: Tuple of all standard"""
+
+    #Start off by building the inital tableau
+    num_of_rows = len(tuple)
+    permutation_size = sum(shape)
+    initial_tableau = [list() for x in range(0,num_of_rows)]
+    initial_tableau[0].append(1)
+    #Holds the tableaux that are built
+    tableaux = list()
+
+    def recursive_build(tableau):
+
+        size_of_tableau = 0
+        tableau_copy = [list(row) for row in tableau]
+
+        for row in tableau:
+            size_of_tableau += len(row)
+        if size_of_tableau == permutation_size:
+            tableaux.append(list(tableau))
+            return
+
+       for i in range(1,permutation_size+1):
+           for row_idx, row in enumerate(tableau):
+
+               if not row:
+                   continue
+               else:
+                   if row[-1] < i:
+                       tableau_copy = [list(row) for row in tableau]
+                       tableau[row_idx].append(i)
+                       recursive_build(tableau_copy)
+
 
 
 if __name__ == '__main__':
