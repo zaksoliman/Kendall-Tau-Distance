@@ -216,41 +216,89 @@ def RSK_inverse(p, q, output='array', insertion='RSK'):
     #    raise TypeError("q must be standard to have a %s as valid output"%output)
     #raise ValueError("Invalid output option")
 
-def build_all_Q_Tableaux(shape):
+def build_standard_tableaux(shape):
     """ Input: shape as a tuple
         Output: Tuple of all standard"""
 
     #Start off by building the inital tableau
-    num_of_rows = len(tuple)
+    num_of_rows = len(shape)
     permutation_size = sum(shape)
     initial_tableau = [list() for x in range(0,num_of_rows)]
     initial_tableau[0].append(1)
     #Holds the tableaux that are built
     tableaux = list()
 
-    def recursive_build(tableau):
+    def recursive_build(tableau, tableauElems):
+        """ tableau is a two dimentional array and tableauElements
+            is a set containing all the integers in the tableau under construction"""
 
-        size_of_tableau = 0
-        tableau_copy = [list(row) for row in tableau]
-
-        for row in tableau:
-            size_of_tableau += len(row)
-        if size_of_tableau == permutation_size:
+        #Base case: the tableau has the correct number of boxes (i.e. size of the permutation)
+        if len(tableauElems) == permutation_size:
             tableaux.append(list(tableau))
             return
 
-       for i in range(1,permutation_size+1):
-           for row_idx, row in enumerate(tableau):
+        for row_idx, row in tableau:
+            for new_elem in range(1, permutation_size+1):
+                if new_elem in tableauElems:
+                    continue
 
-               if not row:
-                   continue
-               else:
-                   if row[-1] < i:
-                       tableau_copy = [list(row) for row in tableau]
-                       tableau[row_idx].append(i)
-                       recursive_build(tableau_copy)
+                #Check if row is the bottom row
+                if row == tableau[0]:
+                    if row[-1] < new_elem and len(row) < shape[row_idx]:
+                        row.append(new_elem)
+                        tableauElems.add(new_elem)
+                        recursive_build(row, tableauElems)
+                        row.pop()
+                        tableauElems.remove(new_elem)
+                #check if it's the top row
+                elif row == tableau[-1]:
 
 
+
+        #for new_elem in range(1,permutation_size+1):
+        #    if new_elem in tableauElems:
+        #        continue
+        #    for row_idx, row in enumerate(tableau):
+        #        if not row:
+        #            continue
+        #        else:
+        #            for elem_idx, elem in enumerate(row):
+
+        #                import ipdb; ipdb.set_trace() # BREAKPOINT
+        #                #1. Check if we can add an new element next to it
+        #                if row == tableau[0]: #We need to know if we have rows below us to make sure new_elem larger than the elem blow it
+        #                    if  elem < new_elem and len(row) < shape[row_idx]:
+        #                        #add new element to the tableau and call the recursive function
+        #                        tableau_copy = [list(row) for row in tableau]
+        #                        tableau_copy[row_idx].append(new_elem)
+        #                        tableauElems.add(new_elem)
+        #                        recursive_build(tableau_copy, set(tableauElems))
+        #                        tableauElems.remove(new_elem)
+        #                elif len(row) < len(tableau[row_idx-1]) and tableau[row_idx-1][elem_idx] < new_elem:
+        #                    if  elem < new_elem and len(row) < shape[row_idx]:
+        #                        #add new element to the tableau and call the recursive function
+        #                        tableau_copy = [list(row) for row in tableau]
+        #                        tableau_copy[row_idx].append(new_elem)
+        #                        tableauElems.add(new_elem)
+        #                        recursive_build(tableau_copy, set(tableauElems))
+        #                        tableauElems.remove(new_elem)
+
+        #                #2. Check if we can add a new element above it
+        #                #First check if the current row isn't the last one (the one on top)
+        #                if row != tableau[-1]:
+        #                    #Then check if the tableau will remain standard if we add the new element
+        #                    if len(tableau[row_idx+1]) == elem_idx and len(tableau[row_idx+1]) < shape[row_idx+1] and elem < new_elem:
+        #                        tableau_copy = [list(row) for row in tableau]
+        #                        tableau_copy[row_idx+1].append(new_elem)
+        #                        tableauElems.add(new_elem)
+        #                        recursive_build(tableau_copy, set(tableauElems))
+        #                        tableauElems.remove(new_elem)
+
+    elements = {1}
+
+    recursive_build(initial_tableau, elements)
+
+    return tableaux
 
 if __name__ == '__main__':
 
