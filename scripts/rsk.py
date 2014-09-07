@@ -242,9 +242,13 @@ def build_standard_tableaux(shape):
                 if new_elem in tableauElems:
                     continue
 
+                try:
+                    elem_above = tableau[row_idx+1]
+                except IndexError:
+                    elem_above = None
                 #Check if row is the bottom row
                 if row == tableau[0]:
-                    if row[-1] < new_elem and len(row) < shape[row_idx]:
+                    if row[-1] < new_elem and len(row) < shape[row_idx] and ((elem_above is None) or new_elem < elem_above):
                         row.append(new_elem)
                         tableauElems.add(new_elem)
                         recursive_build(row, tableauElems)
@@ -252,8 +256,12 @@ def build_standard_tableaux(shape):
                         tableauElems.remove(new_elem)
                 #check if it's the top row
                 elif row == tableau[-1]:
-
-
+                    if row[-1] < new_elem and len(row) < shape[row_idx]:
+                        row.append(new_elem)
+                        tableauElems.add(new_elem)
+                        recursive_build(row, tableauElems)
+                        row.pop()
+                        tableauElems.remove(new_elem)
 
         #for new_elem in range(1,permutation_size+1):
         #    if new_elem in tableauElems:
