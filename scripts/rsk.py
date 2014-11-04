@@ -281,6 +281,10 @@ def build_standard_tableaux(shape):
 
     return tableaux
 
+def from_tableaux_get_permutations(eq_classes, tableaux_list):
+   pass 
+    
+
 if __name__ == '__main__':
 
     permSet = sys.argv[1]
