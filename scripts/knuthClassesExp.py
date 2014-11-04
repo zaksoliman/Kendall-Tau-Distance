@@ -110,12 +110,12 @@ def knuthClassesExperiment(permutationSize):
             not_same.write("\n")
 
             if working_cases:
-                not_same.write("Mais ca marche pour les ensembles de permutation:\n")
-                not_same.write(pprint.pformat(working_cases))
-                not_same.write("\n")
-                not_same.write("Ensembles Problematique:\n")
-                not_same.write(pprint.pformat(bad_cases))
-                not_same.write("\n")
+                not_same.write("Mais ca marche pour:\n")
+                not_same.write(str(len(working_cases))+ " Ensembles de permutations")
+                not_same.write("\n\n")
+                #not_same.write("Ensembles Problematique:\n")
+                #not_same.write(pprint.pformat(bad_cases))
+                #not_same.write("\n")
 
     #if not isEven and  isEntireClassClosed:
     #    odd_working_classes.write(cl)
