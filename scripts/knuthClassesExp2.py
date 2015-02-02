@@ -8,7 +8,54 @@ import pprint
 import rsk
 import sys
 
-def print_tableau(tableau):
+def print_tableau(tableau, out_file):
+
+    tableau = literal_eval(tableau)
+    for row in reversed(tableau):
+        out_file.write(str(row) + "\n")
+
+    out_file.write("\n")
+
+    return
+
+def class_count(initial_tableau, medianClasses):
+
+    same_class = 0
+    different_class = 0
+    initial_tableau = str(initial_tableau)
+
+    for tableau, permutation_set in medianClasses.items():
+        if tableau == initial_tableau:
+            same_class += len(permutation_set)
+        else:
+            different_class += len(permutation_set)
+
+    return (same_class, different_class)
+
+def print_to_file(out_file, perm_set, initial_class, median_classes):
+
+    same_class, different_class = class_count(initial_class, median_classes)
+
+    out_file.write("---------------------------------------------------------------------------\n")
+    out_file.write("Ensemble de depart:\n"+ str(perm_set) + '\n')
+    out_file.write("Tableau de l'ensemble de depart:\n"+ initial_class + '\n\n')
+
+    if different_class == 0:
+        out_file.write("Toutes les medianes ont le meme tableau\n")
+    else:
+        out_file.write(str(same_class) + " medianes ont le meme tableau\n")
+        out_file.write(str(different_class) + " medianes ont un tableau different\n")
+
+
+    out_file.write("Tableau(x) de l'ensemble de medianes:\n")
+
+    for tableau, med_set in median_classes.items():
+        out_file.write("Tableau:\n")
+        print_tableau(tableau, out_file)
+        out_file.write("Ensemble mediane:\n")
+        out_file.write(str(med_set)+"\n\n")
+
+    out_file.write('\n')
 
     return
 
@@ -62,36 +109,25 @@ def knuthClassesExperiment(permutationSize):
             medianSet = mf.solutions
             medianClasses = rsk.getKnuthClasses(medianSet)
 
+
             if len(medianClasses) == 1 and cl in medianClasses:
                 isClosed = True
 
             if isEven and isClosed:
                 total_even_sets_closed += 1
-                even_closed_out.write("Ensemble de depart:\n"+ str(s) + '\n')
-                even_closed_out.write("Tableau de l'ensemble de depart:\n"+ cl + '\n\n')
-                even_closed_out.write("Tableau(x) de l'ensemble de medianes:\n"+ pprint.pformat(medianClasses)+ '\n')
-                even_closed_out.write('\n')
+                print_to_file(even_closed_out, s, cl, medianClasses)
 
             elif isEven and not isClosed:
                 isEntireClassClosed = False
-                even_out.write("Ensemble de depart:\n"+ str(s) + '\n')
-                even_out.write("Tableau de l'ensemble de depart:\n"+ cl + '\n\n')
-                even_out.write("Tableau(x) de l'ensemble de medianes:\n"+ pprint.pformat(medianClasses)+ '\n')
-                even_out.write('\n')
+                print_to_file(even_out, s, cl, medianClasses)
 
             elif not isEven and isClosed:
                 total_odd_sets_closed += 1
-                odd_closed_out.write("Ensemble de depart:\n"+ str(s) + '\n')
-                odd_closed_out.write("Tableau de l'ensemble de depart:\n"+ cl + '\n\n')
-                odd_closed_out.write("Tableau(x) de l'ensemble de medianes:\n"+ pprint.pformat(medianClasses)+ '\n')
-                odd_closed_out.write('\n')
+                print_to_file(odd_closed_out, s, cl, medianClasses)
 
             elif not isEven and not isClosed:
                 isEntireClassClosed = False
-                odd_out.write("Ensemble de depart:\n"+ str(s) + '\n')
-                odd_out.write("Tableau de l'ensemble de depart:\n"+ cl + '\n\n')
-                odd_out.write("Tableau(x) de l'ensemble de medianes:\n"+ pprint.pformat(medianClasses)+ '\n')
-                odd_out.write('\n')
+                print_to_file(odd_out, s, cl, medianClasses)
 
             if isClosed:
                 working_cases.append(list(s))
@@ -99,12 +135,10 @@ def knuthClassesExperiment(permutationSize):
                 bad_cases.append(list(s))
 
         if isEntireClassClosed:
-            working_classes.write(cl)
-            working_classes.write("\n")
+            print_tableau(cl,working_classes)
 
         elif not isEntireClassClosed:
-            not_same.write(cl)
-            not_same.write("\n")
+            print_tableau(cl, not_same)
 
             if working_cases:
                 not_same.write("Mais ca marche pour:\n")

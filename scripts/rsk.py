@@ -28,6 +28,8 @@ def RSK(p):
     return (P,Q)
 
 def getKnuthClasses(permSet):
+    """ returns a dictionary with permutations and their P tableau as keys
+    """
     classes = dict()
     for p in permSet:
         tableau = RSK(p)
