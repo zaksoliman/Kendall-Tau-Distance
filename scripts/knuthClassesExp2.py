@@ -59,7 +59,7 @@ def print_to_file(out_file, perm_set, initial_class, median_classes):
 
     return
 
-def knuthClassesExperiment(permutationSize):
+def knuthClassesExperimentf(permutationSize):
 
     #n := size of permutations
     n = permutationSize
@@ -161,6 +161,43 @@ def knuthClassesExperiment(permutationSize):
     stats.close()
     not_same.close()
     working_classes.close()
+
+def adding_blocks_to_tableaux_exp(permSet):
+
+    powerSet = chain.from_iterable(combinations(permSet, r) for r in
+                range(len(permSet)+1))
+
+    for s in powerSet:
+        if len(s) <= 2 : continue
+
+        mf = MedianFinder(s)
+        mf.findMedian()
+        medianSet = mf.solutions
+
+        print("Ensemble de depart: " + str(s))
+        print("Medianes: " + str(medianSet))
+        print('\n')
+
+def get_tableau_shape(tableau):
+
+    shape = list()
+    for row in tableau:
+        shape.append(len(row))
+    return shape
+
+def get_permutations_from_tableau(tableau):
+
+    shape = get_tableau_shape(tableau)
+    tableaux = rsk.build_standard_tableaux(shape)
+
+    permSet = list()
+
+    for t in tableaux:
+
+        p = rsk.RSK_inverse(tableau, t)
+        permSet.append(p[1])
+
+    return permSet
 
 if __name__ == '__main__':
 
