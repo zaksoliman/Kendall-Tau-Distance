@@ -7,6 +7,7 @@ from medianFinder import MedianFinder
 import pprint
 import rsk
 import sys
+import copy
 
 def print_tableau(tableau, out_file):
 
@@ -59,7 +60,7 @@ def print_to_file(out_file, perm_set, initial_class, median_classes):
 
     return
 
-def knuthClassesExperimentf(permutationSize):
+def knuthClassesExperiment(permutationSize):
 
     #n := size of permutations
     n = permutationSize
@@ -198,6 +199,37 @@ def get_permutations_from_tableau(tableau):
         permSet.append(p[1])
 
     return permSet
+
+def build_next_tableaux(small_tableau, new_block):
+
+    tableaux = list()
+
+    for row_idx, row in enumerate(small_tableau):
+
+        row_below = small_tableau[row_idx-1]
+
+        # we always can add a new block on the first row (of course the new
+        # block needs to be an integer greater than the greatest integer in the
+        # small_tableau)
+        if row == small_tableau[0]:
+            row.append(new_block)
+            tableaux.append(copy.deepcopy(small_tableau))
+            row.pop()
+        # To add new block we need to check if the last element of the row
+        # below is less than the new block
+        elif (row[-1] < new_block) and (len(row_below) > len(row)) and (row_below[-1] < new_block):
+            row.append(new_block)
+            tableaux.append(copy.deepcopy(small_tableau))
+            row.pop()
+
+    # Finally we check if we can add the new block on top of the tableau
+    top_row = small_tableau[-1]
+    if top_row[0] < new_block:
+        small_tableau.append([new_block])
+        tableaux.append(copy.deepcopy(small_tableau))
+        small_tableau.pop()
+
+    return tableaux
 
 if __name__ == '__main__':
 
