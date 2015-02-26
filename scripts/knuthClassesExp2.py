@@ -11,7 +11,8 @@ import copy
 
 def print_tableau(tableau, out_file):
 
-    tableau = literal_eval(tableau)
+    if type(tableau) is str:
+        tableau = literal_eval(tableau)
     for row in reversed(tableau):
         out_file.write(str(row) + "\n")
 
@@ -33,7 +34,7 @@ def class_count(initial_tableau, medianClasses):
 
     return (same_class, different_class)
 
-def print_to_file(out_file, perm_set, initial_class, median_classes):
+def print_to_file(out_file, pferm_set, initial_class, median_classes):
 
     same_class, different_class = class_count(initial_class, median_classes)
 
@@ -58,7 +59,14 @@ def print_to_file(out_file, perm_set, initial_class, median_classes):
 
     out_file.write('\n')
 
-    return
+    freturn
+
+def second_print(out_file, perm_set, median_set, closed_class, contains_median):
+
+    out_file.write("A = " + str(perm_set) + "\n")
+    out_file.write("M(A) = " + str(median_set) + "\n")
+    out_file.write("Ferme sur la classe de knuth: " + str(closed_class) +"\n")
+    out_file.write("A contient une mediane: " + str(contains_median) +"\n\n")
 
 def knuthClassesExperiment(permutationSize):
 
@@ -163,21 +171,46 @@ def knuthClassesExperiment(permutationSize):
     not_same.close()
     working_classes.close()
 
-def adding_blocks_to_tableaux_exp(permSet):
+def adding_blocks_to_tableaux_exp(starting_tableau, tableau, perm_set, out_file):
+    #out_file = open('Resultats/impair/experience_sur_tableau'+ '.txt', mode='w')
 
-    powerSet = chain.from_iterable(combinations(permSet, r) for r in
-                range(len(permSet)+1))
+    powerSet = chain.from_iterable(combinations(perm_set, r) for r in
+                range(len(perm_set)+1))
+
+    out_file.write("---------------------------------------------------------------------------\n")
+    out_file.write("Tableau de depart:"+"\n")
+    print_tableau(starting_tableau, out_file)
+    out_file.write("Nouveau Tableau: " + "\n")
+    print_tableau(tableau, out_file)
+    all_medians = set()
 
     for s in powerSet:
         if len(s) <= 2 : continue
 
         mf = MedianFinder(s)
         mf.findMedian()
-        medianSet = mf.solutions
+        median_set = mf.solutions
 
-        print("Ensemble de depart: " + str(s))
-        print("Medianes: " + str(medianSet))
-        print('\n')
+        closed_class = True
+        contains_median = False
+
+        for median in median_set:
+
+            all_medians.add(str(median))
+            median_tableau = rsk.RSK(median)
+
+            if median in s:
+                contains_median = True
+
+            if median_tableau[0] != tableau:
+                closed_class = False
+
+        second_print(out_file, s, median_set, closed_class, contains_median)
+        #print("Ensemble de depart: " + str(s))
+        #print("Medianes: " + str(medianSet))
+        #print('\n')
+
+    out_file.write("Medianes: " + str(all_medians) +"\n\n")
 
 def get_tableau_shape(tableau):
 
@@ -231,8 +264,32 @@ def build_next_tableaux(small_tableau, new_block):
 
     return tableaux
 
+def from_tableaux_get_permutations(eq_classes, tableaux_list):
+       pass
+
+def permutation_classes(size):
+    """ returns a dictionary with permutations of size 'size' and their P tableau
+        as keys """
+    Sn = permutations(range(1,size+1))
+    knuthClasses = rsk.getKnuthClasses(Sn)
+
+    return knuthClasses
+
 if __name__ == '__main__':
 
-    for i in range(4,7):
-        print('Iteration:' + str(i))
-        knuthClassesExperiment(i)
+    tab_4 = permutation_classes(4)
+    tab_4 = [literal_eval(t) for t in tab_4.keys()]
+    out_file = open('Resultats/exp_tableaux'+'.txt', mode='w')
+
+    for small_tableau in tab_4:
+        tab_5 = build_next_tableaux(small_tableau, 5)
+
+        for next_tableau in tab_5:
+            perm_set = get_permutations_from_tableau(next_tableau)
+            adding_blocks_to_tableaux_exp(small_tableau, next_tableau, perm_set, out_file)
+
+    out_file.close()
+
+    #for i in range(4,7):
+    #    print('Iteration:' + str(i))
+    #    knuthClassesExperiment(i)

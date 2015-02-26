@@ -7,7 +7,7 @@ from itertools import permutations, combinations, chain
 from medianFinder import MedianFinder
 
 def RSK(p):
-    '''Given a permutation p, spit out a pair of Young tableaux'''
+    '''Given a permutation p, spits out a pair of Young tableaux'''
     P = []; Q = []
     def insert(m, n=0):
         '''Insert m into P, then place n in Q at the same place'''
@@ -284,8 +284,8 @@ def build_standard_tableaux(shape):
     return tableaux
 
 def from_tableaux_get_permutations(eq_classes, tableaux_list):
-   pass 
-    
+   pass
+
 
 if __name__ == '__main__':
 
