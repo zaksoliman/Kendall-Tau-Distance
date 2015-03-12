@@ -277,14 +277,17 @@ def permutation_classes(size):
 
 if __name__ == '__main__':
 
-    tab_4 = permutation_classes(4)
-    tab_4 = [literal_eval(t) for t in tab_4.keys()]
-    out_file = open('Resultats/exp_tableaux'+'.txt', mode='w')
+    big = 6
+    small = 5
 
-    for small_tableau in tab_4:
-        tab_5 = build_next_tableaux(small_tableau, 5)
+    tab_small = permutation_classes(small)
+    tab_small = [literal_eval(t) for t in tab_small.keys()]
+    out_file = open('Resultats/exp_tableaux_6'+'.txt', mode='w')
 
-        for next_tableau in tab_5:
+    for small_tableau in tab_small:
+        tab_big = build_next_tableaux(small_tableau, big)
+
+        for next_tableau in tab_big:
             perm_set = get_permutations_from_tableau(next_tableau)
             adding_blocks_to_tableaux_exp(small_tableau, next_tableau, perm_set, out_file)
 
