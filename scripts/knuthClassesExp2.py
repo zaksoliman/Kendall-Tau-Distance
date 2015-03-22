@@ -275,6 +275,27 @@ def permutation_classes(size):
 
     return knuthClasses
 
+def get_augmented_permutation(perm, new_elem):
+
+    augmented_permutations = list()
+
+    for i in range(0,len(perm)+1):
+        perm.insert(i, new_elem)
+        augmented_permutations.append(list(perm))
+        del perm[i]
+
+    return augmented_permutations
+
+def get_augmented_permutations(permSet, new_elem):
+
+    aug_permutations = list()
+
+    for p in permSet:
+        new_set = get_augmented_permutation(p, new_elem)
+        aug_permutations.extend(new_set)
+
+    return aug_permutations
+
 if __name__ == '__main__':
 
     big = 6
