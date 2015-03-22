@@ -171,17 +171,18 @@ def knuthClassesExperiment(permutationSize):
     not_same.close()
     working_classes.close()
 
-def adding_blocks_to_tableaux_exp(starting_tableau, tableau, perm_set, out_file):
+def adding_blocks_to_tableaux_exp(starting_tableau, tableau, perm_set, out_file = None):
     #out_file = open('Resultats/impair/experience_sur_tableau'+ '.txt', mode='w')
 
     powerSet = chain.from_iterable(combinations(perm_set, r) for r in
                 range(len(perm_set)+1))
 
-    out_file.write("---------------------------------------------------------------------------\n")
-    out_file.write("Tableau de depart:"+"\n")
-    print_tableau(starting_tableau, out_file)
-    out_file.write("Nouveau Tableau: " + "\n")
-    print_tableau(tableau, out_file)
+    if out_file:
+        out_file.write("---------------------------------------------------------------------------\n")
+        out_file.write("Tableau de depart:"+"\n")
+        print_tableau(starting_tableau, out_file)
+        out_file.write("Nouveau Tableau: " + "\n")
+        print_tableau(tableau, out_file)
     all_medians = set()
 
     for s in powerSet:
@@ -205,12 +206,22 @@ def adding_blocks_to_tableaux_exp(starting_tableau, tableau, perm_set, out_file)
             if median_tableau[0] != tableau:
                 closed_class = False
 
-        second_print(out_file, s, median_set, closed_class, contains_median)
+        if out_file:
+            second_print(out_file, s, median_set, closed_class, contains_median)
+        else:
+            print("A = " + str(perm_set) + "\n")
+            print("M(A) = " + str(median_set) + "\n")
+            print("Ferme sur la classe de knuth: " + str(closed_class) +"\n")
+            print("A contient une mediane: " + str(contains_median) +"\n\n")
+
         #print("Ensemble de depart: " + str(s))
         #print("Medianes: " + str(medianSet))
         #print('\n')
 
-    out_file.write("Medianes: " + str(all_medians) +"\n\n")
+    if out_file:
+        out_file.write("Medianes: " + str(all_medians) +"\n\n")
+    elif not out_file:
+        print("Medianes: " + str(all_medians))
 
 def get_tableau_shape(tableau):
 
@@ -274,6 +285,16 @@ def permutation_classes(size):
     knuthClasses = rsk.getKnuthClasses(Sn)
 
     return knuthClasses
+
+def extended_tab_exp(big, small, tab_small, out_file = None):
+
+    tab_small = literal_eval(tab_small)
+    tab_big = build_next_tableaux(tab_small, big)
+
+    for next_tableau in tab_big:
+        perm_set = get_permutations_from_tableau(next_tableau)
+        adding_blocks_to_tableaux_exp(tab_small, next_tableau, perm_set, out_file)
+
 
 if __name__ == '__main__':
 
