@@ -286,6 +286,7 @@ def permutation_classes(size):
 
     return knuthClasses
 
+<<<<<<< HEAD
 def extended_tab_exp(big, small, tab_small, out_file = None):
 
     tab_small = literal_eval(tab_small)
@@ -295,6 +296,28 @@ def extended_tab_exp(big, small, tab_small, out_file = None):
         perm_set = get_permutations_from_tableau(next_tableau)
         adding_blocks_to_tableaux_exp(tab_small, next_tableau, perm_set, out_file)
 
+=======
+def get_augmented_permutation(perm, new_elem):
+
+    augmented_permutations = list()
+
+    for i in range(0,len(perm)+1):
+        perm.insert(i, new_elem)
+        augmented_permutations.append(list(perm))
+        del perm[i]
+
+    return augmented_permutations
+
+def get_augmented_permutations(permSet, new_elem):
+
+    aug_permutations = list()
+
+    for p in permSet:
+        new_set = get_augmented_permutation(p, new_elem)
+        aug_permutations.extend(new_set)
+
+    return aug_permutations
+>>>>>>> abf685ad3a4ceaef4eadfa16fe6b2a3a919d1921
 
 if __name__ == '__main__':
 
