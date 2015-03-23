@@ -245,8 +245,11 @@ def get_permutations_from_tableau(tableau):
     return permSet
 
 def build_next_tableaux(small_tableau, new_block):
+    """ The method assumes that the the new_block is an integer greater than
+        the largest integer in the small_tableau """
 
     tableaux = list()
+    stack = list()
 
     for row_idx, row in enumerate(small_tableau):
 
@@ -273,6 +276,20 @@ def build_next_tableaux(small_tableau, new_block):
         tableaux.append(copy.deepcopy(small_tableau))
         small_tableau.pop()
 
+    # We check if we can add the new_block in the first to last position in each row.
+    for row_idx, row in enumerate(reversed(small_tableau)):
+
+        block = None
+        # We keep the block that we are going to replace new_block with in
+        # memory
+
+        block = row[-1]
+        stack.push(copy.deepcopy(small_tableau)
+        row[-1] = new_block
+
+        for i in reversed(range(row_idx+1, len(small_tableau)):
+
+
     return tableaux
 
 def from_tableaux_get_permutations(eq_classes, tableaux_list):
@@ -286,7 +303,6 @@ def permutation_classes(size):
 
     return knuthClasses
 
-<<<<<<< HEAD
 def extended_tab_exp(big, small, tab_small, out_file = None):
 
     tab_small = literal_eval(tab_small)
@@ -296,7 +312,6 @@ def extended_tab_exp(big, small, tab_small, out_file = None):
         perm_set = get_permutations_from_tableau(next_tableau)
         adding_blocks_to_tableaux_exp(tab_small, next_tableau, perm_set, out_file)
 
-=======
 def get_augmented_permutation(perm, new_elem):
 
     augmented_permutations = list()
@@ -317,7 +332,6 @@ def get_augmented_permutations(permSet, new_elem):
         aug_permutations.extend(new_set)
 
     return aug_permutations
->>>>>>> abf685ad3a4ceaef4eadfa16fe6b2a3a919d1921
 
 if __name__ == '__main__':
 
