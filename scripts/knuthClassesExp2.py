@@ -249,7 +249,6 @@ def build_next_tableaux(small_tableau, new_block):
         the largest integer in the small_tableau """
 
     tableaux = list()
-    stack = list()
 
     for row_idx, row in enumerate(small_tableau):
 
@@ -276,19 +275,74 @@ def build_next_tableaux(small_tableau, new_block):
         tableaux.append(copy.deepcopy(small_tableau))
         small_tableau.pop()
 
-    # We check if we can add the new_block in the first to last position in each row.
-    for row_idx, row in enumerate(reversed(small_tableau)):
 
-        block = None
-        # We keep the block that we are going to replace new_block with in
-        # memory
+    return tableaux
 
-        block = row[-1]
-        stack.push(copy.deepcopy(small_tableau)
-        row[-1] = new_block
+def insert_block(small_tableau, new_block):
 
-        for i in reversed(range(row_idx+1, len(small_tableau)):
+    tableaux = list()
+    stack = list()
+    length = len(small_tableau)
 
+    for row_idx in range(length):
+
+        stack.append(copy.deepcopy(small_tableau))
+        initial_row = small_tableau[row_idx]
+
+        if row_idx == (length - 1):
+            at_last_row = True
+            next_row = None
+        else:
+            next_row = small_tableau[row_idx + 1]
+            at_last_row = False
+
+
+        if (next_row and len(initial_row) > len(next_row)):
+            block = initial_row[-1]
+            initial_row[-1] = new_block
+
+        elif not next_row:
+            if len(initial_row) >= 2:
+                block = initial_row[-1]
+                initial_row[-1] = new_block
+                small_tableau.append([block])
+                tableaux.append(small_tableau)
+                small_tableau = stack.pop()
+                continue
+            else:
+                small_tableau = stack.pop()
+                continue
+
+        else:
+            small_tableau = stack.pop()
+            continue
+
+        add_tableau = True
+
+        for i in range(row_idx+1, length):
+
+            current_row = small_tableau[i]
+            row_below = small_tableau[i-1]
+
+            if i == length - 1:
+                small_tableau.append([block])
+            else:
+                elems_greater_than_block = [n for n,row_block in enumerate(current_row) if row_block > block]
+
+                if elems_greater_than_block:
+                    block_idx = elems_greater_than_block[0]
+                    block, current_row[block_idx] = current_row[block_idx], block
+                elif row_below[len(current_row)] < block:
+                    current_row.append(block)
+                    break
+                else:
+                    add_tableau = False
+                    break
+
+        if add_tableau:
+            tableaux.append(copy.deepcopy(small_tableau))
+
+        small_tableau = stack.pop()
 
     return tableaux
 
@@ -337,6 +391,7 @@ if __name__ == '__main__':
 
     big = 6
     small = 5
+    augmentor = insert_block
 
     tab_small = permutation_classes(small)
     tab_small = [literal_eval(t) for t in tab_small.keys()]
